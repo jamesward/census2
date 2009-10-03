@@ -70,11 +70,11 @@
   </mx:Script>
 
   <mx:Metadata>
-  [SWF(backgroundColor="0x1a1a1a")]
+  [SWF(backgroundColor="0xe5e5e5")]
   </mx:Metadata>
   
   <mx:initialize>
-    changeTheme("sexy");
+    changeTheme("readable");
 
     srv.send();
     
