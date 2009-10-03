@@ -1,0 +1,279 @@
+/*
+Copyright (C) 2009 James Ward
+http://www.jamesward.com
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
+global
+{
+  themeColor: #292929;
+  color: #bbbbbb;
+}
+
+Application
+{
+  backgroundColor: #000000;
+  backgroundGradientAlphas: 1.0, 1.0;
+  backgroundGradientColors: #000000, #000000;
+}
+
+.headerLabel
+{
+  fontWeight: bold;
+  fontSize: 12;
+  color: #bbbbbb;
+}
+
+.innerBackground
+{
+  backgroundColor: #1a1a1a;
+  borderThickness: 1;
+  borderColor: #2b2b2b;
+  borderStyle: solid;
+}
+
+.leftInnerContainer
+{
+  backgroundColor: #151515;
+  borderColor: #252525;
+  borderThickness: 1;
+  borderStyle: solid;
+}
+
+.leftInnerContainerNoTopBorder
+{
+  backgroundColor: #151515;
+  borderColor: #252525;
+  borderThickness: 1;
+  borderStyle: solid;
+  borderSides: left,right,bottom;
+}
+
+.listItem
+{
+  color: #cccccc;
+}
+
+LabelLink
+{
+  linkColor: #bbbbbb;
+  linkHoverColor: #cccccc;
+}
+
+HRule
+{
+  strokeColor: #313131;
+  strokeWidth: 1;
+}
+
+Button
+{
+  fontSize: 10;
+  fontWeight: bold;
+  fontFamily: veraFont;
+  textRollOverColor: #dddddd;
+  textSelectedColor: #dddddd;
+  disabledColor: #282828;
+  skin: ClassReference("com.jamesward.census2.skins.ButtonSkin");
+  upBorderColor: #252525;
+  upInnerBorderGradientColors: #141414, #0b0b0b;
+  upBackgroundGradientColors: #393939, #131313;
+  overBorderColor: #252525;
+  overInnerBorderGradientColors: #141414, #0b0b0b;
+  overBackgroundGradientColors: #161616;
+  disabledBorderColor: #252525;
+  disabledInnerBorderGradientColors: #141414, #0b0b0b;
+  disabledBackgroundGradientColors: #292929, #030303;
+}
+
+CheckBox
+{
+  checkColor: #bbbbbb;
+  selectedCheckColor: #dddddd;
+  disabledCheckColor: #282828;
+  borderColor: #252525;
+  innerBorderGradientColors: #141414, #0b0b0b;
+  upBackgroundGradientColors: #393939, #131313;
+  overBackgroundGradientColors: #161616;
+  downBackgroundGradientColors: #161616;
+  disabledBackgroundGradientColors: #393939, #131313;
+  textRollOverColor: #bbbbbb;
+  textSelectedColor: #bbbbbb;
+  icon: ClassReference("com.jamesward.census2.skins.CheckBoxIcon");
+  leading: -1;
+}
+
+ScrollBar
+{
+  trackColors: #131313, #101010;
+  borderColor: #0e0e0e;
+  backgroundColor: #0e0e0e;
+  fillColors: #292929, #131313;
+  fillAlphas: 1,1;
+  themeColor: #292929;
+  skin: ClassReference("com.jamesward.census2.skins.ScrollArrowSkin");
+}
+
+Alert
+{
+  backgroundColor: #393939;
+  borderColor: #393939;
+}
+
+.alertButtonStyle
+{
+  color: #bbbbbb;
+  textRollOverColor: #dddddd;
+  textSelectedColor: #dddddd;
+}
+
+TitleWindow
+{
+  backgroundColor: #393939;
+  borderColor: #393939;
+}
+
+ToolTip
+{
+  backgroundColor: #393939;
+}
+
+DataTip
+{
+  color: #bbbbbb;
+  paddingLeft: 4;
+  paddingRight: 4;
+  paddingBottom: 4;
+  backgroundColor: #393939;
+  fontSize: 12;
+}
+
+NumericStepper
+{
+  cornerRadius: 3;
+  backgroundColor: #151515;
+  borderColor: #111111;
+  disabledColor: #282828;
+  textRollOverColor: #dddddd;
+  textSelectedColor: #dddddd;
+  focusAlpha: 0;
+  focusThickness: 0;
+  borderThickness: 2;
+  borderColor: #252525;
+  innerBorderColor: #0a0a0a;
+  backgroundGradientColors: #141414, #0c0c0c;
+  upArrowBorderColor: #101010;
+  upArrowUpHighlightColor: #393939;
+  upArrowPixelColor: #191919;
+  upArrowUpFillGradientColors: #292929, #212121;
+  upArrowNotUpFillGradientColors: #151515, #111111;
+  downArrowBorderColor: #0a0a0a;
+  downArrowUpHighlightColor: #2f2f2f; 
+  downArrowUpFillGradientColors: #1c1c1c, #131313;
+  downArrowDownHighlightColor: #1e1e1e; 
+  downArrowDownFillGradientColors: #151515, #111111;
+  downArrowSkin: ClassReference("com.jamesward.census2.skins.NumericStepperDownSkin");
+  upArrowSkin: ClassReference("com.jamesward.census2.skins.NumericStepperUpSkin");
+  borderSkin: ClassReference("com.jamesward.census2.skins.NumericStepperBorderSkin");
+}
+
+LegendItem
+{
+  fontFamily: veraFont;
+  fontWeight: bold;
+  fontSize: 10;
+}
+
+LinkBar
+{
+  color: #484848;
+  fontWeight: bold;
+  fontSize: 12;
+  separatorWidth: 0;
+  rollOverColor: #1a1a1a;
+  selectionColor: #1a1a1a;
+  textRollOverColor: #bbbbbb;
+  textSelectedColor: #bbbbbb;
+}
+
+LinkButton
+{
+  disabledColor: #bbbbbb;
+}
+
+List
+{
+  rollOverColor: #363636;
+  selectionColor: #363636;
+  textRollOverColor: #bbbbbb;
+  textSelectedColor: #bbbbbb;
+  themeColor: #292929;
+}
+
+DataGrid
+{
+  headerColors: #292929, #131313;
+  alternatingItemColors: #161616, #161616;
+  verticalGridLines: false;
+  horizontalGridLines: false;
+  headerSeparatorSkin: ClassReference("com.jamesward.census2.skins.DataGridHeaderSeparator");
+  backgroundColor: #151515;
+  rollOverColor: #363636;
+  selectionColor: #363636;
+  borderColor: #111111;
+  textRollOverColor: #bbbbbb;
+  textSelectedColor: #bbbbbb;
+  themeColor: #292929;
+  iconColor: #cccccc;
+}
+
+TextInput
+{
+  cornerRadius: 3;
+  borderStyle: solid;
+}
+
+TabBar
+{
+   tabStyleName: "myTabs";
+   firstTabStyleName: "myTabs";
+   lastTabStyleName: "myTabs";
+}
+
+.myTabs
+{
+  fontSize: 10;
+  fontWeight: bold;
+  fontFamily: veraFont;
+  textRollOverColor: #dddddd;
+  textSelectedColor: #dddddd;
+  disabledColor: #282828;
+  skin: ClassReference("com.jamesward.census2.skins.ButtonSkin");
+  upBorderColor: #252525;
+  upInnerBorderGradientColors: #141414, #0b0b0b;
+  upBackgroundGradientColors: #393939, #131313;
+  overBorderColor: #252525;
+  overInnerBorderGradientColors: #141414, #0b0b0b;
+  overBackgroundGradientColors: #161616;
+  disabledBorderColor: #252525;
+  disabledInnerBorderGradientColors: #141414, #0b0b0b;
+  disabledBackgroundGradientColors: #292929, #030303;
+}
+
+.tabDivider
+{
+  strokeWidth: 1;
+  strokeColor: #252525;
+}

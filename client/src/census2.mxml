@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application
+                xmlns:mx="http://www.adobe.com/2006/mxml"
+                xmlns:census2="com.jamesward.census2.*"
+                xmlns:controls="com.jamesward.census2.controls.*"
+                xmlns:local="*"
+                verticalScrollPolicy="off"
+                visible="false"
+                styleName="plain">
+
+  <mx:Script>
+    <![CDATA[
+    import mx.core.UIComponent;
+    import mx.events.FlexEvent;
+    import mx.events.StyleEvent;
+    import mx.utils.ObjectUtil;
+    import mx.controls.Alert;
+
+    private function changeTheme(theme:String):void
+    {
+      currentTheme = theme;
+      var eventDispatcher:IEventDispatcher = StyleManager.loadStyleDeclarations(currentTheme + ".swf");
+      eventDispatcher.addEventListener(StyleEvent.COMPLETE, function(event:StyleEvent):void {
+          if (!visible)
+          {
+            visible = true;
+            iframe.source = "index_results.html";
+          }
+          
+          // list selectionColor doesn't automatically update.  Force it!
+          testList.setStyle("selectionColor", StyleManager.getStyleDeclaration("List").getStyle("selectionColor"));
+        });
+    }
+    
+    private function resetResultsForId(testId:String):void
+    {
+      var resetDone:Boolean = false;
+      
+      for each (var result:Object in results)
+      {
+        if (result.id == testId)
+        {
+          result.serverTime = 0;
+          result.transferTime = 0;
+          result.parseTime = 0;
+          result.renderTime = 0;
+          result.transferSize = 0;
+          result.memorySize = 0;
+          
+          resetDone = true;
+          break;
+        }
+      }
+      
+      if (!resetDone)
+      {
+        results.addItem({id: testId});
+        resetResultsForId(testId);
+      }
+    }
+    
+    private function startTest(test:Object):void
+    {
+      iframe.source = test.url + "?clientId="+channelConfig.subtopic +
+      "&sendCensusResultURL=" + channelConfig.sendCensusResultURL +
+      "&numRows="+numRows.value +
+      "&enableGZip="+enableGZip.selected;
+    }
+    ]]>
+  </mx:Script>
+
+  <mx:Metadata>
+  [SWF(backgroundColor="0x1a1a1a")]
+  </mx:Metadata>
+  
+  <mx:initialize>
+    changeTheme("sexy");
+
+    srv.send();
+    
+    var item:ContextMenuItem = new ContextMenuItem("Invert Colors");
+    item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function (event:Event):void {
+      currentTheme == "sexy" ? changeTheme("readable") : changeTheme("sexy")
+    });
+    this.contextMenu.customItems.push(item);
+  </mx:initialize>
+
+  <mx:String id="currentTheme"/>
+
+  <mx:ArrayCollection id="tests"/>
+  
+  <mx:ArrayCollection id="results"/>
+
+  <census2:ChannelConfig id="channelConfig">
+    <census2:message>
+        Alert.show(ObjectUtil.toString(event.message) + "\n");
+    </census2:message>
+  </census2:ChannelConfig>
+
+  <mx:HTTPService id="srv" url="tests.xml">
+    <mx:result>
+      tests = event.result.tests.test;
+      
+      for each (var test:Object in tests)
+      {
+        resetResultsForId(test.id);
+      }
+    </mx:result>
+  </mx:HTTPService>
+
+  <mx:SeriesInterpolate id="interpolate"/>
+
+  <mx:HBox width="100%" height="100%" horizontalGap="0" styleName="innerBackground">
+    <mx:VBox width="275" height="100%" horizontalAlign="center" verticalGap="0" horizontalScrollPolicy="off" paddingBottom="10">
+      <mx:Spacer height="15"/>
+      <mx:Label text="Census v2.0" height="25" styleName="headerLabel"/>
+      <mx:HRule width="90%"/>
+      <mx:Spacer height="10"/>
+      <mx:HBox width="90%" verticalAlign="middle" horizontalAlign="center" horizontalGap="3">
+        <mx:Label text="Rows" paddingTop="2"/>
+        <controls:MyNumericStepper id="numRows" minimum="500" maximum="100000" stepSize="500" value="5000" useHandCursor="true" buttonMode="true" height="26" width="70" textIndent="0" textAlign="right"/>
+        <mx:CheckBox id="enableGZip" label="GZip" labelPlacement="left" width="55" height="100%" selected="true" useHandCursor="true" buttonMode="true" mouseChildren="false"/>
+        <mx:Button id="runButton" height="26" label="Execute" icon="@Embed(source='assets/rightIcon.png')"
+                   enabled="{testList.selectedItem != null}" useHandCursor="{testList.selectedItem != null}" buttonMode="true"
+                   paddingLeft="6" toolTip="Select a test to run">
+          <mx:click>
+          resetResultsForId(testList.selectedItem.id);
+          startTest(testList.selectedItem);
+          </mx:click>
+        </mx:Button>
+      </mx:HBox>
+      <mx:Spacer height="10"/>
+      <mx:List id="testList" width="90%" height="100%" dataProvider="{tests}" styleName="leftInnerContainer">
+        <mx:itemRenderer>
+          <mx:Component>
+            <mx:HBox paddingTop="0" paddingBottom="0" verticalScrollPolicy="off" horizontalScrollPolicy="off"
+              useHandCursor="true" buttonMode="true" mouseChildren="false" backgroundAlpha="0.000001" backgroundColor="#ffffff">
+              <mx:Label text="{data.name}" fontSize="10" width="80" styleName="listItem" fontWeight="bold"/>
+              <mx:Label text="{data.description}" fontSize="10"/>
+            </mx:HBox>
+          </mx:Component>
+        </mx:itemRenderer>
+      </mx:List>
+      <mx:Spacer height="10"/>
+      <controls:LabelLink>
+        <controls:htmlText><![CDATA[<a href="http://www.jamesward.com/blog/census" target="_blank">Learn more about Census</a>]]></controls:htmlText>
+      </controls:LabelLink>
+    </mx:VBox>
+    <mx:VBox width="100%" height="100%" horizontalAlign="center" verticalGap="0" paddingTop="40" paddingLeft="0" paddingRight="20" paddingBottom="10">
+      <mx:HRule width="100%"/>
+      <mx:Spacer height="10"/>
+      <mx:Canvas id="myTabs" width="100%" height="50%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+        <!-- Really hacky way to make my own TabNavigator -->
+        <mx:TabBar id="tabBar" width="100%" selectedIndex="0" horizontalGap="2" top="0">
+          <mx:dataProvider>
+            <mx:String>Intro Video</mx:String>
+            <mx:String>Rows / Second</mx:String>
+            <mx:String>Transfer Size</mx:String>
+            <mx:String>Client-side Memory</mx:String>
+          </mx:dataProvider>
+          <mx:creationComplete>
+            for each (var c:UIComponent in tabBar.getChildren())
+            {
+              c.buttonMode = true;
+              c.useHandCursor = true;
+            }
+          </mx:creationComplete>
+          <mx:updateComplete>
+            leftSideBorder.width = tabBar.getChildAt(tabBar.selectedIndex).x;
+            
+            rightSideBorder.x = tabBar.getChildAt(tabBar.selectedIndex).x + tabBar.getChildAt(tabBar.selectedIndex).width - 1;
+            rightSideBorder.width = tabBar.width - rightSideBorder.x - 1;
+          </mx:updateComplete>
+          <mx:itemClick>
+            tabBar.invalidateDisplayList();
+          </mx:itemClick>
+        </mx:TabBar>
+        <mx:ViewStack width="100%" height="{myTabs.height - tabBar.height + 3}" styleName="leftInnerContainerNoTopBorder" bottom="0">
+        </mx:ViewStack>
+        <mx:HRule id="leftSideBorder" styleName="tabDivider" y="{tabBar.height - 3}" x="1"/>
+        <mx:HRule id="rightSideBorder" styleName="tabDivider" y="{tabBar.height - 3}"/>
+      </mx:Canvas>
+      <mx:Spacer height="10"/>
+      <mx:Box width="100%" height="50%" styleName="leftInnerContainer">
+        <local:IFrame id="iframe" width="100%" height="100%"/>
+      </mx:Box>
+    </mx:VBox>
+  </mx:HBox>
+
+</mx:Application>

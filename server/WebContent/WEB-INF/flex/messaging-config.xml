@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="message-service" class="flex.messaging.services.MessageService">
+
+    <adapters>
+        <adapter-definition id="protectedMessagingAdapter" class="com.jamesward.census2.ProtectedMessagingAdapter" default="true"/>
+    </adapters>
+
+    <default-channels>
+    		<channel ref="my-streaming-amf"/>
+        <channel ref="my-polling-amf"/>
+    </default-channels>
+
+		 <destination id="censusResultsDestination">
+        <properties>
+            <server>
+                <allow-subtopics>true</allow-subtopics>
+                <subtopic-separator>.</subtopic-separator>
+            </server>
+        </properties>
+    </destination>
+
+</service>

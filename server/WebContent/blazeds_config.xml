@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config sendCensusResultURL="http://localhost:8080/census2/SendCensusResult">
+    <channels>
+        <channel id="streaming-amf" endpoint="http://localhost:8080/census2/messagebroker/streamingamf" type="StreamingAMF"/>
+        <channel id="polling-amf" endpoint="http://localhost:8080/census2/messagebroker/pollingamf" type="PollingAMF"
+            polling-enabled="true" polling-interval-seconds="0"/>
+    </channels>
+</config>

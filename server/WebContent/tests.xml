@@ -1,0 +1,14 @@
+<tests>
+  <test>
+    <id>flex_amf3</id>
+    <name>Flex AMF3</name>
+    <url>http://localhost:8080/census2-tests/flex_amf3.html</url>
+    <description>Flex with AMF3 Remoting</description>
+  </test>
+  <test>
+  	<id>ajax_json</id>
+  	<name>Ajax JSON</name>
+  	<url>http://www.jamesward.com/census/ajax_json.html</url>
+  	<description>Plain Ajax with JSON</description>
+  </test>
+</tests>
