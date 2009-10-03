@@ -50,15 +50,15 @@ public class SendCensusResult extends HttpServlet
       msg.setTimestamp(System.currentTimeMillis());
       msg.setBody(body);
 
-      System.out.println("getting the message broker");
+      //System.out.println("getting the message broker");
 
       MessageBroker mb = MessageBroker.getMessageBroker(null);
 
-      System.out.println("got the message broker, sending message");
+      //System.out.println("got the message broker, sending message");
 
       mb.routeMessageToService(msg, null);
 
-      System.out.println("message sent");
+      //System.out.println("message sent");
       
       ServletOutputStream out = response.getOutputStream();
       response.setHeader("Content-Type", "text/xml");

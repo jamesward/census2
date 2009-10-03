@@ -3,6 +3,6 @@
     <channels>
         <channel id="streaming-amf" endpoint="http://localhost:8080/census2/messagebroker/streamingamf" type="StreamingAMF"/>
         <channel id="polling-amf" endpoint="http://localhost:8080/census2/messagebroker/pollingamf" type="PollingAMF"
-            polling-enabled="true" polling-interval-seconds="0"/>
+            polling-enabled="true" polling-interval-seconds="10"/>
     </channels>
 </config>
