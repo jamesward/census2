@@ -6,7 +6,7 @@
                 xmlns:local="*"
                 verticalScrollPolicy="off"
                 visible="false"
-                styleName="plain">
+                styleName="plain" xmlns:views="com.jamesward.census2.views.*">
 
   <mx:Script>
     <![CDATA[
@@ -32,19 +32,21 @@
         });
     }
     
-    private function resetResultsForId(testId:String):void
+    private function resetResults(test:Object):void
     {
       var resetDone:Boolean = false;
       
       for each (var result:Object in results)
       {
-        if (result.id == testId)
+        if (result.id == test.id)
         {
-          result.serverTime = 0;
+          result.name = test.name;
+          result.numRows = 0;
+          result.totalServerTime = 0;
           result.transferTime = 0;
           result.parseTime = 0;
           result.renderTime = 0;
-          result.transferSize = 0;
+          result.contentLength = 0;
           result.memorySize = 0;
           
           resetDone = true;
@@ -54,17 +56,65 @@
       
       if (!resetDone)
       {
-        results.addItem({id: testId});
-        resetResultsForId(testId);
+        results.addItem({id: test.id});
+        resetResults(test);
       }
+    }
+    
+    private function updateResult(testId:String, resultType:String, resultValue:Number):void
+    {
+      for each (var result:Object in results)
+      {
+        if (result.id == testId)
+        {
+          // dirty check
+          if (result[resultType] != resultValue)
+          {
+            result[resultType] = resultValue;
+          
+            if (result['requestTime'] && result['totalServerTime'])
+            {
+              // calc transfer time
+              updateResult(testId, "transferTime", result['requestTime'] - result['totalServerTime']);
+            }
+          
+            updateCharts();
+          }
+          
+          break;
+        }
+      }
+    }
+    
+    private function updateCharts():void
+    {
+      recordsPerSecondChartView.dataProvider = results;
+      transferSizeChartView.dataProvider = results;
+      clientSideMemoryChartView.dataProvider = results;
     }
     
     private function startTest(test:Object):void
     {
+      resetResults(test);
+      updateResult(test.id, "numRows", numRows.value);
+      
       iframe.source = test.url + "?clientId="+channelConfig.subtopic +
       "&sendCensusResultURL=" + channelConfig.sendCensusResultURL +
       "&numRows="+numRows.value +
       "&enableGZip="+enableGZip.selected;
+      
+      // auto switch to tabIndex 1
+      if (tabBar.selectedIndex == 0)
+      {
+        switchTab(1);
+      }
+    }
+    
+    private function switchTab(index:int):void
+    {
+      tabBar.selectedIndex = index;
+      tabBar.invalidateDisplayList();
+      tabStack.selectedIndex = index;
     }
     ]]>
   </mx:Script>
@@ -93,7 +143,9 @@
 
   <census2:ChannelConfig id="channelConfig">
     <census2:message>
-        Alert.show(ObjectUtil.toString(event.message) + "\n");
+      trace("testId = " + event.message.body.testId + " resultType = " + event.message.body.resultType + " resultData = " + event.message.body.resultData);
+      
+      updateResult(event.message.body.testId,  event.message.body.resultType, new Number(event.message.body.resultData));
     </census2:message>
   </census2:ChannelConfig>
 
@@ -103,7 +155,7 @@
       
       for each (var test:Object in tests)
       {
-        resetResultsForId(test.id);
+        resetResults(test);
       }
     </mx:result>
   </mx:HTTPService>
@@ -124,7 +176,7 @@
                    enabled="{testList.selectedItem != null}" useHandCursor="{testList.selectedItem != null}" buttonMode="true"
                    paddingLeft="6" toolTip="Select a test to run">
           <mx:click>
-          resetResultsForId(testList.selectedItem.id);
+          resetResults(testList.selectedItem);
           startTest(testList.selectedItem);
           </mx:click>
         </mx:Button>
@@ -172,10 +224,16 @@
             rightSideBorder.width = tabBar.width - rightSideBorder.x - 1;
           </mx:updateComplete>
           <mx:itemClick>
-            tabBar.invalidateDisplayList();
+            switchTab(tabBar.selectedIndex);
           </mx:itemClick>
         </mx:TabBar>
-        <mx:ViewStack width="100%" height="{myTabs.height - tabBar.height + 3}" styleName="leftInnerContainerNoTopBorder" bottom="0">
+        <mx:ViewStack id="tabStack" width="100%" height="{myTabs.height - tabBar.height + 3}" styleName="leftInnerContainerNoTopBorder" bottom="0">
+          <mx:Canvas width="100%" height="100%">
+            
+          </mx:Canvas>
+          <views:RecordsPerSecondChartView id="recordsPerSecondChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10"/>
+          <views:TransferSizeChartView id="transferSizeChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10"/>
+          <views:ClientSideMemoryChartView id="clientSideMemoryChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10"/>
         </mx:ViewStack>
         <mx:HRule id="leftSideBorder" styleName="tabDivider" y="{tabBar.height - 3}" x="1"/>
         <mx:HRule id="rightSideBorder" styleName="tabDivider" y="{tabBar.height - 3}"/>

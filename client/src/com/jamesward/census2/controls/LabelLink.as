@@ -3,6 +3,10 @@ package com.jamesward.census2.controls
   import flash.text.StyleSheet;
 
   import mx.controls.Label;
+  
+  import mx.core.mx_internal;
+  
+  use namespace mx_internal;
 
   public class LabelLink extends Label
   {

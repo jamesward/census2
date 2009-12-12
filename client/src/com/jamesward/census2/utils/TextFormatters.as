@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-package org.jamesward.census.utils
+package com.jamesward.census2.utils
 {
 import mx.charts.HitData;
 import mx.charts.chartClasses.IAxis;
@@ -60,24 +60,25 @@ public class TextFormatters
 
   public static function getBandwidthDataTip(hitData:HitData):String
   {
-    return "<b>" + hitData.item.name + " - " + hitData.item.rows + " Rows</b>" +
+    return "<b>" + hitData.item.name + " - " + hitData.item.numRows + " Rows</b>" +
       "<br/>Bandwidth: " + 
       byteFormat(hitData.item.bandwidth);
   }
 
   public static function getTimeDataTip(hitData:HitData):String
   {
-    return "<b>" + hitData.item.name + " - " + hitData.item.rows + " Rows</b>" +
-      "<br/>Server Exec Time: " + timeFormat(hitData.item.serverExecTime) +
+    return "<b>" + hitData.item.name + " - " + hitData.item.numRows + " Rows</b>" +
+      "<br/>Server Exec Time: " + timeFormat(hitData.item.totalServerTime) +
       "<br/>Transfer Time: " + timeFormat(hitData.item.transferTime) +
       "<br/>Parse Time: " + timeFormat(hitData.item.parseTime) +
       "<br/>Render Time: " + timeFormat(hitData.item.renderTime) +
-      "<br/>Total Time: " + timeFormat(hitData.item.serverExecTime + hitData.item.transferTime + hitData.item.parseTime + hitData.item.renderTime);
+      "<br/>Total Time: " + timeFormat(hitData.item.totalServerTime + hitData.item.transferTime + hitData.item.parseTime + hitData.item.renderTime) +
+      "<br/>Total Rows Per Second: " + (hitData.item.numRows / (hitData.item.totalServerTime + hitData.item.transferTime + hitData.item.parseTime + hitData.item.renderTime) * 1000);
   }
 
   public static function getMemoryDataTip(hitData:HitData):String
   {
-    return "<b>" + hitData.item.name + " - " + hitData.item.rows + " Rows</b>" +
+    return "<b>" + hitData.item.name + " - " + hitData.item.numRows + " Rows</b>" +
       "<br/>Memory: " + byteFormat(hitData.item.memory);
   }
 

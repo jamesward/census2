@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2007 James Ward
+http://www.jamesward.org
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+-->
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:controls="com.jamesward.census2.controls.*" xmlns:views="com.jamesward.census2.views.*" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+
+  <mx:Script>
+    import mx.collections.ArrayCollection;
+    import com.jamesward.census2.utils.TextFormatters;
+    
+    [Bindable]
+    private var chartDataProvider:ArrayCollection = new ArrayCollection();
+    
+    public function set dataProvider(dataProvider:Object):void
+    {
+      // translate data into recordsPerSecond
+      for each (var item:Object in dataProvider)
+      {
+        updateChartDataProviderItem(item);
+      }
+    }
+    
+    private function updateChartDataProviderItem(item:Object):void
+    {
+      var recordExists:Boolean = false;
+      for each (var chartItem:Object in chartDataProvider)
+      {
+        if (item.id == chartItem.id)
+        {
+          recordExists = true;
+          
+          updateChartItem(chartItem, item);
+          
+          break;
+        }
+      }
+      
+      if (!recordExists)
+      {
+        chartDataProvider.addItem({id: item.id});
+        updateChartDataProviderItem(item);
+      }
+    }
+    
+    private function updateChartItem(chartItem:Object, item:Object):void
+    {
+      chartItem.name = item.name;
+      chartItem.numRows = item.numRows;
+      
+      chartItem.totalServerTime = item.totalServerTime;
+      chartItem.transferTime = item.transferTime;
+      chartItem.parseTime = item.parseTime;
+      chartItem.renderTime = item.renderTime;
+      
+      if (item.totalServerTime)
+      {
+        chartItem.totalServerTimeRowsPerSecond = (item.numRows / item.totalServerTime * 1000);
+      }
+      
+      if (item.transferTime)
+      {
+        chartItem.transferTimeRowsPerSecond = (item.numRows / item.transferTime * 1000);
+      }
+      
+      if (item.parseTime)
+      {
+        chartItem.parseTimeRowsPerSecond = (item.numRows / item.parseTime * 1000);
+      }
+      
+      if (item.renderTime)
+      {
+        chartItem.renderTimeRowsPerSecond = (item.numRows / item.renderTime * 1000);
+      }
+      
+      chartDataProvider.itemUpdated(chartItem);
+    }
+    
+  </mx:Script>
+
+  <mx:SeriesInterpolate id="interpolate"/>
+  
+  <mx:Legend dataProvider="{loadRenderTimeChart}" direction="horizontal" markerWidth="15" width="100%"/>
+  
+  <mx:BarChart id="loadRenderTimeChart" width="100%" height="100%" dataProvider="{chartDataProvider}"
+    showDataTips="true" type="stacked" dataTipFunction="TextFormatters.getTimeDataTip" verticalAxisRatio="1">
+
+    <mx:verticalAxis>
+      <mx:CategoryAxis id="lrtcVA" categoryField="name"/>
+    </mx:verticalAxis>
+
+    <mx:verticalAxisRenderers>
+      <views:CustomAxisRenderer id="chartLeftAxisRenderer" tickPlacement="outside" tickLength="6" axis="{lrtcVA}" showLine="false" placement="left"/>
+      <views:CustomAxisRenderer axis="{lrtcVA}" showLine="false" showLabels="false" tickPlacement="none" minorTickPlacement="none" placement="right"/>
+    </mx:verticalAxisRenderers>
+
+    <mx:horizontalAxis>
+      <mx:LinearAxis id="lrtcHA"/>
+    </mx:horizontalAxis>
+
+    <mx:horizontalAxisRenderers>
+      <views:CustomAxisRenderer axis="{lrtcHA}" showLine="false"/>
+    </mx:horizontalAxisRenderers>
+
+    <mx:series>
+      <mx:BarSeries xField="totalServerTimeRowsPerSecond" showDataEffect="{interpolate}" displayName="Server Exec Time">
+        <mx:fill>
+          <mx:LinearGradient angle="90">
+            <mx:entries>
+              <mx:Array>
+                <mx:GradientEntry color="#ffffff" ratio="0" alpha="100"/>
+                <mx:GradientEntry color="#e28741" ratio="0.1" alpha="100"/>
+                <mx:GradientEntry color="#c6691c" ratio="0.9" alpha="100"/>
+                <mx:GradientEntry color="#000000" ratio="1" alpha="100"/>
+              </mx:Array>
+            </mx:entries>
+          </mx:LinearGradient>
+        </mx:fill>
+      </mx:BarSeries>
+      <mx:BarSeries xField="transferTimeRowsPerSecond" showDataEffect="{interpolate}" displayName="Transfer Time">
+        <mx:fill>
+          <mx:LinearGradient angle="90">
+            <mx:entries>
+              <mx:Array>
+                <mx:GradientEntry color="#ffffff" ratio="0" alpha="100"/>
+                <mx:GradientEntry color="#467299" ratio="0.1" alpha="100"/>
+                <mx:GradientEntry color="#2a547a" ratio="0.9" alpha="100"/>
+                <mx:GradientEntry color="#000000" ratio="1" alpha="100"/>
+              </mx:Array>
+            </mx:entries>
+          </mx:LinearGradient>
+        </mx:fill>
+      </mx:BarSeries>
+      <mx:BarSeries xField="parseTimeRowsPerSecond" showDataEffect="{interpolate}" displayName="Parse Time">
+        <mx:fill>
+          <mx:LinearGradient angle="90">
+            <mx:entries>
+              <mx:Array>
+                <mx:GradientEntry color="#ffffff" ratio="0" alpha="100"/>
+                <mx:GradientEntry color="#f6c54c" ratio="0.1" alpha="100"/>
+                <mx:GradientEntry color="#d8a62d" ratio="0.9" alpha="100"/>
+                <mx:GradientEntry color="#000000" ratio="1" alpha="100"/>
+              </mx:Array>
+            </mx:entries>
+          </mx:LinearGradient>
+        </mx:fill>
+      </mx:BarSeries>
+      <mx:BarSeries xField="renderTimeRowsPerSecond" showDataEffect="{interpolate}" displayName="Render Time">
+        <mx:fill>
+          <mx:LinearGradient angle="90">
+            <mx:entries>
+              <mx:Array>
+                <mx:GradientEntry color="#ffffff" ratio="0" alpha="100"/>
+                <mx:GradientEntry color="#ff3f20" ratio="0.1" alpha="100"/>
+                <mx:GradientEntry color="#c92719" ratio="0.9" alpha="100"/>
+                <mx:GradientEntry color="#000000" ratio="1" alpha="100"/>
+              </mx:Array>
+            </mx:entries>
+          </mx:LinearGradient>
+        </mx:fill>
+      </mx:BarSeries>
+    </mx:series>
+  </mx:BarChart>
+</mx:VBox>
