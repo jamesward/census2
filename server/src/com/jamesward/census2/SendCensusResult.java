@@ -23,7 +23,22 @@ public class SendCensusResult extends HttpServlet
     String clientId = request.getParameter("clientId");
     String testId = request.getParameter("testId");
     String resultType = request.getParameter("resultType");
-    Integer resultData = Integer.parseInt(request.getParameter("resultData"));
+    Integer resultData;
+    
+    String resultDataString = request.getParameter("resultData");
+    
+    if (resultDataString.equals("true"))
+    {
+      resultData = 1;
+    }
+    else if (resultDataString.equals("false"))
+    {
+      resultData = 0;
+    }
+    else
+    {
+      resultData = Integer.parseInt(resultDataString);
+    }
 
     if ((clientId == null) || (testId == null) || (resultType == null)
         || (resultData == null) || (clientId.length() <= 0)

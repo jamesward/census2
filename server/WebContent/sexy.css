@@ -277,3 +277,16 @@ TabBar
   strokeWidth: 1;
   strokeColor: #252525;
 }
+
+StyledAxisRenderer
+{
+  showLine: false;
+  tickStrokeColor: #2b2b2b;
+  tickStrokeWeight: 1;
+}
+
+ChartBackgroundFill
+{
+  borderFillColor: #050505;
+  fillColor: #111111;
+}
