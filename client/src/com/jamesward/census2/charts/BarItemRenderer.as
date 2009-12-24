@@ -16,18 +16,19 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-package org.jamesward.census.views
+package com.jamesward.census2.charts
 {
 
 import flash.display.Graphics;
 import flash.geom.Rectangle;
+
 import mx.charts.ChartItem;
 import mx.charts.chartClasses.GraphicsUtilities;
+import mx.charts.series.items.BarSeriesItem;
 import mx.core.IDataRenderer;
 import mx.graphics.IFill;
 import mx.graphics.IStroke;
 import mx.skins.ProgrammaticSkin;
-import mx.charts.series.items.BarSeriesItem;
 
 public class BarItemRenderer extends ProgrammaticSkin implements IDataRenderer
 {
@@ -58,53 +59,50 @@ public class BarItemRenderer extends ProgrammaticSkin implements IDataRenderer
     super.updateDisplayList(unscaledWidth, unscaledHeight);
 
     var fill:IFill = GraphicsUtilities.fillFromStyle(getStyle("fill"));
-    var stroke:IStroke = getStyle("stroke");
-
-    var w:Number = stroke ? stroke.weight / 2 : 0;
-
-    var modifiedHeight:Number = height - 2 * w;
-
+    
     var s:Number = 1;
     if (_data is BarSeriesItem)
     {
-      if (_data.item.rows != undefined)
+      if (_data.item.numRows != undefined)
       {
-        s = _data.item.rows / 20000;
-      }
-      if (s < .2)
-      {
-        s = .2;
+        // find the item with the most rows
+        var mostRows:Number = 0
+        
+        for each (var d:Object in _data.element.dataProvider)
+        {
+          if (d.numRows > mostRows)
+          {
+            mostRows = d.numRows;
+          }
+        }
+        
+        s = _data.item.numRows / mostRows;
       }
     }
-    modifiedHeight = modifiedHeight * s;
+    
+    if (s < .05)
+    {
+      s = .05;
+    }
+    
+    var modifiedHeight:Number = height * s;
 
     var startY:Number = (height - modifiedHeight) / 2;
 
-    var rc:Rectangle = new Rectangle(w, startY, width - 2 * w, modifiedHeight);
+    var rc:Rectangle = new Rectangle(2, startY, width, modifiedHeight);
 
     var g:Graphics = graphics;
     g.clear();
     g.moveTo(rc.left,rc.top);
 
-    if (stroke)
-    {
-      stroke.apply(g);
-    }
-
-    if (fill)
-    {
-      fill.begin(g,rc);
-    }
-
+    fill.begin(g,rc);
+    
     g.lineTo(rc.right,rc.top);
     g.lineTo(rc.right,rc.bottom);
     g.lineTo(rc.left,rc.bottom);
     g.lineTo(rc.left,rc.top);
 
-    if (fill)
-    {
-      fill.end(g);
-    }
+    fill.end(g);
   }
 
 }

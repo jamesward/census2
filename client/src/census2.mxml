@@ -15,12 +15,17 @@
     import mx.events.StyleEvent;
     import mx.utils.ObjectUtil;
     import mx.controls.Alert;
+    
+    [Bindable]
+    private var chartArrayCollection:ArrayCollection = new ArrayCollection();
 
     private function changeTheme(theme:String):void
     {
       currentTheme = theme;
       var eventDispatcher:IEventDispatcher = StyleManager.loadStyleDeclarations(currentTheme + ".swf");
       eventDispatcher.addEventListener(StyleEvent.COMPLETE, function(event:StyleEvent):void {
+          
+        
           if (!visible)
           {
             visible = true;
@@ -88,9 +93,42 @@
     
     private function updateCharts():void
     {
-      recordsPerSecondChartView.dataProvider = results;
-      transferSizeChartView.dataProvider = results;
-      clientSideMemoryChartView.dataProvider = results;
+      for each (var item:Object in results)
+      {
+        updateChartDataProviderItem(item);
+      }
+    }
+    
+    private function updateChartDataProviderItem(item:Object):void
+    {
+      var recordExists:Boolean = false;
+      for each (var chartItem:Object in chartArrayCollection)
+      {
+        if (item.id == chartItem.id)
+        {
+          recordExists = true;
+          
+          updateChartItem(chartItem, item);
+          
+          break;
+        }
+      }
+      
+      if (!recordExists)
+      {
+        chartArrayCollection.addItem({id: item.id});
+        updateChartDataProviderItem(item);
+      }
+    }
+        
+    private function updateChartItem(chartItem:Object, item:Object):void
+    {
+      for (var k:String in item)
+      {
+        chartItem[k] = item[k];
+      }
+      
+      chartArrayCollection.itemUpdated(chartItem);
     }
     
     private function startTest(test:Object):void
@@ -143,8 +181,6 @@
 
   <census2:ChannelConfig id="channelConfig">
     <census2:message>
-      trace("testId = " + event.message.body.testId + " resultType = " + event.message.body.resultType + " resultData = " + event.message.body.resultData);
-      
       updateResult(event.message.body.testId,  event.message.body.resultType, new Number(event.message.body.resultData));
     </census2:message>
   </census2:ChannelConfig>
@@ -152,11 +188,6 @@
   <mx:HTTPService id="srv" url="tests.xml">
     <mx:result>
       tests = event.result.tests.test;
-      
-      for each (var test:Object in tests)
-      {
-        resetResults(test);
-      }
     </mx:result>
   </mx:HTTPService>
 
@@ -176,13 +207,13 @@
                    enabled="{testList.selectedItem != null}" useHandCursor="{testList.selectedItem != null}" buttonMode="true"
                    paddingLeft="6" toolTip="Select a test to run">
           <mx:click>
-          resetResults(testList.selectedItem);
-          startTest(testList.selectedItem);
+            resetResults(testList.selectedItem);
+            startTest(testList.selectedItem);
           </mx:click>
         </mx:Button>
       </mx:HBox>
       <mx:Spacer height="10"/>
-      <mx:List id="testList" width="90%" height="100%" dataProvider="{tests}" styleName="leftInnerContainer">
+      <mx:List id="testList" width="90%" height="100%" dataProvider="{tests}" styleName="leftInnerContainer" doubleClickEnabled="true">
         <mx:itemRenderer>
           <mx:Component>
             <mx:HBox paddingTop="0" paddingBottom="0" verticalScrollPolicy="off" horizontalScrollPolicy="off"
@@ -192,6 +223,10 @@
             </mx:HBox>
           </mx:Component>
         </mx:itemRenderer>
+        <mx:itemDoubleClick>
+          resetResults(testList.selectedItem);
+          startTest(testList.selectedItem);
+        </mx:itemDoubleClick>
       </mx:List>
       <mx:Spacer height="10"/>
       <controls:LabelLink>
@@ -206,7 +241,7 @@
         <mx:TabBar id="tabBar" width="100%" selectedIndex="0" horizontalGap="2" top="0">
           <mx:dataProvider>
             <mx:String>Intro Video</mx:String>
-            <mx:String>Rows / Second</mx:String>
+            <mx:String>Performance</mx:String>
             <mx:String>Transfer Size</mx:String>
             <mx:String>Client-side Memory</mx:String>
           </mx:dataProvider>
@@ -231,9 +266,9 @@
           <mx:Canvas width="100%" height="100%">
             
           </mx:Canvas>
-          <views:RecordsPerSecondChartView id="recordsPerSecondChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10"/>
-          <views:TransferSizeChartView id="transferSizeChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10"/>
-          <views:ClientSideMemoryChartView id="clientSideMemoryChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10"/>
+          <views:RecordsPerSecondChartView id="recordsPerSecondChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" dataProvider="{chartArrayCollection}"/>
+          <views:TransferSizeChartView id="transferSizeChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" dataProvider="{chartArrayCollection}"/>
+          <views:ClientSideMemoryChartView id="clientSideMemoryChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" dataProvider="{chartArrayCollection}"/>
         </mx:ViewStack>
         <mx:HRule id="leftSideBorder" styleName="tabDivider" y="{tabBar.height - 3}" x="1"/>
         <mx:HRule id="rightSideBorder" styleName="tabDivider" y="{tabBar.height - 3}"/>

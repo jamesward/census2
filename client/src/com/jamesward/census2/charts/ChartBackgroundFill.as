@@ -16,17 +16,22 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-package org.jamesward.census.views
+package com.jamesward.census2.charts
 {
 
+import flash.display.CapsStyle;
 import flash.display.Graphics;
+import flash.display.LineScaleMode;
 import flash.geom.Rectangle;
-import mx.graphics.IFill;
+
 import mx.charts.chartClasses.ChartElement;
 import mx.charts.chartClasses.GraphicsUtilities;
+import mx.graphics.IFill;
 import mx.graphics.SolidColor;
 
-[Style(name="fill", type="mx.graphics.IFill", inherit="no")]
+[Style(name="borderFillColor", type="uint", format="Color", inherit="yes")]
+
+[Style(name="fillColor", type="uint", format="Color", inherit="yes")]
 
 public class ChartBackgroundFill extends ChartElement
 {
@@ -42,15 +47,10 @@ public class ChartBackgroundFill extends ChartElement
     super.updateDisplayList(unscaledWidth, unscaledHeight);
 
     graphics.clear();
-    graphics.beginFill(0x111111);
-    graphics.drawRect(0, 0, unscaledWidth, unscaledHeight);
+    graphics.lineStyle(1, getStyle("borderFillColor"));
+    graphics.beginFill(getStyle("fillColor"));
+    graphics.drawRect(1, 1, unscaledWidth - 2, unscaledHeight - 2);
     graphics.endFill();
-    graphics.beginFill(0x151515);
-    graphics.drawRect(1, 1, unscaledWidth - 1, unscaledHeight - 1);
-    graphics.endFill();
-
-    //GraphicsUtilities.fillRect(graphics, -1, -1, unscaledWidth + 1, unscaledHeight + 1, new SolidColor(0x111111));
-    //GraphicsUtilities.fillRect(graphics, 0, 0, unscaledWidth, unscaledHeight, _fill);
   }
 
   override public function mappingChanged():void

@@ -3,10 +3,6 @@ package com.jamesward.census2.controls
   import flash.text.StyleSheet;
 
   import mx.controls.Label;
-  
-  import mx.core.mx_internal;
-  
-  use namespace mx_internal;
 
   public class LabelLink extends Label
   {
@@ -37,7 +33,7 @@ package com.jamesward.census2.controls
 
     private function updateStyleSheet():void
     {
-      if (!styleSheetValid)
+      if ((!styleSheetValid) && (textField != null))
       {
         var aLink:Object = new Object();
         aLink.color = getStringColor(getStyle("linkColor"));
@@ -50,7 +46,7 @@ package com.jamesward.census2.controls
         textStyleSheet.setStyle("a:link", aLink);
         textStyleSheet.setStyle("a:hover", aHover);
 
-        styleSheet = textStyleSheet;
+        textField.styleSheet = textStyleSheet;
 
         invalidateDisplayList();
 

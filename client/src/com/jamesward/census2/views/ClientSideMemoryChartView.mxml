@@ -17,237 +17,53 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 -->
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:controls="com.jamesward.census2.controls.*" xmlns:views="com.jamesward.census2.views.*" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:charts="com.jamesward.census2.charts.*"
+  verticalScrollPolicy="off" horizontalScrollPolicy="off"> 
 
   <mx:Script>
-    
-    private var _dataProvider:Object;
-    
-    public function set dataProvider(_dataProvider:Object):void
-    {
-      this._dataProvider = _dataProvider;
-    }
-
-    public function get dataProvider():Object
-    {
-      return _dataProvider;
-    }
+  import com.jamesward.census2.utils.TextFormatters;
   </mx:Script>
   
-  <!--
-  <mx:Script>
-  <![CDATA[
-  import org.jamesward.census.model.Model;
-  import org.jamesward.census.utils.TextFormatters;
-  
-  [Bindable]
-  public var legendIndent:int = 0;
-
-  [Bindable]
-  public var legendVisible:Boolean = false;
-  
-  ]]>
-  </mx:Script>
+  <mx:ArrayCollection id="dataProvider"/>
   
   <mx:SeriesInterpolate id="interpolate"/>
-  
-  <mx:HBox id="mainPanelHBox" width="100%" height="100%" horizontalGap="0">
+      
+  <mx:BarChart width="100%" height="100%" dataProvider="{dataProvider}" showDataTips="true" dataTipFunction="TextFormatters.getMemoryDataTip" verticalAxisRatio="1">
+
+    <mx:backgroundElements>
+      <charts:ChartBackgroundFill/>
+    </mx:backgroundElements>
+
+    <mx:verticalAxis>
+      <mx:CategoryAxis id="lrtcVA" categoryField="name"/>
+    </mx:verticalAxis>
     
-    <mx:VBox id="chartPanel" width="100%" height="100%" horizontalAlign="left" verticalGap="0" paddingLeft="4" paddingRight="4" paddingBottom="4" borderThickness="1" borderColor="#2b2b2b" borderStyle="solid" borderSides="top bottom">
-      <mx:Spacer height="40"/>
-      <mx:HBox width="100%" paddingLeft="15" paddingRight="15">
-        <mx:HRule width="100%" strokeColor="#313131" strokeWidth="1"/>
-      </mx:HBox>
-      <mx:Spacer height="10"/>
-      <mx:HBox horizontalGap="0" width="100%">
-        <mx:Spacer width="{legendIndent}"/>
-        <mx:Legend dataProvider="{loadRenderTimeChart}" direction="horizontal" markerWidth="15" width="100%" visible="{legendVisible}"/>
-      </mx:HBox>
-      
-      <mx:BarChart id="loadRenderTimeChart" width="100%" height="100%" dataProvider="{Model.getInstance().displayResults}" showDataTips="true" type="stacked" dataTipFunction="TextFormatters.getTimeDataTip" verticalAxisRatio="1">
-        <mx:updateComplete>
-        legendIndent = loadRenderTimeChart.computedGutters.x;
-        callLater(function():void {legendVisible = true});
-        </mx:updateComplete>
+    <mx:verticalAxisRenderers>
+      <charts:StyledAxisRenderer axis="{lrtcVA}"/>
+    </mx:verticalAxisRenderers>
 
-        <mx:backgroundElements>
-            <views:ChartBackgroundFill/>
-        </mx:backgroundElements>
-
-        <mx:verticalAxis>
-          <mx:CategoryAxis id="lrtcVA" categoryField="name"/>
-        </mx:verticalAxis>
-  
-        <mx:verticalAxisRenderers>
-          <views:CustomAxisRenderer id="chartLeftAxisRenderer" tickPlacement="outside" tickLength="6" axis="{lrtcVA}" showLine="false" placement="left"/>
-          <views:CustomAxisRenderer axis="{lrtcVA}" showLine="false" showLabels="false" tickPlacement="none" minorTickPlacement="none" placement="right"/>
-        </mx:verticalAxisRenderers>
-  
-        <mx:horizontalAxis>
-          <mx:LinearAxis id="lrtcHA" labelFunction="TextFormatters.timeFormat"/>
-        </mx:horizontalAxis>
-  
-        <mx:horizontalAxisRenderers>
-          <views:CustomAxisRenderer axis="{lrtcHA}" showLine="false"/>
-        </mx:horizontalAxisRenderers>
-
-        <mx:series>
-          <mx:BarSeries xField="serverExecTime" itemRenderer="org.jamesward.census.views.BarItemRenderer" showDataEffect="{interpolate}" displayName="Server Exec Time">
-            <mx:fill>
-              <mx:LinearGradient angle="90">
-                <mx:entries>
-                  <mx:Array>
-                    <mx:GradientEntry color="#e28741" ratio="0" alpha="100"/>
-                    <mx:GradientEntry color="#c6691c" ratio="0.9" alpha="100"/>
-                    <mx:GradientEntry color="#000000" ratio="1" alpha="100"/>
-                  </mx:Array>
-                </mx:entries>
-              </mx:LinearGradient>
-            </mx:fill>
-          </mx:BarSeries>
-          <mx:BarSeries xField="transferTime" itemRenderer="org.jamesward.census.views.BarItemRenderer" showDataEffect="{interpolate}" displayName="Transfer Time">
-            <mx:fill>
-              <mx:LinearGradient angle="90">
-                <mx:entries>
-                  <mx:Array>
-                    <mx:GradientEntry color="#467299" ratio="0" alpha="100"/>
-                    <mx:GradientEntry color="#2a547a" ratio="0.9" alpha="100"/>
-                    <mx:GradientEntry color="#000000" ratio="1" alpha="100"/>
-                  </mx:Array>
-                </mx:entries>
-              </mx:LinearGradient>
-            </mx:fill>
-          </mx:BarSeries>
-          <mx:BarSeries xField="parseTime" itemRenderer="org.jamesward.census.views.BarItemRenderer" showDataEffect="{interpolate}" displayName="Parse Time">
-            <mx:fill>
-              <mx:LinearGradient angle="90">
-                <mx:entries>
-                  <mx:Array>
-                    <mx:GradientEntry color="#f6c54c" ratio="0" alpha="100"/>
-                    <mx:GradientEntry color="#d8a62d" ratio="0.9" alpha="100"/>
-                    <mx:GradientEntry color="#000000" ratio="1" alpha="100"/>
-                  </mx:Array>
-                </mx:entries>
-              </mx:LinearGradient>
-            </mx:fill>
-          </mx:BarSeries>
-          <mx:BarSeries xField="renderTime" itemRenderer="org.jamesward.census.views.BarItemRenderer" showDataEffect="{interpolate}" displayName="Render Time">
-            <mx:fill>
-              <mx:LinearGradient angle="90">
-                <mx:entries>
-                  <mx:Array>
-                    <mx:GradientEntry color="#ff3f20" ratio="0" alpha="100"/>
-                    <mx:GradientEntry color="#c92719" ratio="0.9" alpha="100"/>
-                    <mx:GradientEntry color="#000000" ratio="1" alpha="100"/>
-                  </mx:Array>
-                </mx:entries>
-              </mx:LinearGradient>
-            </mx:fill>
-          </mx:BarSeries>
-        </mx:series>
-  
-      </mx:BarChart>
-
-      <mx:HBox horizontalGap="0">
-        <mx:Spacer width="{legendIndent}"/>
-        <views:ChartLegendCombo id="clc" charts="{[bandwidthChart,memoryChart]}" visible="{legendVisible}">
-          <views:change>
-          if (clc.selectedIndex == 1)
-          {
-            bottomChartsVBox.y = (bandwidthChart.height * -1);
-          }
-          else
-          {
-            bottomChartsVBox.y = 0;
-          }
-          </views:change>
-        </views:ChartLegendCombo>
-      </mx:HBox>
-
-      <mx:Canvas id="bottomChartsCanvas" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
-        <mx:VBox id="bottomChartsVBox" width="100%" height="{bottomChartsCanvas.height * 2}" verticalGap="0" moveEffect="Move">
-          <mx:BarChart id="bandwidthChart" width="100%" height="100%" dataProvider="{Model.getInstance().displayResults}" showDataTips="true" fontSize="10" dataTipFunction="TextFormatters.getBandwidthDataTip" verticalAxisRatio="1">
-                    
-            <mx:backgroundElements>
-              <mx:Canvas width="100%" height="100%" borderStyle="solid" borderColor="#111111" backgroundColor="#151515" borderThickness="1"/>
-            </mx:backgroundElements>
-
-            <mx:verticalAxis>
-              <mx:CategoryAxis id="bcVA" categoryField="name"/>
-            </mx:verticalAxis>
-  
-            <mx:verticalAxisRenderers>
-              <views:CustomAxisRenderer tickPlacement="outside" tickLength="6" axis="{bcVA}" showLine="false"/>
-            </mx:verticalAxisRenderers>
-
-            <mx:horizontalAxis>
-              <mx:LinearAxis id="bcHA" labelFunction="TextFormatters.byteFormat"/>
-            </mx:horizontalAxis>
-      
-            <mx:horizontalAxisRenderers>
-              <views:CustomAxisRenderer axis="{bcHA}" showLine="false"/>
-            </mx:horizontalAxisRenderers>
+    <mx:horizontalAxis>
+      <mx:LinearAxis id="bcHA" labelFunction="TextFormatters.byteFormat"/>
+    </mx:horizontalAxis>
     
-            <mx:series>
-              <mx:BarSeries xField="bandwidth" showDataEffect="{interpolate}" itemRenderer="org.jamesward.census.views.BarItemRenderer" displayName="Data Bandwidth">
-                <mx:fill>
-                  <mx:LinearGradient angle="90">
-                    <mx:entries>
-                      <mx:Array>
-                        <mx:GradientEntry color="#44aa77" ratio="0" alpha="100"/>
-                        <mx:GradientEntry color="#339966" ratio="0.1" alpha="100"/>
-                        <mx:GradientEntry color="#246d49" ratio="0.9" alpha="100"/>
-                        <mx:GradientEntry color="#111111" ratio="1" alpha="100"/>
-                      </mx:Array>
-                    </mx:entries>
-                  </mx:LinearGradient>
-                </mx:fill>
-              </mx:BarSeries>
-            </mx:series>
-      
-          </mx:BarChart>
-          <mx:BarChart id="memoryChart" width="100%" height="100%" dataProvider="{Model.getInstance().displayResults}" showDataTips="true" fontSize="10" dataTipFunction="TextFormatters.getMemoryDataTip" verticalAxisRatio="1">
-                    
-            <mx:backgroundElements>
-              <mx:Canvas width="100%" height="100%" borderStyle="solid" borderColor="#111111" backgroundColor="#151515" borderThickness="1"/>
-            </mx:backgroundElements>
+    <mx:horizontalAxisRenderers>
+      <charts:StyledAxisRenderer axis="{bcHA}"/>
+    </mx:horizontalAxisRenderers>
 
-            <mx:verticalAxis>
-              <mx:CategoryAxis id="mcVA" categoryField="name"/>
-            </mx:verticalAxis>
-  
-            <mx:verticalAxisRenderers>
-              <views:CustomAxisRenderer tickPlacement="outside" tickLength="6" axis="{mcVA}" showLine="false"/>
-            </mx:verticalAxisRenderers>
+    <mx:series>
+      <mx:BarSeries xField="memorySize" showDataEffect="{interpolate}" itemRenderer="com.jamesward.census2.charts.BarItemRenderer">
+        <mx:fill>
+          <mx:LinearGradient angle="90">
+            <mx:entries>
+              <mx:Array>
+                <mx:GradientEntry color="#990000" ratio="0" alpha="100"/>
+                <mx:GradientEntry color="#6d0000" ratio="1" alpha="100"/>
+              </mx:Array>
+            </mx:entries>
+          </mx:LinearGradient>
+        </mx:fill>
+      </mx:BarSeries>
+    </mx:series>
+  </mx:BarChart>
 
-            <mx:horizontalAxis>
-              <mx:LinearAxis id="mcHA" labelFunction="TextFormatters.byteFormat"/>
-            </mx:horizontalAxis>
-      
-            <mx:horizontalAxisRenderers>
-              <views:CustomAxisRenderer axis="{mcHA}" showLine="false"/>
-            </mx:horizontalAxisRenderers>
-      
-            <mx:series>
-              <mx:BarSeries xField="memory" showDataEffect="{interpolate}" itemRenderer="org.jamesward.census.views.BarItemRenderer" displayName="Total Client Memory (Only available with Flex)">
-                <mx:fill>
-                  <mx:LinearGradient angle="90">
-                    <mx:entries>
-                      <mx:Array>
-                        <mx:GradientEntry color="#dd0000" ratio="0" alpha="100"/>
-                        <mx:GradientEntry color="#990000" ratio="0.1" alpha="100"/>
-                        <mx:GradientEntry color="#6d0000" ratio="0.9" alpha="100"/>
-                        <mx:GradientEntry color="#111111" ratio="1" alpha="100"/>
-                      </mx:Array>
-                    </mx:entries>
-                  </mx:LinearGradient>
-                </mx:fill>
-              </mx:BarSeries>
-            </mx:series>
-          </mx:BarChart>
-        </mx:VBox>
-      </mx:Canvas>
-    </mx:VBox>
-  </mx:HBox>
-  -->
-</mx:Canvas>
+</mx:VBox>
