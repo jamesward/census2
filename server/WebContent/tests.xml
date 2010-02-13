@@ -11,4 +11,10 @@
   	<url>http://localhost:8080/census2-tests/flex_xml_as.html</url>
   	<description>XML to AS Objects</description>
   </test>
+  <test>
+  	<id>ajax_html</id>
+  	<name>Ajax HTML</name>
+  	<url>http://localhost:8080/census2-tests/ajax_html.html</url>
+  	<description>HTML Table via Ajax</description>
+  </test>
 </tests>
