@@ -12,6 +12,12 @@
   	<description>XML to AS Objects</description>
   </test>
   <test>
+  	<id>flex_soap_as</id>
+  	<name>Flex SOAP AS</name>
+  	<url>http://localhost:8080/census2-tests/flex_soap_as.html</url>
+  	<description>SOAP to AS Objects</description>
+  </test>
+  <test>
   	<id>ajax_html</id>
   	<name>Ajax HTML</name>
   	<url>http://localhost:8080/census2-tests/ajax_html.html</url>
