@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app>
+
   <display-name>Census2</display-name>
   <description>Census2 Application</description>
+  
+  <context-param>
+  	<param-name>db4oFileName</param-name>
+  	<param-value>census.db4o</param-value>
+	</context-param>
+
   <listener>
     <listener-class>flex.messaging.HttpFlexSession</listener-class>
+  </listener>
+  
+  <listener>
+  	<listener-class>com.jamesward.census2.Db4oServletContextListener</listener-class>
   </listener>
   
   <servlet>

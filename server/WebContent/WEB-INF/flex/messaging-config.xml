@@ -10,7 +10,7 @@
         <channel ref="my-polling-amf"/>
     </default-channels>
 
-		 <destination id="censusResultsDestination">
+		 <destination id="CensusResultsDestination">
         <properties>
             <server>
                 <allow-subtopics>true</allow-subtopics>

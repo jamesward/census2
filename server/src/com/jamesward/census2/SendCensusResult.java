@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
+
 import flex.messaging.MessageBroker;
 import flex.messaging.messages.AsyncMessage;
 import flex.messaging.util.UUIDUtils;
@@ -23,36 +26,51 @@ public class SendCensusResult extends HttpServlet
     String clientId = request.getParameter("clientId");
     String testId = request.getParameter("testId");
     String resultType = request.getParameter("resultType");
-    Integer resultData;
     
-    String resultDataString = request.getParameter("resultData");
+    Boolean gzip = false;
     
-    if (resultDataString.equals("true"))
+    if (request.getParameter("gzip").equals("true"))
     {
-      resultData = 1;
+      gzip = true;
     }
-    else if (resultDataString.equals("false"))
-    {
-      resultData = 0;
-    }
-    else
-    {
-      resultData = Integer.parseInt(resultDataString);
-    }
+    
+    Integer numRows = Integer.parseInt(request.getParameter("numRows"));
+    Integer resultData = Integer.parseInt(request.getParameter("resultData"));
+    
 
-    if ((clientId == null) || (testId == null) || (resultType == null)
-        || (resultData == null) || (clientId.length() <= 0)
-        || (testId.length() <= 0) || (resultType.length() <= 0))
+    if ((clientId == null) || (testId == null) || (resultType == null) ||
+        (resultData == null) || (gzip == null) || (numRows == null) ||
+        (clientId.length() <= 0) || (testId.length() <= 0) || (resultType.length() <= 0))
     {
       throw new ServletException("data not sent correctly!");
     }
     else
     {
+      // save the results to DB
+      CensusResult newCensusResult = new CensusResult(request.getRemoteAddr(), testId, resultType, resultData, gzip, numRows);
+      
+      ObjectContainer db4oServer = (ObjectContainer)getServletContext().getAttribute(Db4oServletContextListener.KEY_DB4O_SERVER);
+      // check for dups - only allow one entry per IP per testId per resultType
+      CensusResult searchCensusResult = new CensusResult();
+      searchCensusResult.setIpAddress(newCensusResult.getIpAddress());
+      searchCensusResult.setTestId(newCensusResult.getTestId());
+      searchCensusResult.setResultType(newCensusResult.getResultType());
+      searchCensusResult.setGzip(gzip);
+      searchCensusResult.setNumRows(numRows);
+      ObjectSet<CensusResult> result = db4oServer.queryByExample(searchCensusResult);
+      while (result.hasNext())
+      {
+        db4oServer.delete(result.next());        
+      }
+      db4oServer.store(newCensusResult);
+      db4oServer.commit();
+      
+      // send result to client
       Hashtable<String, Object> body = new Hashtable<String, Object>();
       body.put("testId", testId);
       body.put("resultType", resultType);
       body.put("resultData", resultData);
-
+      
       AsyncMessage msg = new AsyncMessage();
 
       msg.setClientId(UUIDUtils.createUUID(false));
@@ -61,7 +79,7 @@ public class SendCensusResult extends HttpServlet
 
       msg.setHeader(AsyncMessage.SUBTOPIC_HEADER_NAME, clientId);
 
-      msg.setDestination("censusResultsDestination");
+      msg.setDestination("CensusResultsDestination");
       msg.setTimestamp(System.currentTimeMillis());
       msg.setBody(body);
 

@@ -17,10 +17,34 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 -->
 <html>
-  <link rel="stylesheet" href="main.css" type="text/css">
-  <center>
-  <table height="100%">
-  <tr><td valign="middle"><h2>Test output will display here</h2></td></tr>
-  </table>
-  </center>
+	<head>
+		<script type="text/javascript" src="querystring.js"></script>
+	  <style>
+		html, body
+		{
+		    font-family: Verdana, Arial, Helvetica, sans-serif;
+		    font-size: 16px;
+		    margin: 0px;
+		    overflow: hidden;
+		}
+	  </style>
+	</head>
+  <script type="text/javascript">
+  var qs = new Querystring();
+  
+  var headID = document.getElementsByTagName("head")[0];         
+  var cssNode = document.createElement('link');
+  cssNode.type = 'text/css';
+  cssNode.rel = 'stylesheet';
+  cssNode.href = qs.get("theme") + ".css";
+  cssNode.media = 'screen';
+  headID.appendChild(cssNode);
+  </script>
+  <body class="leftInnerContainer">
+	  <center>
+	  	<table height="100%">
+	  		<tr><td valign="middle"><h2 class="headerLabel">Test output will display here</h2></td></tr>
+	  	</table>
+	  </center>
+  </body>
 </html>
