@@ -1,5 +1,6 @@
 package com.jamesward.census2
 {
+  import flash.events.Event;
   import flash.events.EventDispatcher;
   
   import mx.messaging.ChannelSet;
@@ -9,33 +10,42 @@ package com.jamesward.census2
   import mx.messaging.events.MessageEvent;
   import mx.rpc.events.ResultEvent;
   import mx.rpc.http.HTTPService;
+  import mx.rpc.remoting.RemoteObject;
   import mx.utils.UIDUtil;
 
-  [Event(name="message",type="mx.messaging.events.MessageEvent")]
+  [Event(name="message", type="mx.messaging.events.MessageEvent")]
+  [Event(name="setup")]
 
   public class ChannelConfig extends EventDispatcher
   {
 
     private const configUrl:String = "blazeds_config.xml";
-    private const destination:String = "censusResultsDestination";
+    private const consumerDestination:String = "CensusResultsDestination";
+    private const remotingDestination:String = "CensusResultService";
 
     private var consumer:Consumer;
 
     public var subtopic:String;
     
     public var sendCensusResultURL:String;
+    
+    public var remoteObject:RemoteObject;
 
     public function ChannelConfig()
     {
       consumer = new Consumer();
       consumer.subtopic = subtopic = UIDUtil.createUID();
-      consumer.destination = destination;
+      consumer.destination = consumerDestination;
 
       var srv:HTTPService = new HTTPService();
       srv.url = configUrl;
 
       srv.addEventListener(ResultEvent.RESULT, function(event:ResultEvent):void
         {
+          remoteObject = new RemoteObject(remotingDestination);
+          remoteObject.endpoint = event.result.config.remotingEndpoint;
+          dispatchEvent(new Event("setup"));
+          
           sendCensusResultURL = event.result.config.sendCensusResultURL;
           
           var channelSet:ChannelSet = new ChannelSet();
@@ -93,4 +103,3 @@ package com.jamesward.census2
 
   }
 }
-

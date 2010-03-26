@@ -72,13 +72,27 @@ public class TextFormatters
     rpsFormatter.useThousandsSeparator = true;
     rpsFormatter.precision = 0;
     
-    return "<b>" + hitData.item.name + " - " + hitData.item.numRows + " Rows</b>" +
-      "<br/>Server Exec Time: " + timeFormat(hitData.item.totalServerTime) +
+    var totalTime:Number = hitData.item.totalServerTime + hitData.item.transferTime + hitData.item.parseTime + hitData.item.renderTime;
+    
+    var s:String = "<b>" + hitData.item.name + " - " + hitData.item.numRows + " Rows</b>" +
+      "<br/>Gzip Enabled = " + hitData.item.gzip;
+    
+    if (totalTime > 0)
+    {
+      s += "<br/>Server Exec Time: " + timeFormat(hitData.item.totalServerTime) +
       "<br/>Transfer Time: " + timeFormat(hitData.item.transferTime) +
       "<br/>Parse Time: " + timeFormat(hitData.item.parseTime) +
       "<br/>Render Time: " + timeFormat(hitData.item.renderTime) +
-      "<br/>Total Time: " + timeFormat(hitData.item.totalServerTime + hitData.item.transferTime + hitData.item.parseTime + hitData.item.renderTime) +
-      "<br/><br/><b>Rows Per Second: " + rpsFormatter.format((hitData.item.numRows / (hitData.item.totalServerTime + hitData.item.transferTime + hitData.item.parseTime + hitData.item.renderTime) * 1000)) + "</b>";
+      "<br/>Total Time: " + timeFormat(totalTime) +
+      "<br/><br/><b>Rows Per Second: " + rpsFormatter.format((hitData.item.numRows / (totalTime) * 1000)) + "</b>";
+    }
+    else
+    {
+      s += "<br/><br/>No data yet.";
+    }
+    
+    return s;
+      
   }
 
   public static function getMemoryDataTip(hitData:HitData):String

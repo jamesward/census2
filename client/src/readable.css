@@ -46,7 +46,7 @@ Application
 
 .leftInnerContainer
 {
-  backgroundColor: #eaeaea;
+  background-color: #eaeaea;
   borderColor: #dadada;
   borderThickness: 1;
   borderStyle: solid;
@@ -82,7 +82,6 @@ Button
 {
   fontSize: 10;
   fontWeight: bold;
-  fontFamily: veraFont;
   textRollOverColor: #222222;
   textSelectedColor: #222222;
   disabledColor: #d7d7d7;
@@ -117,12 +116,12 @@ CheckBox
 
 ScrollBar
 {
-  trackColors: #131313, #101010;
-  borderColor: #0e0e0e;
-  backgroundColor: #0e0e0e;
-  fillColors: #292929, #131313;
+  trackColors: #ececec, #efefef;
+  borderColor: #eeeeee;
+  backgroundColor: #eeeeee;
+  fillColors: #d6d6d6, #ececec;
   fillAlphas: 1,1;
-  themeColor: #292929;
+  themeColor: #d6d6d6;
   skin: ClassReference("com.jamesward.census2.skins.ScrollArrowSkin");
 }
 
@@ -191,7 +190,6 @@ NumericStepper
 
 LegendItem
 {
-  fontFamily: veraFont;
   fontWeight: bold;
   fontSize: 10;
 }
@@ -239,7 +237,6 @@ TabBar
 {
   fontSize: 10;
   fontWeight: bold;
-  fontFamily: veraFont;
   textRollOverColor: #222222;
   textSelectedColor: #222222;
   disabledColor: #d7d7d7;
@@ -271,5 +268,12 @@ StyledAxisRenderer
 ChartBackgroundFill
 {
   borderFillColor: #d4d4d4;
-  fillColor: #e5e5e5;
+  fillColor: #eaeaea;
+}
+
+ChartLegendCombo
+{
+  backgroundColor: #eaeaea;
+  borderColor: #d4d4d4;
+  rollOverColor: #c9c9c9;
 }

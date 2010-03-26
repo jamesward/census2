@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application
-                xmlns:mx="http://www.adobe.com/2006/mxml"
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
                 xmlns:census2="com.jamesward.census2.*"
                 xmlns:controls="com.jamesward.census2.controls.*"
+                xmlns:views="com.jamesward.census2.views.*"
                 xmlns:local="*"
                 verticalScrollPolicy="off"
                 visible="false"
-                styleName="plain" xmlns:views="com.jamesward.census2.views.*">
+                styleName="plain">
 
   <mx:Script>
     <![CDATA[
+    import mx.rpc.AsyncToken;
+    import mx.rpc.events.FaultEvent;
+    import mx.rpc.events.ResultEvent;
+    import mx.rpc.AsyncResponder;
     import mx.managers.CursorManager;
     import mx.core.UIComponent;
     import mx.events.FlexEvent;
@@ -18,42 +22,46 @@
     import mx.controls.Alert;
     
     [Bindable]
-    private var chartArrayCollection:ArrayCollection = new ArrayCollection();
+    private var averageResultsArrayCollection:ArrayCollection = new ArrayCollection();
+    
+    [Bindable]
+    private var yourResultsArrayCollection:ArrayCollection = new ArrayCollection();
+    
+    [Bindable]
+    private var chartArrayCollection:ArrayCollection = averageResultsArrayCollection;
+    
 
     private function changeTheme(theme:String):void
     {
       currentTheme = theme;
       var eventDispatcher:IEventDispatcher = StyleManager.loadStyleDeclarations(currentTheme + ".swf");
       eventDispatcher.addEventListener(StyleEvent.COMPLETE, function(event:StyleEvent):void {
-          
         
-          if (!visible)
-          {
-            visible = true;
-            iframe.source = "index_results.html";
-          }
-          
-          // list selectionColor doesn't automatically update.  Force it!
-          testList.setStyle("selectionColor", StyleManager.getStyleDeclaration("List").getStyle("selectionColor"));
-        });
+        if (!visible)
+        {
+          visible = true;
+        }
+        
+        if ((iframe.source == null) || (iframe.source.indexOf("index_results.html") == 0))
+        {
+          iframe.source = "index_results.html" + "?theme=" + currentTheme;
+        }
+        
+        // list selectionColor doesn't automatically update.  Force it!
+        testList.setStyle("selectionColor", StyleManager.getStyleDeclaration("List").getStyle("selectionColor"));
+      });
     }
     
     private function resetResults(test:Object):void
     {
       var resetDone:Boolean = false;
       
-      for each (var result:Object in results)
+      for each (var result:Object in yourResultsArrayCollection)
       {
         if (result.id == test.id)
         {
           result.name = test.name;
-          result.numRows = 0;
-          result.totalServerTime = 0;
-          result.transferTime = 0;
-          result.parseTime = 0;
-          result.renderTime = 0;
-          result.contentLength = 0;
-          result.memorySize = 0;
+          resetResult(result);
           
           resetDone = true;
           break;
@@ -62,14 +70,14 @@
       
       if (!resetDone)
       {
-        results.addItem({id: test.id});
+        yourResultsArrayCollection.addItemAt({id: test.id}, 0);
         resetResults(test);
       }
     }
     
     private function updateResult(testId:String, resultType:String, resultValue:Number):void
     {
-      for each (var result:Object in results)
+      for each (var result:Object in yourResultsArrayCollection)
       {
         if (result.id == testId)
         {
@@ -85,9 +93,13 @@
               
               // assume we are done
               CursorManager.removeBusyCursor();
+              
+              // refresh average results
+              fetchAverageResults();
             }
           
-            updateCharts();
+            //updateCharts();
+            yourResultsArrayCollection.itemUpdated(result);
           }
           
           break;
@@ -95,70 +107,110 @@
       }
     }
     
-    private function updateCharts():void
-    {
-      for each (var item:Object in results)
-      {
-        updateChartDataProviderItem(item);
-      }
-    }
-    
-    private function updateChartDataProviderItem(item:Object):void
-    {
-      var recordExists:Boolean = false;
-      for each (var chartItem:Object in chartArrayCollection)
-      {
-        if (item.id == chartItem.id)
-        {
-          recordExists = true;
-          
-          updateChartItem(chartItem, item);
-          
-          break;
-        }
-      }
-      
-      if (!recordExists)
-      {
-        chartArrayCollection.addItem({id: item.id});
-        updateChartDataProviderItem(item);
-      }
-    }
-        
-    private function updateChartItem(chartItem:Object, item:Object):void
-    {
-      for (var k:String in item)
-      {
-        chartItem[k] = item[k];
-      }
-      
-      chartArrayCollection.itemUpdated(chartItem);
-    }
-    
     private function startTest(test:Object):void
     {
       resetResults(test);
-      updateResult(test.id, "numRows", numRows.value);
       
       iframe.source = test.url + "?clientId="+channelConfig.subtopic +
       "&sendCensusResultURL=" + channelConfig.sendCensusResultURL +
       "&numRows="+numRows.value +
       "&enableGZip="+enableGZip.selected;
       
-      // auto switch to tabIndex 1
-      if (tabBar.selectedIndex == 0)
-      {
-        switchTab(1);
-      }
+      // auto switch to user results
+      resultType.selectedValue = yourResults.value;
+      switchChartArrayCollection();
       
       cursorManager.setBusyCursor();
     }
     
-    private function switchTab(index:int):void
+    private function switchChartArrayCollection():void
     {
-      tabBar.selectedIndex = index;
-      tabBar.invalidateDisplayList();
-      tabStack.selectedIndex = index;
+      if (resultType.selection == averageResults)
+      {
+        chartArrayCollection = averageResultsArrayCollection;
+      }
+      else if (resultType.selection == yourResults)
+      {
+        chartArrayCollection = yourResultsArrayCollection;
+      }
+    }
+    
+    private function fetchAverageResults():void
+    {
+      if ((channelConfig.remoteObject != null) && (tests.length > 0))
+      {
+        
+        for each (var test:Object in tests)
+        {
+          // reset results
+          var result:Object = getAverageResultsItem(test.id);
+          resetResult(result);
+          
+          var token:AsyncToken = channelConfig.remoteObject.getAverageResults(test.id, enableGZip.selected, numRows.value);
+          token.addResponder(new AsyncResponder(handleAverageResultsResult, handleAverageResultsFault, {testId: test.id, gzip: enableGZip.selected, numRows: numRows.value}));
+        }
+      }
+    }
+    
+    private function handleAverageResultsResult(event:ResultEvent, token:Object):void
+    {
+      var item:Object = getAverageResultsItem(token.testId);
+      item.numRows = token.numRows;
+      item.gzip = token.gzip;
+      for (var resultType:String in event.result)
+      {
+        item[resultType] = event.result[resultType];
+      }
+      item["transferTime"] = item['requestTime'] - item['totalServerTime'];
+      
+      averageResultsArrayCollection.itemUpdated(item);
+    }
+    
+    private function handleAverageResultsFault(event:FaultEvent, token:Object):void
+    {
+      //trace('fault');
+    }
+    
+    private function getAverageResultsItem(testId:String):Object
+    {
+      var averageResultsItem:Object;
+      
+      for each (var item:Object in averageResultsArrayCollection)
+      {
+        if (item.id == testId)
+        {
+          averageResultsItem = item;
+          
+          return averageResultsItem;
+        }
+      }
+      
+      var newItem:Object = new Object();
+      newItem.id = testId;
+      
+      for each (var t:Object in tests)
+      {
+        if (t.id == testId)
+        {
+          newItem.name = t.name;
+        }
+      }
+      averageResultsArrayCollection.addItemAt(newItem, 0);
+      return getAverageResultsItem(testId);
+    }
+    
+    private function resetResult(result:Object):void
+    {
+      result.gzip = enableGZip.selected;
+      result.numRows = numRows.value;
+      result.totalServerTime = 0;
+      result.transferTime = 0;
+      result.totalServerTime = 0;
+      result.requestTime = 0;
+      result.parseTime = 0;
+      result.renderTime = 0;
+      result.contentLength = 0;
+      result.memorySize = 0;
     }
     ]]>
   </mx:Script>
@@ -182,18 +234,24 @@
   <mx:String id="currentTheme"/>
 
   <mx:ArrayCollection id="tests"/>
-  
-  <mx:ArrayCollection id="results"/>
 
   <census2:ChannelConfig id="channelConfig">
     <census2:message>
       updateResult(event.message.body.testId,  event.message.body.resultType, new Number(event.message.body.resultData));
     </census2:message>
+    <census2:setup>
+      fetchAverageResults();
+    </census2:setup>
   </census2:ChannelConfig>
 
   <mx:HTTPService id="srv" url="tests.xml">
     <mx:result>
       tests = event.result.tests.test;
+      for each (var test:Object in tests)
+      {
+        resetResults(test);
+      }
+      fetchAverageResults();
     </mx:result>
   </mx:HTTPService>
 
@@ -207,8 +265,8 @@
       <mx:Spacer height="10"/>
       <mx:HBox width="90%" verticalAlign="middle" horizontalAlign="center" horizontalGap="3">
         <mx:Label text="Rows" paddingTop="2"/>
-        <controls:MyNumericStepper id="numRows" minimum="500" maximum="100000" stepSize="500" value="5000" useHandCursor="true" buttonMode="true" height="26" width="70" textIndent="0" textAlign="right"/>
-        <mx:CheckBox id="enableGZip" label="GZip" labelPlacement="left" width="55" height="100%" selected="true" useHandCursor="true" buttonMode="true" mouseChildren="false"/>
+        <controls:MyNumericStepper id="numRows" minimum="1000" maximum="100000" stepSize="1000" value="5000" useHandCursor="true" buttonMode="true" height="26" width="70" textIndent="0" textAlign="right" change="fetchAverageResults()"/>
+        <mx:CheckBox id="enableGZip" label="GZip" labelPlacement="left" width="55" height="100%" selected="true" useHandCursor="true" buttonMode="true" mouseChildren="false" change="fetchAverageResults()"/>
         <mx:Button id="runButton" height="26" label="Execute" icon="@Embed(source='assets/rightIcon.png')"
                    enabled="{testList.selectedItem != null}" useHandCursor="{testList.selectedItem != null}" buttonMode="true"
                    paddingLeft="6" toolTip="Select a test to run">
@@ -224,7 +282,7 @@
           <mx:Component>
             <mx:HBox paddingTop="0" paddingBottom="0" verticalScrollPolicy="off" horizontalScrollPolicy="off"
               useHandCursor="true" buttonMode="true" mouseChildren="false" backgroundAlpha="0.000001" backgroundColor="#ffffff">
-              <mx:Label text="{data.name}" fontSize="10" width="80" styleName="listItem" fontWeight="bold"/>
+              <mx:Label text="{data.name}" fontSize="10" width="90" styleName="listItem" fontWeight="bold"/>
               <mx:Label text="{data.description}" fontSize="10"/>
             </mx:HBox>
           </mx:Component>
@@ -242,43 +300,25 @@
     <mx:VBox width="100%" height="100%" horizontalAlign="center" verticalGap="0" paddingTop="40" paddingLeft="0" paddingRight="20" paddingBottom="10">
       <mx:HRule width="100%"/>
       <mx:Spacer height="10"/>
-      <mx:Canvas id="myTabs" width="100%" height="50%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
-        <!-- Really hacky way to make my own TabNavigator -->
-        <mx:TabBar id="tabBar" width="100%" selectedIndex="0" horizontalGap="2" top="0">
-          <mx:dataProvider>
-            <mx:String>Intro Video</mx:String>
-            <mx:String>Performance</mx:String>
-            <mx:String>Transfer Size</mx:String>
-            <mx:String>Client-side Memory</mx:String>
-          </mx:dataProvider>
-          <mx:creationComplete>
-            for each (var c:UIComponent in tabBar.getChildren())
-            {
-              c.buttonMode = true;
-              c.useHandCursor = true;
-            }
-          </mx:creationComplete>
-          <mx:updateComplete>
-            leftSideBorder.width = tabBar.getChildAt(tabBar.selectedIndex).x;
-            
-            rightSideBorder.x = tabBar.getChildAt(tabBar.selectedIndex).x + tabBar.getChildAt(tabBar.selectedIndex).width - 1;
-            rightSideBorder.width = tabBar.width - rightSideBorder.x - 1;
-          </mx:updateComplete>
-          <mx:itemClick>
-            switchTab(tabBar.selectedIndex);
-          </mx:itemClick>
-        </mx:TabBar>
-        <mx:ViewStack id="tabStack" width="100%" height="{myTabs.height - tabBar.height + 3}" styleName="leftInnerContainerNoTopBorder" bottom="0">
-          <mx:Canvas width="100%" height="100%">
-            
-          </mx:Canvas>
-          <views:RecordsPerSecondChartView id="recordsPerSecondChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" dataProvider="{chartArrayCollection}"/>
-          <views:TransferSizeChartView id="transferSizeChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" dataProvider="{chartArrayCollection}"/>
-          <views:ClientSideMemoryChartView id="clientSideMemoryChartView" width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" dataProvider="{chartArrayCollection}"/>
-        </mx:ViewStack>
-        <mx:HRule id="leftSideBorder" styleName="tabDivider" y="{tabBar.height - 3}" x="1"/>
-        <mx:HRule id="rightSideBorder" styleName="tabDivider" y="{tabBar.height - 3}"/>
-      </mx:Canvas>
+      <mx:VBox id="myTabs" width="100%" height="50%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+        <mx:HBox width="100%" horizontalAlign="center">
+          <controls:ChartLegendCombo id="clc" charts="{[recordsPerSecondChartView, transferSizeChartView, clientSideMemoryChartView]}">
+            <controls:change>
+            chartsVBox.y = (recordsPerSecondChartView.height * -1 * clc.selectedIndex);
+            </controls:change>
+          </controls:ChartLegendCombo>
+          <mx:RadioButtonGroup id="resultType" selectedValue="AverageResults" change="switchChartArrayCollection()"/>
+          <mx:RadioButton groupName="resultType" id="averageResults" value="AverageResults" label="Average Results" useHandCursor="true" buttonMode="true"/>
+          <mx:RadioButton groupName="resultType" id="yourResults" value="YourResults" label="Your Results" useHandCursor="true" buttonMode="true"/>
+        </mx:HBox>
+        <mx:Canvas id="chartsCanvas" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+          <mx:VBox id="chartsVBox" width="100%" height="{chartsCanvas.height * 3}" verticalGap="0" moveEffect="Move">
+            <views:RecordsPerSecondChartView id="recordsPerSecondChartView" width="100%" height="100%" dataProvider="{chartArrayCollection}"/>
+            <views:TransferSizeChartView id="transferSizeChartView" width="100%" height="100%" dataProvider="{chartArrayCollection}"/>
+            <views:ClientSideMemoryChartView id="clientSideMemoryChartView" width="100%" height="100%" dataProvider="{chartArrayCollection}"/>
+          </mx:VBox>
+        </mx:Canvas>
+      </mx:VBox>
       <mx:Spacer height="10"/>
       <mx:Box width="100%" height="50%" styleName="leftInnerContainer">
         <local:IFrame id="iframe" width="100%" height="100%" visible="true"/>

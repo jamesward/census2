@@ -28,7 +28,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   
   <mx:SeriesInterpolate id="interpolate"/>
       
-  <mx:BarChart id="bandwidthChart" width="100%" height="100%" dataProvider="{dataProvider}" showDataTips="true" dataTipFunction="TextFormatters.getBandwidthDataTip" verticalAxisRatio="1">
+  <mx:BarChart id="chart" width="100%" height="100%" dataProvider="{dataProvider}" showDataTips="true" dataTipFunction="TextFormatters.getBandwidthDataTip" verticalAxisRatio="1">
     
     <mx:backgroundElements>
       <charts:ChartBackgroundFill/>
@@ -51,7 +51,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     </mx:horizontalAxisRenderers>
 
     <mx:series>
-      <mx:BarSeries xField="contentLength" showDataEffect="{interpolate}" itemRenderer="com.jamesward.census2.charts.BarItemRenderer">
+      <mx:BarSeries xField="contentLength" displayName="Transfer Size" showDataEffect="{interpolate}" itemRenderer="com.jamesward.census2.charts.BarItemRenderer">
         <mx:fill>
           <mx:LinearGradient angle="90">
             <mx:entries>

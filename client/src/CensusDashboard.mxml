@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:census2="com.jamesward.census2.*" styleName="plain">
+  
+  <mx:Script>
+    import mx.rpc.AsyncToken;
+    import mx.rpc.AsyncResponder;
+    import mx.controls.Alert;
+    
+    import mx.rpc.events.ResultEvent;
+    import mx.rpc.events.FaultEvent;
+  </mx:Script>
+  
+  <census2:ChannelConfig id="channelConfig">
+    <census2:setup>
+      var token:AsyncToken = channelConfig.remoteObject.getAllResults();
+      token.addResponder(new AsyncResponder(function(resultEvent:ResultEvent, o:Object):void {
+        dg.dataProvider = resultEvent.result;
+      }, function(faultEvent:FaultEvent, o:Object):void {
+        Alert.show(faultEvent.fault.message, "Error");
+      }));
+    </census2:setup>
+  </census2:ChannelConfig>
+  
+  <mx:DataGrid id="dg" width="100%" height="100%">
+    <mx:columns>
+      <mx:DataGridColumn dataField="testId"/>
+      <mx:DataGridColumn dataField="ipAddress"/>
+      <mx:DataGridColumn dataField="gzip"/>
+      <mx:DataGridColumn dataField="numRows"/>
+      <mx:DataGridColumn dataField="contentLength"/>
+      <mx:DataGridColumn dataField="memorySize"/>
+      <mx:DataGridColumn dataField="totalServerTime"/>
+      <mx:DataGridColumn dataField="requestTime"/>
+      <mx:DataGridColumn dataField="parseTime"/>
+      <mx:DataGridColumn dataField="renderTime"/>
+    </mx:columns>
+  </mx:DataGrid>
+  
+</mx:Application>

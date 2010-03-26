@@ -29,6 +29,7 @@
   </compiler>
   <applications>
     <application path="census2.mxml"/>
+    <application path="CensusDashboard.mxml"/>
   </applications>
   <modules/>
   <buildCSSFiles>
