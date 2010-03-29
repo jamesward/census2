@@ -1,13 +1,60 @@
 package com.jamesward.census2.controls
 {
+  import flash.events.MouseEvent;
+  import flash.net.URLRequest;
+  import flash.net.navigateToURL;
   import flash.text.StyleSheet;
-
+  
   import mx.controls.Label;
 
   public class LabelLink extends Label
   {
     private var styleSheetValid:Boolean = false;
 
+    private var _label:String;
+    
+    private var _url:String;
+    
+    
+    public function LabelLink()
+    {
+      super();
+      
+      addEventListener(MouseEvent.CLICK, function(event:MouseEvent):void {
+        navigateToURL(new URLRequest(url));
+      });
+    }
+      
+    
+    public function set label(_label:String):void
+    {
+      this._label = _label;
+      
+      invalidateText();
+    }
+    
+    public function get label():String
+    {
+      return _label;
+    }
+    
+    public function set url(_url:String):void
+    {
+      this._url = _url;
+      
+      invalidateText();
+    }
+    
+    public function get url():String
+    {
+      return _url;
+    }
+    
+    private function invalidateText():void
+    {
+      this.htmlText = "<a href='" + url + "'>" + label + "</a>"; 
+    }
+    
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
     {
       super.updateDisplayList(unscaledWidth, unscaledHeight);

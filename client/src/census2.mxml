@@ -10,16 +10,18 @@
 
   <mx:Script>
     <![CDATA[
-    import mx.rpc.AsyncToken;
-    import mx.rpc.events.FaultEvent;
-    import mx.rpc.events.ResultEvent;
-    import mx.rpc.AsyncResponder;
-    import mx.managers.CursorManager;
-    import mx.core.UIComponent;
-    import mx.events.FlexEvent;
-    import mx.events.StyleEvent;
-    import mx.utils.ObjectUtil;
-    import mx.controls.Alert;
+      import com.jamesward.census2.utils.TextFormatters;
+      
+      import mx.controls.Alert;
+      import mx.core.UIComponent;
+      import mx.events.FlexEvent;
+      import mx.events.StyleEvent;
+      import mx.managers.CursorManager;
+      import mx.rpc.AsyncResponder;
+      import mx.rpc.AsyncToken;
+      import mx.rpc.events.FaultEvent;
+      import mx.rpc.events.ResultEvent;
+      import mx.utils.ObjectUtil;
     
     [Bindable]
     private var averageResultsArrayCollection:ArrayCollection = new ArrayCollection();
@@ -125,6 +127,8 @@
     
     private function switchChartArrayCollection():void
     {
+      cdp.close();
+      
       if (resultType.selection == averageResults)
       {
         chartArrayCollection = averageResultsArrayCollection;
@@ -212,6 +216,20 @@
       result.contentLength = 0;
       result.memorySize = 0;
     }
+      
+    public function selectChartItem(item:Object):void
+    {
+      if (item != null)
+      {
+        cdp.data = item.item;
+        
+        cdp.open();
+      }
+      else
+      {
+        cdp.close();
+      }
+    }
     ]]>
   </mx:Script>
 
@@ -293,9 +311,7 @@
         </mx:itemDoubleClick>
       </mx:List>
       <mx:Spacer height="10"/>
-      <controls:LabelLink>
-        <controls:htmlText><![CDATA[<a href="http://www.jamesward.com/blog/census" target="_blank">Learn more about Census</a>]]></controls:htmlText>
-      </controls:LabelLink>
+      <controls:LabelLink url="http://www.jamesward.com/blog/census" label="Learn more about Census"/>
     </mx:VBox>
     <mx:VBox width="100%" height="100%" horizontalAlign="center" verticalGap="0" paddingTop="40" paddingLeft="0" paddingRight="20" paddingBottom="10">
       <mx:HRule width="100%"/>
@@ -312,11 +328,15 @@
           <mx:RadioButton groupName="resultType" id="yourResults" value="YourResults" label="Your Results" useHandCursor="true" buttonMode="true"/>
         </mx:HBox>
         <mx:Canvas id="chartsCanvas" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+          
           <mx:VBox id="chartsVBox" width="100%" height="{chartsCanvas.height * 3}" verticalGap="0" moveEffect="Move">
             <views:RecordsPerSecondChartView id="recordsPerSecondChartView" width="100%" height="100%" dataProvider="{chartArrayCollection}"/>
             <views:TransferSizeChartView id="transferSizeChartView" width="100%" height="100%" dataProvider="{chartArrayCollection}"/>
             <views:ClientSideMemoryChartView id="clientSideMemoryChartView" width="100%" height="100%" dataProvider="{chartArrayCollection}"/>
           </mx:VBox>
+
+          <controls:ChartDataPopUp id="cdp" top="1" right="21"/>
+          
         </mx:Canvas>
       </mx:VBox>
       <mx:Spacer height="10"/>

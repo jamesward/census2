@@ -22,13 +22,29 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
   <mx:Script>
   import com.jamesward.census2.utils.TextFormatters;
+
+  import mx.charts.ChartItem;
+  import mx.core.Application;
   </mx:Script>
   
   <mx:ArrayCollection id="dataProvider"/>
   
   <mx:SeriesInterpolate id="interpolate"/>
       
-  <mx:BarChart id="chart" width="100%" height="100%" dataProvider="{dataProvider}" showDataTips="true" dataTipFunction="TextFormatters.getBandwidthDataTip" verticalAxisRatio="1">
+  <mx:BarChart id="chart" width="100%" height="100%" dataProvider="{dataProvider}" verticalAxisRatio="1"
+               selectionMode="single" gutterRight="20">
+    <!--
+    <mx:updateComplete>
+    Application.application.cdp.setStyle("top", chart.computedGutters.top + 1);
+    Application.application.cdp.setStyle("right", chart.computedGutters.right + 1);
+    Application.application.cdp.height = chart.height - chart.computedGutters.height - 2;
+    </mx:updateComplete>
+    -->
+    
+    <mx:change>
+      var c:ChartItem = chart.selectedChartItem;
+      Application.application.selectChartItem(c);
+    </mx:change>
     
     <mx:backgroundElements>
       <charts:ChartBackgroundFill/>

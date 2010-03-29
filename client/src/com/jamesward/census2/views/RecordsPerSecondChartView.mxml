@@ -17,11 +17,16 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 -->
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:charts="com.jamesward.census2.charts.*"
-  verticalScrollPolicy="off" horizontalScrollPolicy="off">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:charts="com.jamesward.census2.charts.*"
+  verticalScrollPolicy="off" horizontalScrollPolicy="off" xmlns:controls="com.jamesward.census2.controls.*">
 
   <mx:Script>
-  import com.jamesward.census2.utils.TextFormatters;
+    import com.jamesward.census2.controls.ChartDataPopUp;
+    import com.jamesward.census2.utils.TextFormatters;
+    
+    import mx.core.Application;
+    import mx.charts.ChartItem;
+    import mx.charts.events.ChartItemEvent;
   </mx:Script>
 
   <mx:ArrayCollection id="dataProvider"/>
@@ -29,11 +34,26 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   <mx:SeriesInterpolate id="interpolate"/>
   
   <mx:BarChart id="chart" width="100%" height="100%" dataProvider="{dataProvider}"
-    showDataTips="true" type="stacked" dataTipFunction="TextFormatters.getTimeDataTip" verticalAxisRatio="1" selectionMode="single">
+    showDataTips="false" type="stacked" verticalAxisRatio="1" selectionMode="multiple"
+    gutterRight="20">
     
-    <mx:itemClick>
+    <mx:updateComplete>
+      Application.application.cdp.height = chart.height - chart.computedGutters.height - 2;
+    </mx:updateComplete>
+    
+    <mx:change>
+      var c:ChartItem = chart.selectedChartItem;
       
-    </mx:itemClick>
+      if (c != null)
+      {
+        for each (var s:BarSeries in chart.series)
+        {
+          s.selectedIndex = c.index;
+        }
+      }
+      
+      Application.application.selectChartItem(c);
+    </mx:change>
     
     <mx:backgroundElements>
       <charts:ChartBackgroundFill/>
@@ -56,7 +76,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     </mx:horizontalAxisRenderers>
   
     <mx:series>
-      <mx:BarSeries xField="totalServerTime" showDataEffect="{interpolate}" displayName="Server Exec Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer" left="10">
+      <mx:BarSeries id="totalServerTimeSeries" xField="totalServerTime" showDataEffect="{interpolate}" displayName="Server Exec Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
+                    selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true">
         <mx:fill>
           <mx:LinearGradient angle="90">
             <mx:entries>
@@ -68,7 +89,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
           </mx:LinearGradient>
         </mx:fill>
       </mx:BarSeries>
-      <mx:BarSeries xField="transferTime" showDataEffect="{interpolate}" displayName="Transfer Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer">
+      <mx:BarSeries xField="transferTime" showDataEffect="{interpolate}" displayName="Transfer Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
+                    selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true" currentState="{totalServerTimeSeries.currentState}">
         <mx:fill>
           <mx:LinearGradient angle="90">
             <mx:entries>
@@ -80,7 +102,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
           </mx:LinearGradient>
         </mx:fill>
       </mx:BarSeries>
-      <mx:BarSeries xField="parseTime" showDataEffect="{interpolate}" displayName="Parse Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer">
+      <mx:BarSeries xField="parseTime" showDataEffect="{interpolate}" displayName="Parse Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
+                    selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true" currentState="{totalServerTimeSeries.currentState}">
         <mx:fill>
           <mx:LinearGradient angle="90">
             <mx:entries>
@@ -92,7 +115,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
           </mx:LinearGradient>
         </mx:fill>
       </mx:BarSeries>
-      <mx:BarSeries xField="renderTime" showDataEffect="{interpolate}" displayName="Render Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer">
+      <mx:BarSeries xField="renderTime" showDataEffect="{interpolate}" displayName="Render Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
+                    selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true" currentState="{totalServerTimeSeries.currentState}">
         <mx:fill>
           <mx:LinearGradient angle="90">
             <mx:entries>
@@ -106,4 +130,5 @@ with this program; if not, write to the Free Software Foundation, Inc.,
       </mx:BarSeries>
     </mx:series>
   </mx:BarChart>
-</mx:VBox>
+
+</mx:Canvas>

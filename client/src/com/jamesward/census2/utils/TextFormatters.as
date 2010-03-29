@@ -38,6 +38,10 @@ public class TextFormatters
     {
       return nf.format(n / 1000) + " KB";
     }
+    else if (n == 0)
+    {
+      return "n/a";
+    }
     else
     {
       return nf.format(n) + " B";
@@ -53,38 +57,48 @@ public class TextFormatters
     {
       return nf.format(n / 1000) + " s";
     }
+    else if (n == 0)
+    {
+      return "n/a";
+    }
     else
     {
       return nf.format(n) + " ms";
     }
   }
-
-  public static function getBandwidthDataTip(hitData:HitData):String
-  {
-    return "<b>" + hitData.item.name + " - " + hitData.item.numRows + " Rows</b>" +
-      "<br/>Transfer Size: " + byteFormat(hitData.item.contentLength) + 
-      "<br/><br/><b>Transfer Size Per Row: " + byteFormat(hitData.item.contentLength / hitData.item.numRows) + "</b>";
-  }
-
-  public static function getTimeDataTip(hitData:HitData):String
+  
+  private static function getRpsFormatter():NumberFormatter
   {
     var rpsFormatter:NumberFormatter = new NumberFormatter();
     rpsFormatter.useThousandsSeparator = true;
     rpsFormatter.precision = 0;
+    return rpsFormatter;
+  }
+  
+  private static function getTotalTime(item:Object):Number
+  {
+    var totalTime:Number = item.totalServerTime + item.transferTime + item.parseTime + item.renderTime;
+    return totalTime;
+  }
+
+  public static function getChartDetails(item:Object):String
+  {
+
+    var s:String = "<font size='20'><b>" + item.name + "</b></font>" +
+      "<br/><font size='16'><b>Rows: " + getRpsFormatter().format(item.numRows) + "</b></font>" +
+      "<br/><font size='16'><b>Gzip: " + item.gzip + "</b></font>";
     
-    var totalTime:Number = hitData.item.totalServerTime + hitData.item.transferTime + hitData.item.parseTime + hitData.item.renderTime;
-    
-    var s:String = "<b>" + hitData.item.name + " - " + hitData.item.numRows + " Rows</b>" +
-      "<br/>Gzip Enabled = " + hitData.item.gzip;
-    
-    if (totalTime > 0)
+    if (getTotalTime(item) > 0)
     {
-      s += "<br/>Server Exec Time: " + timeFormat(hitData.item.totalServerTime) +
-      "<br/>Transfer Time: " + timeFormat(hitData.item.transferTime) +
-      "<br/>Parse Time: " + timeFormat(hitData.item.parseTime) +
-      "<br/>Render Time: " + timeFormat(hitData.item.renderTime) +
-      "<br/>Total Time: " + timeFormat(totalTime) +
-      "<br/><br/><b>Rows Per Second: " + rpsFormatter.format((hitData.item.numRows / (totalTime) * 1000)) + "</b>";
+      s += "<br/><br/><font size='14'><b>" + getRpsFormatter().format((item.numRows / (getTotalTime(item)) * 1000)) + " rows/s</b></font>" + 
+      "<br/><font size='12'>Server Exec Time: " + timeFormat(item.totalServerTime) + "</font>" +
+      "<br/><font size='12'>Transfer Time: " + timeFormat(item.transferTime) + "</font>" +
+      "<br/><font size='12'>Parse Time: " + timeFormat(item.parseTime) + "</font>" +
+      "<br/><font size='12'>Render Time: " + timeFormat(item.renderTime) + "</font>" +
+      "<br/><font size='12'><b>Total Time: " + timeFormat(getTotalTime(item)) + "</b></font>" +      
+      "<br/><br/><font size='14'><b>" + byteFormat(item.contentLength / item.numRows) + "/row</b></font>" +
+      "<br/><font size='12'>Transfer Size: " + byteFormat(item.contentLength) + "</font>" +
+      "<br/><br/><font size='12'>Client memory: " + byteFormat(item.memorySize) +"</font>";
     }
     else
     {
@@ -92,14 +106,12 @@ public class TextFormatters
     }
     
     return s;
-      
   }
-
-  public static function getMemoryDataTip(hitData:HitData):String
+  
+  public static function getTweet(item:Object):String
   {
-    return "<b>" + hitData.item.name + " - " + hitData.item.numRows + " Rows</b>" +
-      "<br/>Memory: " + byteFormat(hitData.item.memorySize);
+    return "Just benchmarked " + item.name + " - " + getRpsFormatter().format(item.numRows) + " rows in " + timeFormat(getTotalTime(item)) + "! http://jamesward.com/census";
   }
-
-  }
+  
+}
 }

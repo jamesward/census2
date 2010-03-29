@@ -22,13 +22,20 @@ package com.jamesward.census2.charts
 import flash.display.Graphics;
 import flash.geom.Rectangle;
 
+import mx.charts.BarChart;
 import mx.charts.ChartItem;
 import mx.charts.chartClasses.GraphicsUtilities;
+import mx.charts.series.BarSeries;
 import mx.charts.series.items.BarSeriesItem;
 import mx.core.IDataRenderer;
+import mx.graphics.GradientEntry;
 import mx.graphics.IFill;
 import mx.graphics.IStroke;
+import mx.graphics.LinearGradient;
 import mx.skins.ProgrammaticSkin;
+import mx.utils.ColorUtil;
+import mx.utils.GraphicsUtil;
+import mx.utils.ObjectUtil;
 
 public class BarItemRenderer extends ProgrammaticSkin implements IDataRenderer
 {
@@ -58,7 +65,34 @@ public class BarItemRenderer extends ProgrammaticSkin implements IDataRenderer
   {
     super.updateDisplayList(unscaledWidth, unscaledHeight);
 
-    var fill:IFill = GraphicsUtilities.fillFromStyle(getStyle("fill"));
+    var fill:LinearGradient = GraphicsUtilities.fillFromStyle(getStyle("fill")) as LinearGradient;
+    
+    var customFill:LinearGradient = new LinearGradient();
+    customFill.angle = fill.angle;
+    customFill.entries = [new GradientEntry(fill.entries[0].color, fill.entries[0].ratio, fill.entries[0].alpha), new GradientEntry(fill.entries[1].color, fill.entries[1].ratio, fill.entries[1].alpha)];
+    
+    var state:String = "";
+    
+    if (_data is ChartItem)
+    {
+      state = _data.currentState;
+    }
+    
+    switch(state)
+    {
+      case ChartItem.FOCUSED:
+      case ChartItem.ROLLOVER:
+        customFill.entries[0].color = ColorUtil.adjustBrightness2(fill.entries[0].color, -15);
+        customFill.entries[1].color = ColorUtil.adjustBrightness2(fill.entries[1].color, -15);
+        
+        break;
+      case ChartItem.FOCUSEDSELECTED:
+      case ChartItem.SELECTED:
+        customFill.entries[0].color = ColorUtil.adjustBrightness2(fill.entries[0].color, -30);
+        customFill.entries[1].color = ColorUtil.adjustBrightness2(fill.entries[1].color, -30);
+        
+        break;
+    }
     
     var s:Number = 1;
     if (_data is BarSeriesItem)
@@ -93,16 +127,16 @@ public class BarItemRenderer extends ProgrammaticSkin implements IDataRenderer
 
     var g:Graphics = graphics;
     g.clear();
-    g.moveTo(rc.left,rc.top);
+    g.moveTo(rc.left, rc.top);
 
-    fill.begin(g,rc);
+    customFill.begin(g, rc);
     
-    g.lineTo(rc.right,rc.top);
-    g.lineTo(rc.right,rc.bottom);
-    g.lineTo(rc.left,rc.bottom);
-    g.lineTo(rc.left,rc.top);
+    g.lineTo(rc.right, rc.top);
+    g.lineTo(rc.right, rc.bottom);
+    g.lineTo(rc.left, rc.bottom);
+    g.lineTo(rc.left, rc.top);
 
-    fill.end(g);
+    customFill.end(g);
   }
 
 }

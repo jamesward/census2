@@ -20,13 +20,15 @@ package com.jamesward.census2.skins
 {
 
   import flash.display.GradientType;
+  
   import mx.controls.Button;
   import mx.core.UIComponent;
   import mx.skins.Border;
+  import mx.skins.ProgrammaticSkin;
   import mx.styles.StyleManager;
   import mx.utils.ColorUtil;
 
-  public class ButtonSkin extends Border
+  public class ButtonSkin extends ProgrammaticSkin
   {
 
     public function ButtonSkin()
