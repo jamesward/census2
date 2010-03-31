@@ -27,6 +27,22 @@ public class SendCensusResult extends HttpServlet
     String testId = request.getParameter("testId");
     String resultType = request.getParameter("resultType");
     
+    String ipAddress;
+    
+    if (request.getParameter("ipAddress") != null)
+    {
+      ipAddress = request.getParameter("ipAddress");
+    }
+    else if (request.getHeader("X-Forwarded-For") != null)
+    {
+      ipAddress = request.getHeader("X-Forwarded-For");
+    }
+    else
+    {
+      ipAddress = request.getRemoteAddr();
+    }
+    
+    
     Boolean gzip = false;
     
     if (request.getParameter("gzip").equals("true"))
@@ -47,7 +63,7 @@ public class SendCensusResult extends HttpServlet
     else
     {
       // save the results to DB
-      CensusResult newCensusResult = new CensusResult(request.getRemoteAddr(), testId, resultType, resultData, gzip, numRows);
+      CensusResult newCensusResult = new CensusResult(ipAddress, testId, resultType, resultData, gzip, numRows);
       
       ObjectContainer db4oServer = (ObjectContainer)getServletContext().getAttribute(Db4oServletContextListener.KEY_DB4O_SERVER);
       // check for dups - only allow one entry per IP per testId per resultType

@@ -44,7 +44,7 @@ public class TextFormatters
     }
     else if (n >= 1000)
     {
-      if ((n % 10) == 0)
+      if ((n % 1000) == 0)
       {
         nf.precision = 0;      
       }
@@ -72,7 +72,7 @@ public class TextFormatters
     
     if (n >= 1000)
     {
-      if ((n % 10) == 0)
+      if ((n % 1000) == 0)
       {
         nf.precision = 0;      
       }

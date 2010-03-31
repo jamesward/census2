@@ -52,7 +52,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     </mx:verticalAxisRenderers>
 
     <mx:horizontalAxis>
-      <mx:LinearAxis id="bcHA" labelFunction="TextFormatters.byteFormat"/>
+      <mx:LinearAxis id="bcHA" labelFunction="TextFormatters.byteFormat" minimum="0"/>
     </mx:horizontalAxis>
     
     <mx:horizontalAxisRenderers>
