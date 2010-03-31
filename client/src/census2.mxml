@@ -195,6 +195,8 @@
       //item["transferTime"] = item['requestTime'] - item['totalServerTime'];
       
       averageResultsArrayCollection.itemUpdated(item);
+      
+      updateSelectedChartItem();
     }
     
     private function handleAverageResultsFault(event:FaultEvent, token:Object):void
@@ -370,7 +372,7 @@
     <mx:VBox width="100%" height="100%" horizontalAlign="center" verticalGap="0" paddingTop="40" paddingLeft="0" paddingRight="20" paddingBottom="10">
       <mx:HRule width="100%"/>
       <mx:Spacer height="10"/>
-      <mx:VBox id="myTabs" width="100%" height="50%" verticalScrollPolicy="off" horizontalScrollPolicy="off" verticalGap="10">
+      <mx:VBox id="myTabs" width="100%" height="65%" verticalScrollPolicy="off" horizontalScrollPolicy="off" verticalGap="10">
         <mx:HBox width="100%" horizontalAlign="center">
           <controls:ChartLegendCombo id="clc" charts="{[recordsPerSecondChartView, transferSizeChartView, clientSideMemoryChartView]}">
             <controls:change>
@@ -394,7 +396,7 @@
         </mx:Canvas>
       </mx:VBox>
       <mx:Spacer height="10"/>
-      <mx:Box width="100%" height="50%" styleName="leftInnerContainer">
+      <mx:Box width="100%" height="35%" styleName="leftInnerContainer">
         <local:IFrame id="iframe" width="100%" height="100%" visible="true"/>
       </mx:Box>
     </mx:VBox>
