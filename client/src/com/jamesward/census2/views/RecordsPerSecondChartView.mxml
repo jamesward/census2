@@ -68,7 +68,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     </mx:verticalAxisRenderers>
 
     <mx:horizontalAxis>
-      <mx:LinearAxis id="lrtcHA" labelFunction="TextFormatters.timeFormat"/>
+      <mx:LinearAxis id="lrtcHA" labelFunction="TextFormatters.timeFormat" minimum="0"/>
     </mx:horizontalAxis>
 
     <mx:horizontalAxisRenderers>
@@ -76,21 +76,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     </mx:horizontalAxisRenderers>
   
     <mx:series>
-      <mx:BarSeries id="totalServerTimeSeries" xField="totalServerTime" showDataEffect="{interpolate}" displayName="Server Exec Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
+      <mx:BarSeries xField="requestTime" showDataEffect="{interpolate}" displayName="Request Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
                     selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true">
-        <mx:fill>
-          <mx:LinearGradient angle="90">
-            <mx:entries>
-              <mx:Array>
-                <mx:GradientEntry color="#e28741" ratio="0" alpha="100"/>
-                <mx:GradientEntry color="#c6691c" ratio="1" alpha="100"/>
-              </mx:Array>
-            </mx:entries>
-          </mx:LinearGradient>
-        </mx:fill>
-      </mx:BarSeries>
-      <mx:BarSeries xField="transferTime" showDataEffect="{interpolate}" displayName="Transfer Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
-                    selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true" currentState="{totalServerTimeSeries.currentState}">
         <mx:fill>
           <mx:LinearGradient angle="90">
             <mx:entries>
@@ -103,7 +90,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
         </mx:fill>
       </mx:BarSeries>
       <mx:BarSeries xField="parseTime" showDataEffect="{interpolate}" displayName="Parse Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
-                    selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true" currentState="{totalServerTimeSeries.currentState}">
+                    selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true">
         <mx:fill>
           <mx:LinearGradient angle="90">
             <mx:entries>
@@ -116,7 +103,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
         </mx:fill>
       </mx:BarSeries>
       <mx:BarSeries xField="renderTime" showDataEffect="{interpolate}" displayName="Render Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
-                    selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true" currentState="{totalServerTimeSeries.currentState}">
+                    selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true">
         <mx:fill>
           <mx:LinearGradient angle="90">
             <mx:entries>

@@ -12,6 +12,8 @@
     <![CDATA[
       import com.jamesward.census2.utils.TextFormatters;
       
+      import mx.charts.BarChart;
+      import mx.charts.series.BarSeries;
       import mx.controls.Alert;
       import mx.core.UIComponent;
       import mx.events.FlexEvent;
@@ -31,6 +33,8 @@
     
     [Bindable]
     private var chartArrayCollection:ArrayCollection = averageResultsArrayCollection;
+      
+    private var selectedChartIndex:Number = -1;
     
 
     private function changeTheme(theme:String):void
@@ -79,6 +83,7 @@
     
     private function updateResult(testId:String, resultType:String, resultValue:Number):void
     {
+      var i:uint = 0;
       for each (var result:Object in yourResultsArrayCollection)
       {
         if (result.id == testId)
@@ -88,13 +93,20 @@
           {
             result[resultType] = resultValue;
           
-            if (result['requestTime'] && result['totalServerTime'])
+            if ((result['requestTime'] != -1) && (result['parseTime'] != -1) && (result['renderTime'] != -1) && (result['contentLength'] != -1))
             {
               // calc transfer time
-              updateResult(testId, "transferTime", result['requestTime'] - result['totalServerTime']);
+              //updateResult(testId, "transferTime", result['requestTime'] - result['totalServerTime']);
               
               // assume we are done
               CursorManager.removeBusyCursor();
+              
+              // select the chart item
+              selectedChartIndex = i;
+              
+              updateSelectedChartItem();
+              
+              cdp.open();
               
               // refresh average results
               fetchAverageResults();
@@ -106,6 +118,8 @@
           
           break;
         }
+        
+        i++;
       }
     }
     
@@ -127,15 +141,28 @@
     
     private function switchChartArrayCollection():void
     {
-      cdp.close();
+      var switched:Boolean = false;
       
       if (resultType.selection == averageResults)
       {
-        chartArrayCollection = averageResultsArrayCollection;
+        if (chartArrayCollection != averageResultsArrayCollection)
+        {
+          chartArrayCollection = averageResultsArrayCollection;
+          switched = true;
+        }
       }
       else if (resultType.selection == yourResults)
       {
-        chartArrayCollection = yourResultsArrayCollection;
+        if (chartArrayCollection != yourResultsArrayCollection)
+        {
+          chartArrayCollection = yourResultsArrayCollection;
+          switched = true;
+        }
+      }
+      
+      if (switched)
+      {
+        cdp.close();
       }
     }
     
@@ -165,7 +192,7 @@
       {
         item[resultType] = event.result[resultType];
       }
-      item["transferTime"] = item['requestTime'] - item['totalServerTime'];
+      //item["transferTime"] = item['requestTime'] - item['totalServerTime'];
       
       averageResultsArrayCollection.itemUpdated(item);
     }
@@ -207,27 +234,54 @@
     {
       result.gzip = enableGZip.selected;
       result.numRows = numRows.value;
-      result.totalServerTime = 0;
-      result.transferTime = 0;
-      result.totalServerTime = 0;
-      result.requestTime = 0;
-      result.parseTime = 0;
-      result.renderTime = 0;
-      result.contentLength = 0;
-      result.memorySize = 0;
+      //result.totalServerTime = 0;
+      //result.transferTime = 0;
+      //result.totalServerTime = 0;
+      result.requestTime = -1;
+      result.parseTime = -1;
+      result.renderTime = -1;
+      result.contentLength = -1;
+      result.memorySize = -1;
     }
       
     public function selectChartItem(item:Object):void
     {
       if (item != null)
       {
-        cdp.data = item.item;
+        selectedChartIndex = item.index;
         
         cdp.open();
       }
       else
       {
+        selectedChartIndex = -1;
+        
         cdp.close();
+      }
+      
+      updateSelectedChartItem();
+    }
+    
+    private function updateSelectedChartItem():void
+    {
+      if (selectedChartIndex != -1)
+      {
+        for each (var chart:BarChart in [recordsPerSecondChartView.chart, transferSizeChartView.chart, clientSideMemoryChartView.chart])
+        {
+          for each (var s:BarSeries in chart.series)
+          {
+            s.selectedIndex = selectedChartIndex;
+          }
+        }
+        
+        cdp.data = chartArrayCollection.getItemAt(selectedChartIndex);
+      }
+      else
+      {
+        for each (var chart2:BarChart in [recordsPerSecondChartView.chart, transferSizeChartView.chart, clientSideMemoryChartView.chart])
+        {
+          chart2.clearSelection();
+        }
       }
     }
     ]]>
@@ -316,7 +370,7 @@
     <mx:VBox width="100%" height="100%" horizontalAlign="center" verticalGap="0" paddingTop="40" paddingLeft="0" paddingRight="20" paddingBottom="10">
       <mx:HRule width="100%"/>
       <mx:Spacer height="10"/>
-      <mx:VBox id="myTabs" width="100%" height="50%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+      <mx:VBox id="myTabs" width="100%" height="50%" verticalScrollPolicy="off" horizontalScrollPolicy="off" verticalGap="10">
         <mx:HBox width="100%" horizontalAlign="center">
           <controls:ChartLegendCombo id="clc" charts="{[recordsPerSecondChartView, transferSizeChartView, clientSideMemoryChartView]}">
             <controls:change>

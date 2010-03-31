@@ -20,7 +20,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
   click="handleArrowClick()"
   horizontalScrollPolicy="off"
-  width="520"
+  width="360"
+  height="26"
   mouseChildren="false" useHandCursor="true" buttonMode="true"
   >
 
@@ -89,7 +90,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
       _popup.setStyle("backgroundColor", getStyle("backgroundColor"));
       _popup.setStyle("borderStyle", "solid");
       _popup.setStyle("borderColor", getStyle("borderColor"));
-      _popup.setStyle("markerWidth", 15);
+      _popup.setStyle("markerWidth", 10);
+      _popup.setStyle("markerHeight", 10);
       _popup.horizontalScrollPolicy = "off";
       _popup.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE, closePopUp);
       _popup.addEventListener(FlexMouseEvent.MOUSE_WHEEL_OUTSIDE, closePopUp);
@@ -212,8 +214,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   
   <mx:Button id="b" width="100%" height="100%"/>
   
-  <mx:HBox width="100%" horizontalGap="0" verticalAlign="middle">
-    <mx:Legend id="legend" direction="horizontal" markerWidth="15" width="100%"/>
+  <mx:HBox width="100%" horizontalGap="0" verticalAlign="middle" verticalCenter="0">
+    <mx:Legend id="legend" direction="horizontal" markerWidth="10" markerHeight="10" width="100%" height="100%"/>
 
     <mx:UIComponent id="arrow" width="20" height="20">
       <mx:creationComplete>

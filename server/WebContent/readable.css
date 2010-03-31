@@ -226,38 +226,6 @@ TextInput
   borderStyle: solid;
 }
 
-TabBar
-{
-   tabStyleName: "myTabs";
-   firstTabStyleName: "myTabs";
-   lastTabStyleName: "myTabs";
-}
-
-.myTabs
-{
-  fontSize: 10;
-  fontWeight: bold;
-  textRollOverColor: #222222;
-  textSelectedColor: #222222;
-  disabledColor: #d7d7d7;
-  skin: ClassReference("com.jamesward.census2.skins.ButtonSkin");
-  upBorderColor: #dadada;
-  upInnerBorderGradientColors: #ebebeb, #f4f4f4;
-  upBackgroundGradientColors: #c6c6c6, #ececec;
-  overBorderColor: #dadada;
-  overInnerBorderGradientColors: #ebebeb, #f4f4f4;
-  overBackgroundGradientColors: #e9e9e9;
-  disabledBorderColor: #dadada;
-  disabledInnerBorderGradientColors: #ebebeb, #f4f4f4;
-  disabledBackgroundGradientColors: #d6d6d6, #fcfcfc;
-}
-
-.tabDivider
-{
-  strokeWidth: 1;
-  strokeColor: #dadada;
-}
-
 StyledAxisRenderer
 {
   showLine: false;
@@ -276,4 +244,10 @@ ChartLegendCombo
   backgroundColor: #eaeaea;
   borderColor: #d4d4d4;
   rollOverColor: #c9c9c9;
+}
+
+ChartDataPopUp
+{
+  backgroundColor: #e1e1e1;
+  borderColor: #d4d4d4;
 }

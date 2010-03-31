@@ -28,22 +28,39 @@ public class TextFormatters
   public static function byteFormat(labelValue:Object, previousValue:Object=null, axis:IAxis=null):String
   {
     var nf:NumberFormatter = new NumberFormatter();
-    nf.precision = 1;
     var n:Number = new Number(labelValue);
+    
     if (n >= 1000000)
     {
+      if ((Math.floor(n / 100000) % 10) == 0)
+      {
+        nf.precision = 0;      
+      }
+      else
+      {
+        nf.precision = 1;
+      }
       return nf.format(n / 1000000) + " MB";
     }
     else if (n >= 1000)
     {
+      if ((n % 10) == 0)
+      {
+        nf.precision = 0;      
+      }
+      else
+      {
+        nf.precision = 1;
+      }
       return nf.format(n / 1000) + " KB";
     }
-    else if (n == 0)
+    else if (n == -1)
     {
       return "n/a";
     }
     else
     {
+      nf.precision = 0;
       return nf.format(n) + " B";
     }
   }
@@ -51,18 +68,27 @@ public class TextFormatters
   public static function timeFormat(labelValue:Object, previousValue:Object=null, axis:IAxis=null):String
   {
     var nf:NumberFormatter = new NumberFormatter();
-    nf.precision = 1;
     var n:Number = new Number(labelValue);
+    
     if (n >= 1000)
     {
+      if ((n % 10) == 0)
+      {
+        nf.precision = 0;      
+      }
+      else
+      {
+        nf.precision = 1;
+      }
       return nf.format(n / 1000) + " s";
     }
-    else if (n == 0)
+    else if (n == -1)
     {
       return "n/a";
     }
     else
     {
+      nf.precision = 0;
       return nf.format(n) + " ms";
     }
   }
@@ -77,7 +103,7 @@ public class TextFormatters
   
   private static function getTotalTime(item:Object):Number
   {
-    var totalTime:Number = item.totalServerTime + item.transferTime + item.parseTime + item.renderTime;
+    var totalTime:Number = item.requestTime + item.parseTime + item.renderTime;
     return totalTime;
   }
 
@@ -91,14 +117,13 @@ public class TextFormatters
     if (getTotalTime(item) > 0)
     {
       s += "<br/><br/><font size='14'><b>" + getRpsFormatter().format((item.numRows / (getTotalTime(item)) * 1000)) + " rows/s</b></font>" + 
-      "<br/><font size='12'>Server Exec Time: " + timeFormat(item.totalServerTime) + "</font>" +
-      "<br/><font size='12'>Transfer Time: " + timeFormat(item.transferTime) + "</font>" +
-      "<br/><font size='12'>Parse Time: " + timeFormat(item.parseTime) + "</font>" +
-      "<br/><font size='12'>Render Time: " + timeFormat(item.renderTime) + "</font>" +
-      "<br/><font size='12'><b>Total Time: " + timeFormat(getTotalTime(item)) + "</b></font>" +      
-      "<br/><br/><font size='14'><b>" + byteFormat(item.contentLength / item.numRows) + "/row</b></font>" +
-      "<br/><font size='12'>Transfer Size: " + byteFormat(item.contentLength) + "</font>" +
-      "<br/><br/><font size='12'>Client memory: " + byteFormat(item.memorySize) +"</font>";
+        "<br/><font size='12'>Request Time: " + timeFormat(item.requestTime) + "</font>" +
+        "<br/><font size='12'>Parse Time: " + timeFormat(item.parseTime) + "</font>" +
+        "<br/><font size='12'>Render Time: " + timeFormat(item.renderTime) + "</font>" +
+        "<br/><font size='12'><b>Total Time: " + timeFormat(getTotalTime(item)) + "</b></font>" +      
+        "<br/><br/><font size='14'><b>" + byteFormat(item.contentLength / item.numRows) + "/row</b></font>" +
+        "<br/><font size='12'>Transfer Size: " + byteFormat(item.contentLength) + "</font>" +
+        "<br/><br/><font size='12'>Client memory: " + byteFormat(item.memorySize) +"</font>";
     }
     else
     {

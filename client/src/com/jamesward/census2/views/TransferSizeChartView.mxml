@@ -32,14 +32,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   <mx:SeriesInterpolate id="interpolate"/>
       
   <mx:BarChart id="chart" width="100%" height="100%" dataProvider="{dataProvider}" verticalAxisRatio="1"
-               selectionMode="single" gutterRight="20">
-    <!--
-    <mx:updateComplete>
-    Application.application.cdp.setStyle("top", chart.computedGutters.top + 1);
-    Application.application.cdp.setStyle("right", chart.computedGutters.right + 1);
-    Application.application.cdp.height = chart.height - chart.computedGutters.height - 2;
-    </mx:updateComplete>
-    -->
+               selectionMode="multiple" gutterRight="20">
     
     <mx:change>
       var c:ChartItem = chart.selectedChartItem;
@@ -67,7 +60,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     </mx:horizontalAxisRenderers>
 
     <mx:series>
-      <mx:BarSeries xField="contentLength" displayName="Transfer Size" showDataEffect="{interpolate}" itemRenderer="com.jamesward.census2.charts.BarItemRenderer">
+      <mx:BarSeries xField="contentLength" displayName="Transfer Size" showDataEffect="{interpolate}" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
+                    selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true">
         <mx:fill>
           <mx:LinearGradient angle="90">
             <mx:entries>
