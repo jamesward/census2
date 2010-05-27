@@ -21,10 +21,26 @@ Deployment instructions
   httpcore-4.0.1.jar
   httpmime-4.0.jar
 
-- deploy census2-tests.war
+- If updating make a backup copy of the census2.war/WEB-INF/db folder
 
-- deploy census2.war
+- export release build for flex projects
+
+- copy bin-release contents to WebContent folders
+
+- export war files
+
+- extract war files
+
+- update census2.war/WEB-INF/db
+
+- update permissions on census2.war/WEB-INF/db/census.db4o
+
+- update permissions on census2-tests.war/WEB-INF/db/census
 
 - update the deploy/census2.war/tests.xml file
 
 - update the deploy/census2.war/blazeds_config.xml file
+
+- deploy census2-tests.war
+
+- deploy census2.war

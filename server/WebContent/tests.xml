@@ -12,6 +12,12 @@
   	<description>Flex XML to AS Objects</description>
   </test>
   <test>
+  	<id>flex_xml_e4x</id>
+  	<name>Flex XML E4X</name>
+  	<url>http://localhost:8080/census2-tests/flex_xml_e4x.html</url>
+  	<description>Flex XML to E4X</description>
+  </test>
+  <test>
   	<id>flex_soap_as</id>
   	<name>Flex SOAP AS</name>
   	<url>http://localhost:8080/census2-tests/flex_soap_as.html</url>
@@ -23,10 +29,38 @@
   	<url>http://localhost:8080/census2-tests/flex_soap_e4x.html</url>
   	<description>Flex SOAP to E4X</description>
   </test>
+  <!--
   <test>
   	<id>ajax_html</id>
   	<name>Ajax HTML</name>
   	<url>http://localhost:8080/census2-tests/ajax_html.html</url>
-  	<description>HTML Table via Ajax</description>
+  	<description>HTML Table via Plain Ajax</description>
   </test>
+  <test>
+  	<id>ajax_json</id>
+  	<name>Ajax JSON</name>
+  	<url>http://localhost:8080/census2-tests/ajax_json.html</url>
+  	<description>HTML Table via Ajax JSON</description>
+  </test>
+  -->
+  <test>
+  	<id>silverlight_xml</id>
+  	<name>Silverlight XML</name>
+  	<url>http://localhost:8080/census2-tests/silverlight_xml.html</url>
+  	<description>Silverlight via XML</description>
+  </test>
+  <test>
+  	<id>dojo_json</id>
+  	<name>Dojo JSON</name>
+  	<url>http://localhost:8080/census2-tests/dojo_json.html</url>
+  	<description>Dojo Grid via JSON</description>
+  </test>
+  <!--
+  <test>
+    <id>flex_amf3_paged</id>
+    <name>Flex AMF3 Paged</name>
+    <url>http://localhost:8080/census2-tests/flex_amf3.html</url>
+    <description>Flex AMF3 w/ Paging</description>
+  </test>
+  -->
 </tests>

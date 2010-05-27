@@ -19,6 +19,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 <html>
 	<head>
 		<script type="text/javascript" src="querystring.js"></script>
+	  <script type="text/javascript">
+	  var qs = new Querystring();
+	  
+	  var headID = document.getElementsByTagName("head")[0];         
+	  var cssNode = document.createElement('link');
+	  cssNode.type = 'text/css';
+	  cssNode.rel = 'stylesheet';
+	  cssNode.href = qs.get("theme") + ".css";
+	  cssNode.media = 'screen';
+	  headID.appendChild(cssNode);
+	  </script>
 	  <style>
 		html, body
 		{
@@ -29,17 +40,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 		}
 	  </style>
 	</head>
-  <script type="text/javascript">
-  var qs = new Querystring();
-  
-  var headID = document.getElementsByTagName("head")[0];         
-  var cssNode = document.createElement('link');
-  cssNode.type = 'text/css';
-  cssNode.rel = 'stylesheet';
-  cssNode.href = qs.get("theme") + ".css";
-  cssNode.media = 'screen';
-  headID.appendChild(cssNode);
-  </script>
   <body class="leftInnerContainer">
 	  <center>
 	  	<table height="100%">

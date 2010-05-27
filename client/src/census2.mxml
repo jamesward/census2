@@ -339,7 +339,17 @@
       <mx:Spacer height="10"/>
       <mx:HBox width="90%" verticalAlign="middle" horizontalAlign="center" horizontalGap="3">
         <mx:Label text="Rows" paddingTop="2"/>
-        <controls:MyNumericStepper id="numRows" minimum="1000" maximum="100000" stepSize="1000" value="5000" useHandCursor="true" buttonMode="true" height="26" width="70" textIndent="0" textAlign="right" change="fetchAverageResults()"/>
+        <controls:MyNumericStepper id="numRows" minimum="1000" maximum="100000" stepSize="1000" value="5000" useHandCursor="true" buttonMode="true" height="26" width="70" textIndent="0" textAlign="right" change="fetchAverageResults()">
+          <controls:keyDown>
+            <![CDATA[
+            if (((event as KeyboardEvent).keyCode == Keyboard.ENTER) && (testList.selectedItem != null))
+            {
+              resetResults(testList.selectedItem);
+              startTest(testList.selectedItem);
+            }
+            ]]>
+          </controls:keyDown>
+        </controls:MyNumericStepper>
         <mx:CheckBox id="enableGZip" label="GZip" labelPlacement="left" width="55" height="100%" selected="true" useHandCursor="true" buttonMode="true" mouseChildren="false" change="fetchAverageResults()"/>
         <mx:Button id="runButton" height="26" label="Execute" icon="@Embed(source='assets/rightIcon.png')"
                    enabled="{testList.selectedItem != null}" useHandCursor="{testList.selectedItem != null}" buttonMode="true"
@@ -397,7 +407,7 @@
       </mx:VBox>
       <mx:Spacer height="10"/>
       <mx:Box width="100%" height="35%" styleName="leftInnerContainer">
-        <local:IFrame id="iframe" width="100%" height="100%" visible="true"/>
+        <local:IFrame id="iframe" width="100%" height="100%" visible="true" creationComplete="iframe.visible = true"/>
       </mx:Box>
     </mx:VBox>
   </mx:HBox>
