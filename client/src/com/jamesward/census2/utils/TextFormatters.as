@@ -30,7 +30,7 @@ public class TextFormatters
     var nf:NumberFormatter = new NumberFormatter();
     var n:Number = new Number(labelValue);
     
-    if (n >= 1000000)
+    if (n >= 1048576)
     {
       if ((Math.floor(n / 100000) % 10) == 0)
       {
@@ -40,9 +40,9 @@ public class TextFormatters
       {
         nf.precision = 1;
       }
-      return nf.format(n / 1000000) + " MB";
+      return nf.format(n / 1048576) + " MB";
     }
-    else if (n >= 1000)
+    else if (n >= 1024)
     {
       if ((n % 1000) == 0)
       {
@@ -52,7 +52,7 @@ public class TextFormatters
       {
         nf.precision = 1;
       }
-      return nf.format(n / 1000) + " KB";
+      return nf.format(n / 1024) + " KB";
     }
     else if (n == -1)
     {
@@ -110,7 +110,7 @@ public class TextFormatters
   public static function getChartDetails(item:Object):String
   {
 
-    var s:String = "<font size='20'><b>" + item.name + "</b></font>" +
+    var s:String = "<font size='18'><b>" + item.name + "</b></font>" +
       "<br/><font size='16'><b>Rows: " + getRpsFormatter().format(item.numRows) + "</b></font>" +
       "<br/><font size='16'><b>Gzip: " + item.gzip + "</b></font>";
     

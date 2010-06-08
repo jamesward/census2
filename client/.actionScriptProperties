@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties mainApplicationPath="census2.mxml" version="3">
-  <compiler additionalCompilerArguments="-locale en_US -licenses.license flexbuilder3 137740017147979634978523" copyDependentFiles="true" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersion="9.0.28" htmlPlayerVersionCheck="false" outputFolderLocation="/home/jamesw/projects/census2/server/WebContent" outputFolderPath="bin-debug" rootURL="http://localhost:8080/census2/index.html?" sourceFolderPath="src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
+<actionScriptProperties mainApplicationPath="census2.mxml" projectUUID="157f6f73-9419-4dc1-9a20-5c3fa1039a2f" version="6">
+  <compiler additionalCompilerArguments="-locale en_US -licenses.license flexbuilder3 137740017147979634978523" autoRSLOrdering="false" copyDependentFiles="true" flexSDK="Flex 3.5" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="false" includeNetmonSwc="false" outputFolderLocation="/home/jamesw/projects/census2/server/WebContent" outputFolderPath="bin-debug" rootURL="http://localhost:8080/census2/index.html?" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="3">
-      <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/player/9/playerglobal.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="4" path="">
         <modifiedEntries>
-          <libraryPathEntry index="4" kind="3" linkType="4" path="${PROJECT_FRAMEWORKS}/libs/rpc.swc" useDefaultLinkType="true">
+          <libraryPathEntry kind="3" linkType="4" path="${PROJECT_FRAMEWORKS}/libs/rpc.swc" useDefaultLinkType="true">
             <crossDomainRsls>
               <crossDomainRslEntry autoExtract="true" policyFileUrl="" rslUrl="rpc_3.5.0.12683.swz"/>
               <crossDomainRslEntry autoExtract="true" policyFileUrl="" rslUrl="rpc_3.5.0.12683.swf"/>
             </crossDomainRsls>
           </libraryPathEntry>
-          <libraryPathEntry kind="3" linkType="4" path="${PROJECT_FRAMEWORKS}/libs/datavisualization.swc" useDefaultLinkType="true">
+          <libraryPathEntry kind="3" linkType="4" path="${PROJECT_FRAMEWORKS}/libs/datavisualization.swc" sourcepath="${PROJECT_FRAMEWORKS}/projects/datavisualization/src" useDefaultLinkType="true">
             <crossDomainRsls>
               <crossDomainRslEntry autoExtract="true" policyFileUrl="" rslUrl="datavisualization_3.5.0.12683.swz"/>
               <crossDomainRslEntry autoExtract="true" policyFileUrl="" rslUrl="datavisualization_3.5.0.12683.swf"/>
@@ -25,7 +24,9 @@
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
     </libraryPath>
-    <sourceAttachmentPath/>
+    <sourceAttachmentPath>
+      <sourceAttachmentPathEntry kind="3" linkType="4" path="${PROJECT_FRAMEWORKS}/libs/datavisualization.swc" sourcepath="${PROJECT_FRAMEWORKS}/projects/datavisualization/src" useDefaultLinkType="true"/>
+    </sourceAttachmentPath>
   </compiler>
   <applications>
     <application path="census2.mxml"/>

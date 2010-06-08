@@ -125,6 +125,11 @@
     
     private function startTest(test:Object):void
     {
+      if (numRows.value > numRows.maximum)
+      {
+        numRows.value = numRows.maximum;
+      }
+        
       resetResults(test);
       
       iframe.source = test.url + "?clientId="+channelConfig.subtopic +
@@ -339,7 +344,7 @@
       <mx:Spacer height="10"/>
       <mx:HBox width="90%" verticalAlign="middle" horizontalAlign="center" horizontalGap="3">
         <mx:Label text="Rows" paddingTop="2"/>
-        <controls:MyNumericStepper id="numRows" minimum="1000" maximum="100000" stepSize="1000" value="5000" useHandCursor="true" buttonMode="true" height="26" width="70" textIndent="0" textAlign="right" change="fetchAverageResults()">
+        <controls:MyNumericStepper id="numRows" minimum="1000" maximum="100000" stepSize="1000" value="20000" useHandCursor="true" buttonMode="true" height="26" width="70" textIndent="0" textAlign="right" change="fetchAverageResults()">
           <controls:keyDown>
             <![CDATA[
             if (((event as KeyboardEvent).keyCode == Keyboard.ENTER) && (testList.selectedItem != null))
@@ -366,7 +371,7 @@
           <mx:Component>
             <mx:HBox paddingTop="0" paddingBottom="0" verticalScrollPolicy="off" horizontalScrollPolicy="off"
               useHandCursor="true" buttonMode="true" mouseChildren="false" backgroundAlpha="0.000001" backgroundColor="#ffffff">
-              <mx:Label text="{data.name}" fontSize="10" width="90" styleName="listItem" fontWeight="bold"/>
+              <mx:Label text="{data.name}" fontSize="10" width="100" styleName="listItem" fontWeight="bold"/>
               <mx:Label text="{data.description}" fontSize="10"/>
             </mx:HBox>
           </mx:Component>

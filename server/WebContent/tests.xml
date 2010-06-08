@@ -50,6 +50,12 @@
   	<description>Silverlight via XML</description>
   </test>
   <test>
+    <id>smartgwt_rpc</id>
+    <name>Smart GWT RPC</name>
+    <url>http://localhost:8080/census2-tests/Census2_gwt.html</url>
+    <description>Smart GWT via RPC</description>
+  </test>
+  <test>
   	<id>dojo_json</id>
   	<name>Dojo JSON</name>
   	<url>http://localhost:8080/census2-tests/dojo_json.html</url>

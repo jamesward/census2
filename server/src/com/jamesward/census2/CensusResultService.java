@@ -112,6 +112,7 @@ public class CensusResultService
       {
         CensusResult cr = rai.next();
         item.put(cr.getResultType(), cr.getResultData());
+        item.put("createDate", cr.getCreateDate());
       }
       
       allResults.add(item);
@@ -136,6 +137,20 @@ public class CensusResultService
     }
     
     return allRawResults;
+  }
+  
+  public void deleteResult(String ipAddress, String testId, Boolean gzip, Integer numRows)
+  {
+	  ObjectContainer db4oServer = (ObjectContainer)FlexContext.getServletContext().getAttribute(Db4oServletContextListener.KEY_DB4O_SERVER);
+	  CensusResult searchCensusResult = new CensusResult();
+	  searchCensusResult.setTestId(testId);
+	  searchCensusResult.setNumRows(numRows);
+	  searchCensusResult.setGzip(gzip);
+	  ObjectSet<CensusResult> results = db4oServer.queryByExample(searchCensusResult);
+	  for (CensusResult r : results)
+	  {
+		  db4oServer.delete(r);
+	  }
   }
   
 }
