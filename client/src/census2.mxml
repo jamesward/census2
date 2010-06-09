@@ -93,7 +93,7 @@
           {
             result[resultType] = resultValue;
           
-            if ((result['requestTime'] != -1) && (result['parseTime'] != -1) && (result['renderTime'] != -1) && (result['contentLength'] != -1))
+            if ( (!isNaN(result['requestTime'])) && (!isNaN(result['parseTime'])) && (!isNaN(result['renderTime'])) && (!isNaN(result['contentLength'])) )
             {
               // calc transfer time
               //updateResult(testId, "transferTime", result['requestTime'] - result['totalServerTime']);
@@ -125,6 +125,8 @@
     
     private function startTest(test:Object):void
     {
+      cursorManager.removeAllCursors();
+      
       if (numRows.value > numRows.maximum)
       {
         numRows.value = numRows.maximum;
@@ -244,11 +246,11 @@
       //result.totalServerTime = 0;
       //result.transferTime = 0;
       //result.totalServerTime = 0;
-      result.requestTime = -1;
-      result.parseTime = -1;
-      result.renderTime = -1;
-      result.contentLength = -1;
-      result.memorySize = -1;
+      result.requestTime = NaN;
+      result.parseTime = NaN;
+      result.renderTime = NaN;
+      result.contentLength = NaN;
+      result.memorySize = NaN;
     }
       
     public function selectChartItem(item:Object):void
