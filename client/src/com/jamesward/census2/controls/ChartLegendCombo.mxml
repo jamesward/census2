@@ -20,8 +20,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
   click="handleArrowClick()"
   horizontalScrollPolicy="off"
-  width="360"
-  height="26"
   mouseChildren="false" useHandCursor="true" buttonMode="true"
   >
 
@@ -108,6 +106,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
           l.percentWidth = 100;
           l.dataProvider = charts[i].chart;
           l.direction = "horizontal";
+          l.setStyle("horizontalGap", 10);
           l.addEventListener(MouseEvent.CLICK, popupClick);
           l.addEventListener(ResizeEvent.RESIZE, function(event:Event):void { _popup.width = event.currentTarget.width; });
           l.addEventListener(MouseEvent.ROLL_OVER, function(event:MouseEvent):void { event.currentTarget.setStyle("backgroundColor", getStyle("rollOverColor")); });
@@ -215,7 +214,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   <mx:Button id="b" width="100%" height="100%"/>
   
   <mx:HBox width="100%" horizontalGap="0" verticalAlign="middle" verticalCenter="0">
-    <mx:Legend id="legend" direction="horizontal" markerWidth="10" markerHeight="10" width="100%" height="100%"/>
+    <mx:Legend id="legend" direction="horizontal" markerWidth="10" markerHeight="10" width="100%" height="100%" horizontalGap="10"/>
 
     <mx:UIComponent id="arrow" width="20" height="20">
       <mx:creationComplete>

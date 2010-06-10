@@ -76,7 +76,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     </mx:horizontalAxisRenderers>
   
     <mx:series>
-      <mx:BarSeries xField="requestTime" showDataEffect="{interpolate}" displayName="Request Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
+      <mx:BarSeries xField="requestTime" showDataEffect="{interpolate}" displayName="Request" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
                     selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true">
         <mx:fill>
           <mx:LinearGradient angle="90">
@@ -89,7 +89,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
           </mx:LinearGradient>
         </mx:fill>
       </mx:BarSeries>
-      <mx:BarSeries xField="parseTime" showDataEffect="{interpolate}" displayName="Parse Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
+      <mx:BarSeries xField="parseTime" showDataEffect="{interpolate}" displayName="Parse" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
                     selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true">
         <mx:fill>
           <mx:LinearGradient angle="90">
@@ -102,7 +102,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
           </mx:LinearGradient>
         </mx:fill>
       </mx:BarSeries>
-      <mx:BarSeries xField="renderTime" showDataEffect="{interpolate}" displayName="Render Time" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
+      <mx:BarSeries xField="renderTime" showDataEffect="{interpolate}" displayName="Render" itemRenderer="com.jamesward.census2.charts.BarItemRenderer"
                     selectable="true" useHandCursor="true" mouseChildren="false" buttonMode="true">
         <mx:fill>
           <mx:LinearGradient angle="90">

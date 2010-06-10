@@ -93,7 +93,7 @@ public class TextFormatters
     }
   }
   
-  private static function getRpsFormatter():NumberFormatter
+  public static function getRpsFormatter():NumberFormatter
   {
     var rpsFormatter:NumberFormatter = new NumberFormatter();
     rpsFormatter.useThousandsSeparator = true;
