@@ -65,10 +65,12 @@
 		<url>http://localhost:8080/census2-tests/html5_datagrid.html</url>
 		<description>HTML5 DataGrid</description>
 	</test>
+	<!--
 	<test>
 		<id>flex_amf3_paged</id>
 		<name>Flex AMF3 Paged</name>
 		<url>http://localhost:8080/census2-tests/flex_amf3.html</url>
 		<description>Flex AMF3 w/ Paging</description>
 	</test>
+	-->
 </tests>

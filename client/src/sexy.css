@@ -20,6 +20,7 @@ global
 {
   themeColor: #292929;
   color: #bbbbbb;
+  fontSize: 12;
 }
 
 Application
@@ -50,15 +51,6 @@ Application
   borderColor: #252525;
   borderThickness: 1;
   borderStyle: solid;
-}
-
-.leftInnerContainerNoTopBorder
-{
-  backgroundColor: #151515;
-  borderColor: #252525;
-  borderThickness: 1;
-  borderStyle: solid;
-  borderSides: left,right,bottom;
 }
 
 .listItem

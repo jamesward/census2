@@ -3,6 +3,7 @@
                 xmlns:census2="com.jamesward.census2.*"
                 xmlns:controls="com.jamesward.census2.controls.*"
                 xmlns:views="com.jamesward.census2.views.*"
+                xmlns:charts="com.jamesward.census2.charts.*"
                 xmlns:local="*"
                 verticalScrollPolicy="off"
                 visible="false"
@@ -10,296 +11,123 @@
 
   <mx:Script>
     <![CDATA[
-      import com.jamesward.census2.utils.TextFormatters;
-      
-      import mx.charts.BarChart;
-      import mx.charts.series.BarSeries;
-      import mx.controls.Alert;
-      import mx.core.UIComponent;
-      import mx.events.FlexEvent;
-      import mx.events.StyleEvent;
-      import mx.managers.CursorManager;
-      import mx.rpc.AsyncResponder;
-      import mx.rpc.AsyncToken;
-      import mx.rpc.events.FaultEvent;
-      import mx.rpc.events.ResultEvent;
-      import mx.utils.ObjectUtil;
-    
-    [Bindable]
-    private var averageResultsArrayCollection:ArrayCollection = new ArrayCollection();
-    
-    [Bindable]
-    private var yourResultsArrayCollection:ArrayCollection = new ArrayCollection();
-    
-    [Bindable]
-    private var chartArrayCollection:ArrayCollection = averageResultsArrayCollection;
-      
-    private var selectedChartIndex:Number = -1;
-      
-    private var resultsViewType:String = "averageResults";
-    
+    import com.jamesward.census2.charts.CensusChartItemRenderer;
+    import com.jamesward.census2.core.Model;
+    import com.jamesward.census2.core.ResultVO;
+    import com.jamesward.census2.core.TestVO;
+    import com.jamesward.census2.utils.TextFormatters;
+
+    import mx.events.PropertyChangeEvent;
+    import mx.events.StyleEvent;
+    import mx.managers.CursorManager;
+    import mx.rpc.AsyncResponder;
+    import mx.rpc.AsyncToken;
+    import mx.rpc.events.FaultEvent;
+    import mx.rpc.events.ResultEvent;
 
     private function changeTheme(theme:String):void
     {
       currentTheme = theme;
       var eventDispatcher:IEventDispatcher = StyleManager.loadStyleDeclarations(currentTheme + ".swf");
-      eventDispatcher.addEventListener(StyleEvent.COMPLETE, function(event:StyleEvent):void {
-        
+      eventDispatcher.addEventListener(StyleEvent.COMPLETE, function(event:StyleEvent):void
+      {
+
         if (!visible)
         {
           visible = true;
         }
-        
+
         if ((iframe.source == null) || (iframe.source.indexOf("index_results.html") == 0))
         {
           iframe.source = "index_results.html" + "?theme=" + currentTheme;
         }
-        
-        // list selectionColor doesn't automatically update.  Force it!
-        testList.styleChanged("selectionColor");
       });
     }
-    
-    public function resetResults(test:Object):void
-    {
-      var resetDone:Boolean = false;
-      
-      for each (var result:Object in yourResultsArrayCollection)
-      {
-        if (result.id == test.id)
-        {
-          result.name = test.name;
-          resetResult(result);
-          
-          resetDone = true;
-          break;
-        }
-      }
-      
-      if (!resetDone)
-      {
-        yourResultsArrayCollection.addItemAt({id: test.id}, 0);
-        resetResults(test);
-      }
-    }
-    
+
     private function updateResult(testId:String, resultType:String, resultValue:Number):void
     {
-      var i:uint = 0;
-      for each (var result:Object in yourResultsArrayCollection)
+      var result:ResultVO = Model.getInstance().getResult(testId, numRows.value, enableGZip.selected);
+
+      // dirty check
+      if (result["user" + "_" + resultType] != resultValue)
       {
-        if (result.id == testId)
+        result["user" + "_" + resultType] = resultValue;
+
+        if ((!isNaN(result.user_requestTime)) && (!isNaN(result.user_parseTime)) && (!isNaN(result.user_renderTime)) && (!isNaN(result.user_contentLength)))
         {
-          // dirty check
-          if (result[resultType] != resultValue)
-          {
-            result[resultType] = resultValue;
-          
-            if ( (!isNaN(result['requestTime'])) && (!isNaN(result['parseTime'])) && (!isNaN(result['renderTime'])) && (!isNaN(result['contentLength'])) )
-            {
-              // calc transfer time
-              //updateResult(testId, "transferTime", result['requestTime'] - result['totalServerTime']);
-              
-              // assume we are done
-              CursorManager.removeBusyCursor();
-              
-              // select the chart item
-              selectedChartIndex = i;
-              
-              updateSelectedChartItem();
-              
-              cdp.open();
-              
-              // refresh average results
-              fetchAverageResults();
-            }
-          
-            //updateCharts();
-            yourResultsArrayCollection.itemUpdated(result);
-          }
-          
-          break;
+          // assume we are done
+          CursorManager.removeBusyCursor();
+
+          Model.getInstance().selectedResult = result;
+          Model.getInstance().selectedResultType = ResultVO.USER;
+
+          // refresh average results
+          fetchAverageResults();
         }
-        
-        i++;
       }
     }
-    
-    public function startTest(test:Object):void
+
+    public function startTest(test:TestVO):void
     {
       cursorManager.removeAllCursors();
-      
+
       if (numRows.value > numRows.maximum)
       {
         numRows.value = numRows.maximum;
       }
-        
-      resetResults(test);
-      
-      iframe.source = test.url + "?clientId="+channelConfig.subtopic +
-      "&sendCensusResultURL=" + channelConfig.sendCensusResultURL +
-      "&numRows="+numRows.value +
-      "&enableGZip="+enableGZip.selected;
-      
-      // auto switch to user results
-      resultsViewType = "yourResults";
-      switchChartArrayCollection();
-      
+
+      iframeBox.height = 300;
+
+      iframe.source = test.url + "?clientId=" + channelConfig.subtopic +
+              "&sendCensusResultURL=" + channelConfig.sendCensusResultURL +
+              "&numRows=" + numRows.value +
+              "&enableGZip=" + enableGZip.selected;
+
       cursorManager.setBusyCursor();
     }
-    
-    private function switchChartArrayCollection():void
-    {
-      var switched:Boolean = false;
 
-      if (resultsViewType == "averageResults")
-      {
-        iframeBox.height = 0;
-        averageResultsText.visible = averageResultsText.includeInLayout = true;
-        yourResultsText.visible = yourResultsText.includeInLayout = false;
-        
-        if (chartArrayCollection != averageResultsArrayCollection)
-        {
-          chartArrayCollection = averageResultsArrayCollection;
-          switched = true;
-        }
-      }
-      else if (resultsViewType == "yourResults")
-      {
-        iframeBox.height = 300;
-        averageResultsText.visible = averageResultsText.includeInLayout = false;
-        yourResultsText.visible = yourResultsText.includeInLayout = true;
-        
-        if (chartArrayCollection != yourResultsArrayCollection)
-        {
-          chartArrayCollection = yourResultsArrayCollection;
-          switched = true;
-        }
-      }
-      
-      if (switched)
-      {
-        cdp.close();
-      }
-    }
-    
     private function fetchAverageResults():void
     {
-      if ((channelConfig.remoteObject != null) && (tests.length > 0))
+      Model.getInstance().numRows = numRows.value;
+      Model.getInstance().enableGzip = enableGZip.selected;
+
+      if ((channelConfig.remoteObject != null) && (Model.getInstance().tests.length > 0))
       {
-        
-        for each (var test:Object in tests)
+        for each (var test:TestVO in Model.getInstance().tests)
         {
-          // reset results
-          var result:Object = getAverageResultsItem(test.id);
-          resetResult(result);
-          
           var token:AsyncToken = channelConfig.remoteObject.getAverageResults(test.id, enableGZip.selected, numRows.value);
           token.addResponder(new AsyncResponder(handleAverageResultsResult, handleAverageResultsFault, {testId: test.id, gzip: enableGZip.selected, numRows: numRows.value}));
         }
       }
     }
-    
+
     private function handleAverageResultsResult(event:ResultEvent, token:Object):void
     {
-      var item:Object = getAverageResultsItem(token.testId);
-      item.numRows = token.numRows;
-      item.gzip = token.gzip;
+      var result:ResultVO = Model.getInstance().getResult(token.testId, token.numRows, token.gzip);
       for (var resultType:String in event.result)
       {
-        item[resultType] = event.result[resultType];
+        result["average" + "_" + resultType] = event.result[resultType];
       }
-      //item["transferTime"] = item['requestTime'] - item['totalServerTime'];
-      
-      averageResultsArrayCollection.itemUpdated(item);
-      
-      updateSelectedChartItem();
     }
-    
+
     private function handleAverageResultsFault(event:FaultEvent, token:Object):void
     {
       //trace('fault');
     }
-    
-    private function getAverageResultsItem(testId:String):Object
+
+    public function runTest(testId:String):void
     {
-      var averageResultsItem:Object;
-      
-      for each (var item:Object in averageResultsArrayCollection)
-      {
-        if (item.id == testId)
-        {
-          averageResultsItem = item;
-          
-          return averageResultsItem;
-        }
-      }
-      
-      var newItem:Object = new Object();
-      newItem.id = testId;
-      
-      for each (var t:Object in tests)
-      {
-        if (t.id == testId)
-        {
-          newItem.name = t.name;
-        }
-      }
-      averageResultsArrayCollection.addItemAt(newItem, 0);
-      return getAverageResultsItem(testId);
+      var test:TestVO = Model.getInstance().getTestById(testId);
+      startTest(test);
     }
-    
-    private function resetResult(result:Object):void
+
+    private function checkSelectedItem(event:PropertyChangeEvent):void
     {
-      result.gzip = enableGZip.selected;
-      result.numRows = numRows.value;
-      //result.totalServerTime = 0;
-      //result.transferTime = 0;
-      //result.totalServerTime = 0;
-      result.requestTime = NaN;
-      result.parseTime = NaN;
-      result.renderTime = NaN;
-      result.contentLength = NaN;
-      result.memorySize = NaN;
-    }
-      
-    public function selectChartItem(item:Object):void
-    {
-      if (item != null)
+      if ((event.property == "selectedResult") || (event.property == "selectedResultType"))
       {
-        selectedChartIndex = item.index;
-        
-        cdp.open();
-      }
-      else
-      {
-        selectedChartIndex = -1;
-        
-        cdp.close();
-      }
-      
-      updateSelectedChartItem();
-    }
-    
-    private function updateSelectedChartItem():void
-    {
-      if (selectedChartIndex != -1)
-      {
-        for each (var chart:BarChart in [recordsPerSecondChartView.chart, transferSizeChartView.chart, clientSideMemoryChartView.chart])
+        if ((Model.getInstance().selectedResult != null) && (Model.getInstance().selectedResultType != null))
         {
-          for each (var s:BarSeries in chart.series)
-          {
-            s.selectedIndex = selectedChartIndex;
-          }
-        }
-        
-        cdp.data = chartArrayCollection.getItemAt(selectedChartIndex);
-      }
-      else
-      {
-        for each (var chart2:BarChart in [recordsPerSecondChartView.chart, transferSizeChartView.chart, clientSideMemoryChartView.chart])
-        {
-          chart2.clearSelection();
+          cdp.open();
         }
       }
     }
@@ -320,151 +148,117 @@
       currentTheme == "sexy" ? changeTheme("readable") : changeTheme("sexy")
     });
     this.contextMenu.customItems.push(item);
+
+    Model.getInstance().addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, checkSelectedItem);
   </mx:initialize>
+
+  <mx:mouseDown>
+    if (!(event.target.document is CensusChartItemRenderer))
+    {
+      cdp.close();
+    }
+  </mx:mouseDown>
 
   <mx:String id="currentTheme"/>
 
-  <mx:ArrayCollection id="tests"/>
+  <mx:Move id="moveEffect" duration="500" target="{chartsVBox}"/>
 
   <census2:ChannelConfig id="channelConfig">
     <census2:message>
-      updateResult(event.message.body.testId,  event.message.body.resultType, new Number(event.message.body.resultData));
+      updateResult(event.message.body.testId, event.message.body.resultType as String, new Number(event.message.body.resultData));
     </census2:message>
-    <census2:setup>
-      fetchAverageResults();
-    </census2:setup>
   </census2:ChannelConfig>
 
   <mx:HTTPService id="srv" url="tests.xml">
     <mx:result>
-      tests = event.result.tests.test;
-      for each (var test:Object in tests)
-      {
-        resetResults(test);
-      }
-      fetchAverageResults();
+        for each (var test:Object in event.result.tests.test)
+        {
+          Model.getInstance().tests.addItem(new TestVO(test.id, test.url, test.name, test.description));
+        }
+  
+        fetchAverageResults();
     </mx:result>
   </mx:HTTPService>
 
-  <mx:SeriesInterpolate id="interpolate"/>
-
   <mx:HBox width="100%" height="100%" horizontalGap="0" styleName="innerBackground">
-    <mx:VBox width="276" height="100%" horizontalAlign="left" verticalGap="0" horizontalScrollPolicy="off" paddingBottom="10" paddingLeft="15" paddingRight="15">
+    <mx:VBox width="100%" height="100%" horizontalAlign="left" verticalGap="0" horizontalScrollPolicy="off" paddingBottom="10" paddingLeft="15" paddingRight="15">
       <mx:Spacer height="15"/>
-      <controls:LabelLink url="http://www.jamesward.com/ria-benchmark" height="25" width="100%" label="Census v2.0" textAlign="center" fontSize="18" fontWeight="bold" toolTip="Learn more about Census"/>
+      <mx:HBox height="40" width="100%" verticalAlign="bottom">
+        <controls:LabelLink url="http://www.jamesward.com/ria-benchmark" height="25" width="100%" label="Census v2.0" textAlign="center" fontSize="18" fontWeight="bold" toolTip="Learn more about Census"/>
+        <mx:Spacer width="100%"/>
+        <mx:Label text="Data loading and rendering performance comparison for RIA technologies" fontWeight="bold" fontSize="14"/>
+      </mx:HBox>
       <mx:HRule width="100%"/>
       <mx:Spacer height="10"/>
-      <mx:Text text="Data loading and rendering performance comparison for RIA technologies" width="100%" fontWeight="bold"/>
-      <mx:Spacer height="20"/>
       <mx:VBox width="100%" styleName="leftInnerContainer" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5">
         
-        <mx:Label text="Comparison Parameters:" fontWeight="bold"/>
         <mx:HBox width="100%" verticalAlign="middle" horizontalAlign="left" horizontalGap="3" paddingLeft="10">
+          <mx:Label text="Comparison Parameters:" fontWeight="bold"/>
           
           <mx:Label text="# Rows" paddingTop="2"/>
-          <controls:MyNumericStepper id="numRows" minimum="1000" maximum="100000" stepSize="1000" value="20000" useHandCursor="true" buttonMode="true" height="26" width="70" textIndent="0" textAlign="right" change="fetchAverageResults()">
-            <controls:keyDown>
-              <![CDATA[
-              if (((event as KeyboardEvent).keyCode == Keyboard.ENTER) && (testList.selectedItem != null))
-              {
-                resetResults(testList.selectedItem);
-                startTest(testList.selectedItem);
-              }
-              ]]>
-            </controls:keyDown>
-          </controls:MyNumericStepper>
-        </mx:HBox>
+          <controls:MyNumericStepper id="numRows" minimum="1000" maximum="100000" stepSize="1000" value="20000" useHandCursor="true" buttonMode="true" height="26" width="70" textIndent="0" textAlign="right" change="fetchAverageResults()"/>
         
-        <mx:CheckBox id="enableGZip" label="Enable GZip" paddingLeft="10" labelPlacement="left" selected="true" useHandCursor="true" buttonMode="true" mouseChildren="false" change="fetchAverageResults()"/>
+          <mx:CheckBox id="enableGZip" label="Enable GZip" paddingLeft="10" labelPlacement="left" selected="true" useHandCursor="true" buttonMode="true" mouseChildren="false" change="fetchAverageResults()"/>
         
-        <mx:Button label="View Average Results" width="100%" useHandCursor="true" buttonMode="true">
-          <mx:click>
-            resultsViewType = "averageResults";
-            switchChartArrayCollection();
-            fetchAverageResults();
-          </mx:click>
-        </mx:Button>
-      </mx:VBox>
-
-      <mx:Spacer height="20"/>
-      
-      <mx:VBox width="100%" styleName="leftInnerContainer" paddingTop="5" paddingBottom="5">
-        <mx:Label text="See your results for:" fontWeight="bold" paddingLeft="5"/>
-        <mx:List id="testList" width="100%" height="{(tests.length * 26) + 2}" rowHeight="26" dataProvider="{tests}"
-                 doubleClickEnabled="true" borderStyle="none" backgroundAlpha="0" useRollOver="false">
-          <mx:itemRenderer>
-            <mx:Component>
-              <mx:Canvas verticalScrollPolicy="off" horizontalScrollPolicy="off"
-                useHandCursor="true" buttonMode="true" mouseChildren="false"
-                backgroundAlpha="0.000001" backgroundColor="#ffffff">
-                <mx:Label text="{data.name}" width="100" fontSize="10" styleName="listItem" fontWeight="bold"/>
-                <mx:Label id="ld" text="{data.description}" left="105" width="135" fontSize="10" toolTip=""/>
-                <mx:Image id="i" source="@Embed(source='assets/rightIcon.png')" visible="false" right="5">
-                </mx:Image>
-                <mx:mouseOver>
-                  ld.width = 120;
-                  i.visible = true;
-                </mx:mouseOver>
-                <mx:mouseOut>
-                  ld.width = 135;
-                  i.visible = false;
-                </mx:mouseOut>
-                <mx:click>
-                  outerDocument.resetResults(data);
-                  outerDocument.startTest(data);
-                </mx:click>
-              </mx:Canvas>
-            </mx:Component>
-          </mx:itemRenderer>
-        </mx:List>
-        <mx:Box width="100%" paddingLeft="5" paddingRight="5">
-          <mx:Button id="runButton" width="100%" height="26" label="View Your Results" useHandCursor="{testList.selectedItem != null}" buttonMode="true">
-            <mx:click>
-              resultsViewType = "yourResults";
-              switchChartArrayCollection();
-            </mx:click>
-          </mx:Button>
-        </mx:Box>
-      </mx:VBox>
-    </mx:VBox>
-    <mx:VBox width="100%" height="100%" horizontalAlign="center" verticalGap="0" paddingBottom="10" paddingRight="15">
-      <mx:Spacer height="40"/>
-      
-      <mx:HRule width="100%"/>
-      <mx:Spacer height="10"/>
-      <mx:VBox id="myTabs" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" verticalGap="10">
-        
-        <mx:HBox width="100%" paddingLeft="70" paddingRight="20" verticalAlign="bottom" height="26">
-          
-          <mx:Label id="averageResultsText" text="Average Results for All Users ({TextFormatters.getRpsFormatter().format(numRows.value)} Rows{enableGZip.selected ? ' with Gzip' : ''})" fontSize="12" fontWeight="bold"/>
-          <mx:Label id="yourResultsText" text="Your Results" fontSize="12" fontWeight="bold" visible="false" includeInLayout="false"/>
-          
           <mx:Spacer width="100%"/>
-          
+
+          <mx:ComboBox id="clc" width="250" height="26" dataProvider="['Request | Parse | Render', 'Transfer Size', 'Client Memory Usage']">
+            <mx:change>
+              moveEffect.yTo = (recordsPerSecondChartView.height * -1 * clc.selectedIndex);
+              moveEffect.play();
+            </mx:change>
+          </mx:ComboBox>
+
+          <!--
           <controls:ChartLegendCombo id="clc" width="250" height="26" charts="{[recordsPerSecondChartView, transferSizeChartView, clientSideMemoryChartView]}">
             <controls:change>
               chartsVBox.y = (recordsPerSecondChartView.height * -1 * clc.selectedIndex);
             </controls:change>
           </controls:ChartLegendCombo>
+          -->
           
         </mx:HBox>
-        
-        <mx:Canvas id="chartsCanvas" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
-          
-          <mx:VBox id="chartsVBox" width="100%" height="{chartsCanvas.height * 3}" verticalGap="0" moveEffect="Move">
-            <views:RecordsPerSecondChartView id="recordsPerSecondChartView" width="100%" height="100%" dataProvider="{chartArrayCollection}"/>
-            <views:TransferSizeChartView id="transferSizeChartView" width="100%" height="100%" dataProvider="{chartArrayCollection}"/>
-            <views:ClientSideMemoryChartView id="clientSideMemoryChartView" width="100%" height="100%" dataProvider="{chartArrayCollection}"/>
-          </mx:VBox>
-
-          <controls:ChartDataPopUp id="cdp" top="1" right="21"/>
-          
-        </mx:Canvas>
       </mx:VBox>
+
       <mx:Spacer height="10"/>
+      
+      <mx:Canvas id="chartsCanvas" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+        
+        <mx:VBox id="chartsVBox" width="100%" height="{chartsCanvas.height * 3}" verticalGap="0">
+          <charts:CensusChart id="recordsPerSecondChartView"
+                                           width="100%" height="100%"
+                                           averageColors="[0x467299, 0xf6c54c, 0xff3f20]"
+                                           userColors="[0x2a547a, 0xd8a62d, 0xc92719]"
+                                           dataFields="['requestTime', 'parseTime', 'renderTime']"
+                                           axisLabelFormatterFunction="TextFormatters.timeFormat"
+                                           />
+          <charts:CensusChart id="transferSizeChartView"
+                                       width="100%" height="100%"
+                                       averageColors="[0x339966]"
+                                       userColors="[0x246d49]"
+                                       dataFields="['contentLength']"
+                                       axisLabelFormatterFunction="TextFormatters.byteFormat"
+                                       />
+          <charts:CensusChart id="clientSideMemoryChartView"
+                              width="100%" height="100%"
+                              averageColors="[0x990000]"
+                              userColors="[0x6d0000]"
+                              dataFields="['memorySize']"
+                              axisLabelFormatterFunction="TextFormatters.byteFormat"
+                              />
+        </mx:VBox>
+
+        <!-- Selected Item Overlay -->
+        <controls:ChartDataPopUp id="cdp" top="0" right="0" bottom="36" visible="false"/>
+        
+      </mx:Canvas>
+
+      <mx:Spacer height="20"/>
+
       <mx:Box id="iframeBox" width="100%" height="0" styleName="leftInnerContainer" visible="{iframeBox.height != 0}">
         <local:IFrame id="iframe" width="100%" height="100%" visible="true" creationComplete="iframe.visible = true"/>
       </mx:Box>
+
     </mx:VBox>
   </mx:HBox>
 
