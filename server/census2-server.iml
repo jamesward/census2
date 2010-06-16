@@ -138,7 +138,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="JBoss 5.1.0.GA" level="application_server_libraries" />
-    <orderEntry type="module" module-name="census2-client" />
   </component>
 </module>
 

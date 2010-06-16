@@ -2,34 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="9952168f-84e4-482d-8747-4a5aa66c3224" name="Default" comment="brand new UI.  still a few things left to do on it.">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../census2-tests/server/census2-tests-server.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/census2.mxml" afterPath="$PROJECT_DIR$/client/src/census2.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/.actionScriptProperties" afterPath="$PROJECT_DIR$/client/.actionScriptProperties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/WEB-INF/lib/flex-messaging-core.jar" afterPath="$PROJECT_DIR$/server/WebContent/WEB-INF/lib/flex-messaging-core.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/readable.css" afterPath="$PROJECT_DIR$/client/src/readable.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartAxisRenderer.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/WEB-INF/lib/flex-messaging-remoting.jar" afterPath="$PROJECT_DIR$/server/WebContent/WEB-INF/lib/flex-messaging-remoting.jar" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/views/TransferSizeChartView.mxml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/readable.swf" afterPath="$PROJECT_DIR$/server/WebContent/readable.swf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/core/Model.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/sexy.css" afterPath="$PROJECT_DIR$/client/src/sexy.css" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/views/ClientSideMemoryChartView.mxml" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/core/ResultVO.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/sexy.swf" afterPath="$PROJECT_DIR$/server/WebContent/sexy.swf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemRenderer.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/WEB-INF/flex/messaging-config.xml" afterPath="$PROJECT_DIR$/server/WebContent/WEB-INF/flex/messaging-config.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/WEB-INF/lib/flex-messaging-common.jar" afterPath="$PROJECT_DIR$/server/WebContent/WEB-INF/lib/flex-messaging-common.jar" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/views" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/utils/TextFormatters.as" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/utils/TextFormatters.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChart.mxml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/core" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/tests.xml" afterPath="$PROJECT_DIR$/server/WebContent/tests.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/WEB-INF/lib/flex-messaging-opt.jar" afterPath="$PROJECT_DIR$/server/WebContent/WEB-INF/lib/flex-messaging-opt.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemLabel.mxml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/src/com/jamesward/census2/ProtectedMessagingAdapter.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/WEB-INF/lib/flex-messaging-proxy.jar" afterPath="$PROJECT_DIR$/server/WebContent/WEB-INF/lib/flex-messaging-proxy.jar" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/views/RecordsPerSecondChartView.mxml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/ChartDataPopUp.mxml" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/ChartDataPopUp.mxml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/core/TestVO.as" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/census2-server.iml" afterPath="$PROJECT_DIR$/server/census2-server.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/census2-client.iml" afterPath="$PROJECT_DIR$/client/census2-client.iml" />
     </list>
     <ignored path="$USER_HOME_GRAILS$/" />
     <ignored path="$USER_HOME_GRIFFON$/" />
@@ -100,8 +79,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="exception_breakpoints_groupByClasses" value="true" />
+      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -110,51 +89,7 @@
   </component>
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="census2.mxml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/client/src/census2.mxml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="157" column="18" selection-start="5205" selection-end="5205" vertical-scroll-proportion="0.023400936">
-              <folding>
-                <marker date="1276726287000" expanded="false" signature="523:1023" placeholder="..." />
-                <marker date="1276726287000" expanded="true" signature="1081:1586" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="1313:1578" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="1346:1383" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="1484:1570" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="1685:2397" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="1878:2391" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="2451:2914" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="2543:2593" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="2968:3576" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="3178:3570" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="3252:3562" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="3668:3914" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="3826:3908" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="4004:4035" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="4089:4184" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="4261:4528" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="4361:4522" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="4481:4514" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="4642:5085" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="4852:4936" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="5119:5214" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="5185:5211" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="5398:5534" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="5640:5866" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="5711:5827" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="7285:7306" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="7502:7523" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="7737:7875" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="9083:9108" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="9545:9570" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="9959:9984" placeholder="{...}" />
-                <marker date="1276726287000" expanded="true" signature="10442:10463" placeholder="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -172,12 +107,12 @@
         <option value="$PROJECT_DIR$/client/src/com/jamesward/census2/core/Model.as" />
         <option value="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChart.mxml" />
         <option value="$PROJECT_DIR$/client/src/readable.css" />
-        <option value="$PROJECT_DIR$/client/src/census2.mxml" />
         <option value="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/ChartDataPopUp.mxml" />
         <option value="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemLabel.mxml" />
         <option value="$PROJECT_DIR$/client/src/com/jamesward/census2/utils/TextFormatters.as" />
         <option value="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemRenderer.mxml" />
         <option value="$PROJECT_DIR$/client/src/sexy.css" />
+        <option value="$PROJECT_DIR$/client/src/census2.mxml" />
       </list>
     </option>
   </component>
@@ -232,175 +167,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Favorites" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controls" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="charts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -415,7 +181,18 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="census2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="Scope" />
+      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -432,8 +209,8 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Flex.census2">
     <configuration default="false" name="census2" type="FlexRunConfigurationType" factoryName="Flex" temporary="true" html_or_swf_file_path="$PROJECT_DIR$/out/production/census2-client/_census2.swf" main_class_name="census2" module_name="census2-client" run_mode="Url" url_to_launch="http://localhost:8080/census2/index.html">
@@ -482,14 +259,6 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="FlexRunConfigurationType" factoryName="Flex" html_or_swf_file_path="" main_class_name="" module_name="" run_mode="HtmlOrSwfFile" url_to_launch="http://">
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" />
       <extension name="snapshooter" />
@@ -517,6 +286,14 @@
       <envs />
       <properties />
       <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="FlexRunConfigurationType" factoryName="Flex" html_or_swf_file_path="" main_class_name="" module_name="" run_mode="HtmlOrSwfFile" url_to_launch="http://">
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -690,6 +467,10 @@
     <option name="myMappingRoots">
       <list>
         <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/.idea" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/.idea" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
           <option name="myVcsRoot" value="$PROJECT_DIR$/server" />
           <option name="myCopyRoot" value="$PROJECT_DIR$/server" />
         </SvnCopyRootSimple>
@@ -767,13 +548,13 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3297769" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297769" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297769" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973261" sideWeight="0.3443259" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.50048494" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32994652" sideWeight="0.66343355" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32994652" sideWeight="0.66343355" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297769" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -864,11 +645,6 @@
         <state line="27" column="3" selection-start="568" selection-end="568" vertical-scroll-proportion="0.6934931" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChart.mxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="36" selection-start="286" selection-end="286" vertical-scroll-proportion="-1.662566" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemLabel.mxml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="80" selection-start="932" selection-end="932" vertical-scroll-proportion="0.0" />
@@ -894,43 +670,97 @@
         <state line="5" column="47" selection-start="253" selection-end="253" vertical-scroll-proportion="0.11432927" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChart.mxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="36" selection-start="286" selection-end="286" vertical-scroll-proportion="0.015182186">
+          <folding>
+            <marker date="1276729631000" expanded="true" signature="316:862" placeholder="{...}" />
+            <marker date="1276729631000" expanded="true" signature="485:537" placeholder="{...}" />
+            <marker date="1276729631000" expanded="true" signature="661:814" placeholder="{...}" />
+            <marker date="1276729631000" expanded="true" signature="750:806" placeholder="{...}" />
+            <marker date="1276729631000" expanded="false" signature="917:1085" placeholder="..." />
+            <marker date="1276729631000" expanded="true" signature="1405:2133" placeholder="{...}" />
+            <marker date="1276729631000" expanded="true" signature="1509:2105" placeholder="{...}" />
+            <marker date="1276729631000" expanded="true" signature="1631:2097" placeholder="{...}" />
+            <marker date="1276729631000" expanded="true" signature="1714:2087" placeholder="{...}" />
+            <marker date="1276729631000" expanded="true" signature="1815:1990" placeholder="{...}" />
+            <marker date="1276729631000" expanded="true" signature="1934:1976" placeholder="{...}" />
+            <marker date="1276729631000" expanded="true" signature="2033:2075" placeholder="{...}" />
+            <marker date="1276729631000" expanded="true" signature="3314:3342" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/census2.mxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="18" selection-start="5205" selection-end="5205" vertical-scroll-proportion="0.023400936">
+        <state line="26" column="51" selection-start="1016" selection-end="1016" vertical-scroll-proportion="0.21255061">
           <folding>
-            <marker date="1276726287000" expanded="false" signature="523:1023" placeholder="..." />
-            <marker date="1276726287000" expanded="true" signature="1081:1586" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="1313:1578" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="1346:1383" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="1484:1570" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="1685:2397" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="1878:2391" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="2451:2914" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="2543:2593" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="2968:3576" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="3178:3570" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="3252:3562" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="3668:3914" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="3826:3908" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="4004:4035" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="4089:4184" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="4261:4528" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="4361:4522" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="4481:4514" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="4642:5085" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="4852:4936" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="5119:5214" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="5185:5211" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="5398:5534" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="5640:5866" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="5711:5827" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="7285:7306" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="7502:7523" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="7737:7875" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="9083:9108" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="9545:9570" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="9959:9984" placeholder="{...}" />
-            <marker date="1276726287000" expanded="true" signature="10442:10463" placeholder="{...}" />
+            <marker date="1276730055000" expanded="false" signature="463:963" placeholder="..." />
+            <marker date="1276730055000" expanded="false" signature="463:963" placeholder="..." />
+            <marker date="1276730055000" expanded="true" signature="1021:1526" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1021:1526" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1253:1518" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1253:1518" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1286:1323" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1286:1323" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1424:1510" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1424:1510" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1625:2337" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1625:2337" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1818:2331" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="1818:2331" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="2391:2854" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="2391:2854" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="2483:2533" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="2483:2533" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="2908:3516" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="2908:3516" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="3118:3510" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="3118:3510" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="3192:3502" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="3192:3502" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="3608:3854" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="3608:3854" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="3766:3848" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="3766:3848" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="3944:3975" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="3944:3975" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4029:4124" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4029:4124" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4201:4468" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4201:4468" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4301:4462" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4301:4462" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4421:4454" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4421:4454" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4582:5025" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4582:5025" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4792:4876" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="4792:4876" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="5059:5154" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="5059:5154" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="5125:5151" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="5125:5151" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="5338:5474" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="5338:5474" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="5580:5806" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="5580:5806" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="5651:5767" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="5651:5767" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="7225:7246" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="7225:7246" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="7442:7463" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="7442:7463" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="7677:7815" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="7677:7815" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="9023:9048" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="9023:9048" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="9485:9510" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="9485:9510" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="9899:9924" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="9899:9924" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="10382:10403" placeholder="{...}" />
+            <marker date="1276730055000" expanded="true" signature="10382:10403" placeholder="{...}" />
           </folding>
         </state>
       </provider>

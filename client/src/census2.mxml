@@ -2,7 +2,6 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
                 xmlns:census2="com.jamesward.census2.*"
                 xmlns:controls="com.jamesward.census2.controls.*"
-                xmlns:views="com.jamesward.census2.views.*"
                 xmlns:charts="com.jamesward.census2.charts.*"
                 xmlns:local="*"
                 verticalScrollPolicy="off"

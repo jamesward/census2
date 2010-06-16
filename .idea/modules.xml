@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/client/census2-client.iml" filepath="$PROJECT_DIR$/client/census2-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/census2-server.iml" filepath="$PROJECT_DIR$/server/census2-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../census2-tests/client/flex/census2-tests-client-flex.iml" filepath="$PROJECT_DIR$/../census2-tests/client/flex/census2-tests-client-flex.iml" />
       <module fileurl="file://$PROJECT_DIR$/../censu2-tests/client/flex/census2-tests-client-flex.iml" filepath="$PROJECT_DIR$/../censu2-tests/client/flex/census2-tests-client-flex.iml" />
       <module fileurl="file://$PROJECT_DIR$/../census2-tests/server/census2-tests-server.iml" filepath="$PROJECT_DIR$/../census2-tests/server/census2-tests-server.iml" />
     </modules>
