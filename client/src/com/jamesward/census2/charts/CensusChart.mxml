@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+           xmlns:controls="com.jamesward.census2.controls.*"
+           xmlns:charts="com.jamesward.census2.charts.*"
+           horizontalScrollPolicy="off"
+           verticalScrollPolicy="off">
+
+  <mx:initialize><![CDATA[
+      import mx.events.PropertyChangeEvent;
+
+      Model.getInstance().results.addEventListener(CollectionEvent.COLLECTION_CHANGE, function(event:CollectionEvent):void {
+        maxDataValue = calcMaxDataValue();
+      });
+      Model.getInstance().addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, function(event:PropertyChangeEvent):void {
+        if ((event.property == "numRows") || (event.property == "enableGzip"))
+        {
+          maxDataValue = calcMaxDataValue();
+        }
+      });
+      maxDataValue = calcMaxDataValue();
+    ]]></mx:initialize>
+
+  <mx:Script><![CDATA[
+    import com.jamesward.census2.core.ResultVO;
+
+    import com.jamesward.census2.core.TestVO;
+
+    import mx.events.CollectionEvent;
+
+    import com.jamesward.census2.core.Model;
+
+    [Bindable]
+    public var averageColors:Array;
+
+    [Bindable]
+    public var userColors:Array;
+
+    [Bindable]
+    public var dataFields:Array;
+
+    [Bindable]
+    public var maxDataValue:uint;
+
+    [Bindable]
+    public var axisLabelFormatterFunction:Function;
+
+
+    private function calcMaxDataValue():uint
+    {
+      var curMax:uint = 0;
+
+      for each (var result:ResultVO in Model.getInstance().results)
+      {
+        if ((result.gzip == Model.getInstance().enableGzip) && (result.numRows == Model.getInstance().numRows))
+        {
+          for each (var i:String in [ResultVO.AVERAGE, ResultVO.USER])
+          {
+            var tm:uint = 0;
+            for each (var dataField:String in dataFields)
+            {
+              var v:Number = result[i + "_" + dataField];
+
+              if ((!isNaN(v)) && (v != -1))
+              {
+                tm += v;
+              }
+            }
+
+            if (tm > curMax)
+            {
+              curMax = tm;
+            }
+          }
+        }
+      }
+
+      return curMax;
+    }
+
+    ]]></mx:Script>
+
+  <mx:VBox height="100%" width="100%" horizontalScrollPolicy="off">
+
+    <mx:HBox height="100%" width="100%" horizontalGap="0">
+
+      <!-- Left Labels -->
+      <mx:VBox width="250" height="100%" verticalGap="5">
+        <mx:Repeater id="r1" dataProvider="{Model.getInstance().tests}">
+          <charts:CensusChartItemLabel height="100%" width="100%" item="{r1.currentItem as TestVO}" minHeight="70"/>
+        </mx:Repeater>
+      </mx:VBox>
+
+      <!-- Main Chart -->
+      <mx:VBox height="100%" width="100%" verticalGap="5" styleName="leftInnerContainer">
+        <mx:Repeater id="r2" dataProvider="{Model.getInstance().tests}">
+          <charts:CensusChartItemRenderer height="100%" width="100%"
+            item="{Model.getInstance().getResult(r2.currentItem.id, Model.getInstance().numRows, Model.getInstance().enableGzip)}"  averageColors="{averageColors}" userColors="{userColors}" dataFields="{dataFields}"
+            maxDataValue="{maxDataValue}" minHeight="70" />
+        </mx:Repeater>
+      </mx:VBox>
+    </mx:HBox>
+
+    <!-- Horizontal Axis -->
+    <charts:CensusChartAxisRenderer maxDataValue="{maxDataValue}" axisLabelFormatterFunction="{axisLabelFormatterFunction}" width="100%" height="30" paddingLeft="250"/>
+  </mx:VBox>
+  
+</mx:Canvas>

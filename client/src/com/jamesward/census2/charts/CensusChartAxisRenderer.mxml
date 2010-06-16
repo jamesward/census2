@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml">
+
+  <mx:Script><![CDATA[
+  import mx.collections.ArrayCollection;
+
+  public var minLabelGap:uint = 100;
+
+  [Bindable]
+  private var axisValues:ArrayCollection = new ArrayCollection();
+
+
+  public var axisLabelFormatterFunction:Function = defaultFormatter;
+
+
+  private var _maxDataValue:uint;
+
+  public function set maxDataValue(_maxDataValue:uint):void
+  {
+    this._maxDataValue = _maxDataValue;
+
+    updateAxis();
+  }
+
+  public function get maxDataValue():uint
+  {
+    return _maxDataValue;
+  }
+
+  private function updateAxis():void
+  {
+    if (((this.unscaledWidth - 20) > minLabelGap) && (maxDataValue > 0))
+    {
+      var a:Array = [0];
+
+      var numItems:uint = Math.floor((this.unscaledWidth - 20) / minLabelGap);
+      for (var i:int = 1; i < numItems; i++)
+      {
+        a.push(maxDataValue * (i / numItems));
+      }
+
+      a.push(maxDataValue);
+      axisValues = new ArrayCollection(a);
+    }
+    else
+    {
+      axisValues = new ArrayCollection();
+    }
+  }
+
+  private function defaultFormatter(value:Object):String
+  {
+    return value.toString();
+  }
+
+]]></mx:Script>
+
+  <mx:resize>
+    updateAxis();
+  </mx:resize>
+
+  <mx:Repeater id="r" dataProvider="{axisValues}">
+    <mx:Label text="{axisLabelFormatterFunction(r.currentItem)}" textAlign="{(r.currentIndex == 0) ? 'left' : (r.currentIndex == axisValues.length - 1) ? 'right' : 'center'}" width="100%"/>
+  </mx:Repeater>
+
+</mx:HBox>

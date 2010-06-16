@@ -18,6 +18,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 package com.jamesward.census2.utils
 {
+import com.jamesward.census2.core.Model;
+import com.jamesward.census2.core.ResultVO;
+
 import mx.charts.HitData;
 import mx.charts.chartClasses.IAxis;
 import mx.formatters.NumberFormatter;
@@ -25,7 +28,7 @@ import mx.formatters.NumberFormatter;
 public class TextFormatters
 {
   
-  public static function byteFormat(labelValue:Object, previousValue:Object=null, axis:IAxis=null):String
+  public static function byteFormat(labelValue:Object):String
   {
     var nf:NumberFormatter = new NumberFormatter();
     var n:Number = new Number(labelValue);
@@ -65,7 +68,7 @@ public class TextFormatters
     }
   }
 
-  public static function timeFormat(labelValue:Object, previousValue:Object=null, axis:IAxis=null):String
+  public static function timeFormat(labelValue:Object):String
   {
     var nf:NumberFormatter = new NumberFormatter();
     var n:Number = new Number(labelValue);
@@ -101,29 +104,40 @@ public class TextFormatters
     return rpsFormatter;
   }
   
-  private static function getTotalTime(item:Object):Number
+  private static function getTotalTime(item:ResultVO, resultType:String):Number
   {
-    var totalTime:Number = item.requestTime + item.parseTime + item.renderTime;
+    var totalTime:Number = item[resultType + "_requestTime"] + item[resultType + "_parseTime"] + item[resultType + "_renderTime"];
     return totalTime;
   }
 
-  public static function getChartDetails(item:Object):String
+  public static function getChartDetails(item:ResultVO, resultType:String):String
   {
 
-    var s:String = "<font size='18'><b>" + item.name + "</b></font>" +
+    var s:String = "";
+
+    if (resultType == ResultVO.AVERAGE)
+    {
+      s += "<font size='18'><b>Average Results</b></font>";
+    }
+    else if (resultType == ResultVO.USER)
+    {
+      s += "<font size='18'><b>Your Results</b></font>";
+    }
+
+    s += "<br/><font size='18'><b>" + Model.getInstance().getTestById(item.testId).name + "</b></font>" +
       "<br/><font size='16'><b>Rows: " + getRpsFormatter().format(item.numRows) + "</b></font>" +
       "<br/><font size='16'><b>Gzip: " + item.gzip + "</b></font>";
     
-    if (getTotalTime(item) > 0)
+    if (getTotalTime(item, resultType) > 0)
     {
-      s += "<br/><br/><font size='14'><b>" + getRpsFormatter().format((item.numRows / (getTotalTime(item)) * 1000)) + " rows/s</b></font>" + 
-        "<br/><font size='12'>Request Time: " + timeFormat(item.requestTime) + "</font>" +
-        "<br/><font size='12'>Parse Time: " + timeFormat(item.parseTime) + "</font>" +
-        "<br/><font size='12'>Render Time: " + timeFormat(item.renderTime) + "</font>" +
-        "<br/><font size='12'><b>Total Time: " + timeFormat(getTotalTime(item)) + "</b></font>" +      
-        "<br/><br/><font size='14'><b>" + byteFormat(item.contentLength / item.numRows) + "/row</b></font>" +
-        "<br/><font size='12'>Transfer Size: " + byteFormat(item.contentLength) + "</font>" +
-        "<br/><br/><font size='12'>Client memory: " + byteFormat(item.memorySize) +"</font>";
+      s += "" + //<br/><br/><font size='14'><b>" + getRpsFormatter().format((item.numRows / (getTotalTime(item, resultType)) * 1000)) + " rows/s</b></font>" +
+        "<br/><br/><font size='12'>Request Time: " + timeFormat(item[resultType + "_requestTime"]) + "</font>" +
+        "<br/><font size='12'>Parse Time: " + timeFormat(item[resultType + "_parseTime"]) + "</font>" +
+        "<br/><font size='12'>Render Time: " + timeFormat(item[resultType + "_renderTime"]) + "</font>" +
+        "<br/><font size='12'><b>Total Time: " + timeFormat(getTotalTime(item, resultType)) + "</b></font>" +
+        "" + // <br/><br/><font size='14'><b>" + byteFormat(item[resultType + "_contentLength"] / item.numRows) + "/row</b></font>" +
+        "<br/><br/><font size='12'>Transfer Size: " + byteFormat(item[resultType + "_contentLength"]) + "</font>" +
+        "<br/><br/><font size='12'>Client memory: " + byteFormat(item[resultType + "_memorySize"]) +"</font>";
     }
     else
     {
@@ -133,9 +147,9 @@ public class TextFormatters
     return s;
   }
   
-  public static function getTweet(item:Object):String
+  public static function getTweet(item:ResultVO):String
   {
-    return "Just benchmarked " + item.name + " - " + getRpsFormatter().format(item.numRows) + " rows in " + timeFormat(getTotalTime(item)) + "! http://jamesward.com/census";
+    return "Just loaded and rendered " + Model.getInstance().getTestById(item.testId).name + " - " + getRpsFormatter().format(item.numRows) + " rows in " + timeFormat(getTotalTime(item, ResultVO.USER)) + "! http://jamesward.com/census";
   }
   
 }
