@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:degrafa="http://www.degrafa.com/2007">
+
+  <degrafa:Surface>
+    <degrafa:GeometryGroup>
+        <degrafa:RegularRectangle width="200" height="25">
+          <degrafa:fill>
+              <degrafa:SolidFill color="#cccccc"/>
+          </degrafa:fill>
+          <degrafa:stroke>
+            <degrafa:SolidStroke color="#666666" weight="1"/>
+          </degrafa:stroke>
+        </degrafa:RegularRectangle>
+    </degrafa:GeometryGroup>
+  </degrafa:Surface>
+
+  <mx:Label text="Run test to see your results" left="15" verticalCenter="0"/>
+
+</mx:Canvas>

@@ -34,10 +34,38 @@
     <option name="LOCALE" />
     <option name="OPEN_IN_BROWSER" value="true" />
   </component>
+  <component name="ProjectResources">
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="flex_sdk_3.5.0.12683 (player 9)" project-jdk-type="Flex SDK Type">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://flexapps.svn.sourceforge.net/svnroot/flexapps/census2" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../census2-tests/client/flex">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://flexapps.svn.sourceforge.net/svnroot/flexapps/census2-tests/client/flex" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../census2-tests/server">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://flexapps.svn.sourceforge.net/svnroot/flexapps/census2-tests/server" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />

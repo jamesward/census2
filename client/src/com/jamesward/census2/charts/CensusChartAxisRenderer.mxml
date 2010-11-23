@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+        xmlns:degrafa="http://www.degrafa.com/2007">
 
   <mx:Script><![CDATA[
   import mx.collections.ArrayCollection;
@@ -9,6 +10,11 @@
   [Bindable]
   private var axisValues:ArrayCollection = new ArrayCollection();
 
+  [Bindable]
+  private var itemWidth:Number;
+
+  [Bindable]
+  private var lineColor:Number;
 
   public var axisLabelFormatterFunction:Function = defaultFormatter;
 
@@ -46,6 +52,8 @@
     {
       axisValues = new ArrayCollection();
     }
+
+    itemWidth = this.width / (axisValues.length);
   }
 
   private function defaultFormatter(value:Object):String
@@ -53,14 +61,43 @@
     return value.toString();
   }
 
+  public override function styleChanged(styleProp:String):void
+  {
+    super.styleChanged(styleProp);
+
+    lineColor = getStyle("lineColor");
+  }
 ]]></mx:Script>
 
   <mx:resize>
     updateAxis();
   </mx:resize>
 
-  <mx:Repeater id="r" dataProvider="{axisValues}">
-    <mx:Label text="{axisLabelFormatterFunction(r.currentItem)}" textAlign="{(r.currentIndex == 0) ? 'left' : (r.currentIndex == axisValues.length - 1) ? 'right' : 'center'}" width="100%"/>
-  </mx:Repeater>
+  <degrafa:SolidStroke id="s" color="{lineColor}"/>
 
-</mx:HBox>
+
+  <degrafa:Surface width="100%" height="2" y="5">
+    <degrafa:GeometryGroup>
+      <degrafa:Line x="0" x1="{this.width}" stroke="{s}"/>
+    </degrafa:GeometryGroup>
+  </degrafa:Surface>
+
+  <mx:HBox id="h" width="100%" top="10" bottom="0">
+    <mx:Repeater id="r" dataProvider="{axisValues}">
+      <mx:Label text="{axisLabelFormatterFunction(r.currentItem)}" width="100%" top="10"/>
+    </mx:Repeater>
+  </mx:HBox>
+
+  <degrafa:Surface width="100%" height="10">
+    <degrafa:GeometryGroup>
+      <degrafa:GeometryRepeater id="r1" count="{axisValues.length - 1}">
+        <degrafa:Line id="l1" x="{itemWidth + 20}" x1="{itemWidth + 20}" y="0" y1="10" stroke="{s}"/>
+        <degrafa:modifiers>
+          <degrafa:PropertyModifier targets="{[l1]}" property="x" modifier="{itemWidth}" modifierOperator="add"/>
+          <degrafa:PropertyModifier targets="{[l1]}" property="x1" modifier="{itemWidth}" modifierOperator="add"/>
+        </degrafa:modifiers>
+      </degrafa:GeometryRepeater>
+    </degrafa:GeometryGroup>
+  </degrafa:Surface>
+
+</mx:Canvas>

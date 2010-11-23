@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:degrafa="http://www.degrafa.com/2007">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+           xmlns:degrafa="http://www.degrafa.com/2007"
+           xmlns:controls="com.jamesward.census2.controls.*"
+           minHeight="70">
 
   <mx:Script><![CDATA[
     import com.jamesward.census2.core.Model;
@@ -47,6 +50,7 @@
       var showUserResult:Boolean = itemUserValueCheck("user");
       userChart.visible = showUserResult;
       noUserButton.visible = !showUserResult;
+      noUserLabel.visible = !showUserResult;
 
       updateBarWidths();
     }
@@ -155,19 +159,19 @@
       {
         if ((Model.getInstance().selectedResult == item) && (Model.getInstance().selectedResultType == ResultVO.AVERAGE))
         {
-          gs1_1.alpha = 0.1;
-          gs1_2.alpha = 0.4;
+          gs1_1.alpha = 0.3;
+          gs1_2.alpha = 0.6;
 
           gs2_1.alpha = 0;
           gs2_2.alpha = 0.3;
         }
-        else if ((Model.getInstance().selectedResult == item) &&(Model.getInstance().selectedResultType == ResultVO.USER))
+        else if ((Model.getInstance().selectedResult == item) && (Model.getInstance().selectedResultType == ResultVO.USER))
         {
-          gs2_1.alpha = 0.1;
-          gs2_2.alpha = 0.4;
-
           gs1_1.alpha = 0;
           gs1_2.alpha = 0.3;
+          
+          gs2_1.alpha = 0.3;
+          gs2_2.alpha = 0.6;
         }
         else
         {
@@ -180,19 +184,18 @@
         }
       }
     }
-
     ]]></mx:Script>
 
   <mx:initialize>
-    Model.getInstance().addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, checkSelectedItem);
+      Model.getInstance().addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, checkSelectedItem);
   </mx:initialize>
 
   <mx:resize>
-    updateBarWidths();
+      updateBarWidths();
   </mx:resize>
 
   <!-- Average Chart -->
-  <degrafa:Surface id="averageChart" width="100%" top="5" bottom="{(this.height / 2) - 5}">
+  <degrafa:Surface id="averageChart" width="100%" top="{(this.height / 2) + 5}" bottom="5">
     <degrafa:GeometryGroup>
       <degrafa:GeometryRepeater id="r1" count="{dataFields.length}">
         <degrafa:RegularRectangle id="myRect1" height="{(this.height / 2) - 10}">
@@ -221,27 +224,27 @@
       <mx:DropShadowFilter distance="2" blurX="2" blurY="2" alpha="0.5"/>
     </degrafa:filters>
     <degrafa:rollOver>
-      gs1_1.alpha = 0.1;
-      gs1_2.alpha = 0.4;
+        gs1_1.alpha = 0.3;
+        gs1_2.alpha = 0.6;
     </degrafa:rollOver>
     <degrafa:rollOut><![CDATA[
-      if ((Model.getInstance().selectedResult != item) || (Model.getInstance().selectedResultType != ResultVO.AVERAGE))
-      {
-        gs1_1.alpha = 0;
-        gs1_2.alpha = 0.3;
-      }
-]]></degrafa:rollOut>
+        if ((Model.getInstance().selectedResult != item) || (Model.getInstance().selectedResultType != ResultVO.AVERAGE))
+        {
+          gs1_1.alpha = 0;
+          gs1_2.alpha = 0.3;
+        }
+      ]]></degrafa:rollOut>
     <degrafa:click>
-      showResultDetails(ResultVO.AVERAGE);
+        showResultDetails(ResultVO.AVERAGE);
     </degrafa:click>
   </degrafa:Surface>
 
   <!-- No Average Data -->
-  <mx:Label id="noAverageLabel" left="15" top="5" bottom="{(this.height / 2) - 5}" text="No results yet."/>
+  <mx:Label id="noAverageLabel" left="15" verticalCenter="{(this.height / 4)}" text="No results yet."/>
 
 
   <!-- User Chart -->
-  <degrafa:Surface id="userChart" width="100%" top="{(this.height / 2) + 5}" bottom="5" doubleClickEnabled="true">
+  <degrafa:Surface id="userChart" width="100%" top="5" bottom="{(this.height / 2) - 5}" doubleClickEnabled="true">
     <degrafa:GeometryGroup>
       <degrafa:GeometryRepeater id="r2" count="{dataFields.length}">
         <degrafa:RegularRectangle id="myRect2" width="100" height="{(this.height / 2) - 10}">
@@ -258,7 +261,7 @@
           </degrafa:fill>
         </degrafa:RegularRectangle>
         <degrafa:modifiers>
-          <degrafa:PropertyModifier targets="{[f2]}" property="color" modifier="{averageColors}"
+          <degrafa:PropertyModifier targets="{[f2]}" property="color" modifier="{userColors}"
                                     modifierOperator="none"/>
           <degrafa:PropertyModifier targets="{[myRect2]}" property="width" modifier="{userBarWidths}"
                                     modifierOperator="none"/>
@@ -270,30 +273,31 @@
       <mx:DropShadowFilter distance="2" blurX="2" blurY="2" alpha="0.5"/>
     </degrafa:filters>
     <degrafa:rollOver>
-      gs2_1.alpha = 0.1;
-      gs2_2.alpha = 0.4;
+        gs2_1.alpha = 0.3;
+        gs2_2.alpha = 0.6;
     </degrafa:rollOver>
     <degrafa:rollOut><![CDATA[
-      if ((Model.getInstance().selectedResult != item) || (Model.getInstance().selectedResultType != ResultVO.USER))
-      {
-        gs2_1.alpha = 0;
-        gs2_2.alpha = 0.3;
-      }
-]]></degrafa:rollOut>
+        if ((Model.getInstance().selectedResult != item) || (Model.getInstance().selectedResultType != ResultVO.USER)) {
+          gs2_1.alpha = 0;
+          gs2_2.alpha = 0.3;
+        }
+      ]]></degrafa:rollOut>
     <degrafa:click>
-      showResultDetails(ResultVO.USER);
+        showResultDetails(ResultVO.USER);
     </degrafa:click>
     <degrafa:doubleClick>
-      Application.application.runTest(item.testId);
+        Application.application.runTest(item.testId);
     </degrafa:doubleClick>
   </degrafa:Surface>
 
   <!-- Run Test Buttom -->
-  <mx:Button id="noUserButton" left="10" top="{(this.height / 2) + 5}" bottom="5"
-             label="No results yet.  Run the test!">
-    <mx:click>
-        Application.application.runTest(item.testId);
-    </mx:click>
-  </mx:Button>
+  <mx:Label id="noUserButton" left="15" verticalCenter="{-(this.height / 4)}" text="You have not run this test yet."/>
 
+  <controls:LabelLink id="noUserLabel" label="Run now!" left="220" verticalCenter="{-(this.height / 4) + 1}" height="22" fontSize="12">
+    <controls:click>
+      Application.application.runTest(item.testId);
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    </controls:click>
+  </controls:LabelLink>
 </mx:Canvas>

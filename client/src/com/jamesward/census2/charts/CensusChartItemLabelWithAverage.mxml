@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:degrafa="http://www.degrafa.com/2007" styleName="leftInnerContainer" borderStyle="none" backgroundAlpha="0" minHeight="70">
+
+  <mx:Metadata>
+    [Style(name="glowColor")]
+  </mx:Metadata>
+
+  <mx:Script>
+    import com.jamesward.census2.core.TestVO;
+
+    import mx.core.Application;
+
+    [Bindable]
+    private var lineColor:Number;
+
+    public override function styleChanged(styleProp:String):void {
+      super.styleChanged(styleProp);
+
+      lineColor = getStyle("lineColor");
+
+      glowOver.color = getStyle("glowColor");
+    }
+
+    [Bindable]
+    public var item:TestVO;
+  </mx:Script>
+
+  <mx:Glow id="glowOver" alphaFrom="0" alphaTo="0.5" blurXFrom="5" blurXTo="5" blurYFrom="5" blurYTo="5"/>
+  <mx:Glow id="glowOut" alphaTo="0"/>
+
+  <degrafa:SolidStroke id="s" color="{lineColor}" weight="1"/>
+  
+  <mx:Label id="l" text="{item.name}" verticalCenter="{-(this.height / 4)}" fontWeight="bold"/>
+  
+  <mx:Label text="Your Results" verticalCenter="{-(this.height / 4)}" right="17"/>
+  <mx:Label text="Average Results" verticalCenter="{(this.height / 4)}" right="0"/>
+  <mx:Image id="reloadImage" source="@Embed('/assets/reload.png')" right="2" verticalCenter="{-(this.height / 4) - 1}" rollOverEffect="{glowOver}" rollOutEffect="{glowOut}">
+    <mx:click>
+      Application.application.runTest(item.id);
+    </mx:click>
+  </mx:Image>
+
+  <degrafa:Surface left="{l.width}" right="0" height="{this.height - 1}">
+    <degrafa:GeometryGroup>
+      <degrafa:Line x="0" x1="{150 - l.width}" y="{(this.height / 4)}" y1="{this.height / 4}" stroke="{s}"/>
+      <degrafa:Line x="{125 - l.width}" x1="{125 - l.width}" y="{(this.height / 4)}" y1="{(this.height / 4) * 3}" stroke="{s}"/>
+      <!--<degrafa:Line x="{125 - l.width}" x1="{this.width}" y="0" y1="0" stroke="{s}"/>-->
+      <degrafa:Line x="{125 - l.width}" x1="{140 - l.width}" y="{(this.height / 4) * 3}" y1="{(this.height / 4) * 3}" stroke="{s}"/>
+    </degrafa:GeometryGroup>
+  </degrafa:Surface>
+  
+</mx:Canvas>

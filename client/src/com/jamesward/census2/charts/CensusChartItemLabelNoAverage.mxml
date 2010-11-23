@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:degrafa="http://www.degrafa.com/2007" styleName="leftInnerContainer" borderStyle="none" backgroundAlpha="0" minHeight="35">
+
+  <mx:Metadata>
+    [Style(name="glowColor")]
+  </mx:Metadata>
+
+  <mx:Script>
+    import com.jamesward.census2.core.TestVO;
+
+    import mx.core.Application;
+
+    public override function styleChanged(styleProp:String):void {
+      super.styleChanged(styleProp);
+
+      glowOver.color = getStyle("glowColor");
+    }
+
+    [Bindable]
+    public var item:TestVO;
+  </mx:Script>
+
+  <mx:Glow id="glowOver" alphaFrom="0" alphaTo="0.5" blurXFrom="5" blurXTo="5" blurYFrom="5" blurYTo="5"/>
+  <mx:Glow id="glowOut" alphaTo="0"/>
+  
+  <mx:Label id="l" text="{item.name}" verticalCenter="0" fontWeight="bold" right="25"/>
+
+  <mx:Image id="reloadImage" source="@Embed('/assets/reload.png')" right="2" verticalCenter="-1" rollOverEffect="{glowOver}" rollOutEffect="{glowOut}">
+    <mx:click>
+      Application.application.runTest(item.id);
+    </mx:click>
+  </mx:Image>
+  
+</mx:Canvas>

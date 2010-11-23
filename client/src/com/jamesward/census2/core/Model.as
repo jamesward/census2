@@ -11,9 +11,6 @@ public class Model
   public function Model()
   {
     results = new ArrayCollection();
-
-    tests = new ArrayCollection();
-    tests.addEventListener(CollectionEvent.COLLECTION_CHANGE, updateResults);
   }
 
   public static function getInstance():Model
@@ -30,10 +27,15 @@ public class Model
   
   public var results:ArrayCollection;
 
-  public var tests:ArrayCollection;
-
   public var selectedResult:ResultVO;
+
   public var selectedResultType:String;
+  public var showAverageResults:Boolean;
+
+  public var gzipDefault:Boolean;
+
+
+  private var _tests:ArrayCollection;
 
   private var _numRows:uint;
 
@@ -100,6 +102,19 @@ public class Model
     _enableGzip = value;
 
     updateResults();
+  }
+
+  [Bindable(event="testsChanged")]
+  public function get tests():ArrayCollection {
+    return _tests;
+  }
+
+  public function set tests(value:ArrayCollection):void {
+    if (_tests == value) return;
+    _tests = value;
+    updateResults();
+    _tests.addEventListener(CollectionEvent.COLLECTION_CHANGE, updateResults);
+    dispatchEvent(new Event("testsChanged"));
   }
 }
 }

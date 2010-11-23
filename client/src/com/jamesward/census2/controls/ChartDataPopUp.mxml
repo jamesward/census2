@@ -49,7 +49,7 @@
     </mx:effectEnd>
   </mx:AnimateProperty>
   
-  <mx:VBox id="v" width="200" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
+  <mx:VBox id="v" width="220" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
     <mx:Text id="t" width="100%" htmlText="{TextFormatters.getChartDetails(Model.getInstance().selectedResult, Model.getInstance().selectedResultType)}"/>
     <mx:Spacer height="100%"/>
     <mx:Button label="Tweet Result" icon="@Embed(source='/assets/t_logo-b.png')" height="40" width="100%" paddingLeft="0" useHandCursor="true" buttonMode="true" fontSize="14" fontWeight="bold" visible="{Model.getInstance().selectedResultType == ResultVO.USER}">

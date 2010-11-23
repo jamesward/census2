@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalScrollPolicy="off" verticalScrollPolicy="off" verticalAlign="middle" paddingLeft="10">
+  <mx:Script><![CDATA[
+    import com.jamesward.census2.utils.TextFormatters;
+
+    import mx.controls.Label;
+
+    private var _chart:CensusChart;
+
+    public function set chart(_chart:CensusChart):void
+    {
+      this._chart = _chart;
+
+      removeAllChildren();
+
+      for (var i:int = 0; i < _chart.dataFields.length; i++)
+      {
+        var cr:ChartRectangle = new ChartRectangle();
+        cr.width = 16;
+        cr.height = 16;
+        cr.fillColor = _chart.averageColors[i];
+        addChild(cr);
+
+        var l:Label = new Label();
+        l.text = TextFormatters.getResultShortLabel(_chart.dataFields[i]) as String;
+        addChild(l);
+      }
+    }
+
+    public function get chart():CensusChart
+    {
+      return _chart;
+    }
+    ]]></mx:Script>
+
+</mx:HBox>

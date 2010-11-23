@@ -6,6 +6,13 @@
     <option name="OUTPUT_FILE_NAME" value="census2.swf" />
     <option name="TARGET_PLAYER_VERSION" value="9.0.124" />
     <option name="STATIC_LINK_RUNTIME_SHARED_LIBRARIES" value="false" />
+    <option name="CSS_FILES_LIST">
+      <list>
+        <option value="$MODULE_DIR$/src/readable.css" />
+        <option value="$MODULE_DIR$/src/sexy.css" />
+      </list>
+    </option>
+    <option name="ADDITIONAL_COMPILER_OPTIONS" value="-compiler.optimize" />
     <option name="VERSION" value="3" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
@@ -18,12 +25,13 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/Degrafa_Beta3.1_Flex3.swc!/" />
+          <root url="jar://$MODULE_DIR$/libs/degrafa.swc!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="client_common" />
   </component>
 </module>
 

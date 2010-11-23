@@ -24,6 +24,7 @@
         </element>
       </element>
       <element id="module-output" name="census2-client" />
+      <element id="module-output" name="CensusDashboard" />
     </root>
   </artifact>
 </component>

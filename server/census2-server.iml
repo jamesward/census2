@@ -9,7 +9,6 @@
         <webroots>
           <root url="file://$MODULE_DIR$/WebContent" relative="/" />
         </webroots>
-        <context-artifact name="census2.war" />
       </configuration>
     </facet>
   </component>

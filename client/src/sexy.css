@@ -25,9 +25,9 @@ global
 
 Application
 {
-  backgroundColor: #000000;
+  backgroundColor: #1a1a1a;
   backgroundGradientAlphas: 1.0, 1.0;
-  backgroundGradientColors: #000000, #000000;
+  backgroundGradientColors: #1a1a1a, #1a1a1a;
 }
 
 .headerLabel
@@ -35,14 +35,6 @@ Application
   fontWeight: bold;
   fontSize: 12;
   color: #bbbbbb;
-}
-
-.innerBackground
-{
-  backgroundColor: #1a1a1a;
-  borderThickness: 1;
-  borderColor: #2b2b2b;
-  borderStyle: solid;
 }
 
 .leftInnerContainer
@@ -154,15 +146,14 @@ DataTip
 NumericStepper
 {
   cornerRadius: 3;
-  backgroundColor: #151515;
-  borderColor: #111111;
+  backgroundColor: #161616;
+  borderColor: #252525;
   disabledColor: #282828;
   textRollOverColor: #dddddd;
   textSelectedColor: #dddddd;
   focusAlpha: 0;
   focusThickness: 0;
   borderThickness: 2;
-  borderColor: #252525;
   innerBorderColor: #0a0a0a;
   backgroundGradientColors: #141414, #0c0c0c;
   upArrowBorderColor: #101010;
@@ -218,13 +209,6 @@ TextInput
   borderStyle: solid;
 }
 
-StyledAxisRenderer
-{
-  showLine: false;
-  tickStrokeColor: #2b2b2b;
-  tickStrokeWeight: 1;
-}
-
 ChartBackgroundFill
 {
   borderFillColor: #2b2b2b;
@@ -242,4 +226,25 @@ ChartDataPopUp
 {
   backgroundColor: #1e1e1e;
   borderColor: #2b2b2b;
+}
+
+CensusChartItemLabelNoAverage
+{
+  glowColor: #ffffff;
+}
+
+CensusChartItemLabelWithAverage
+{
+  glowColor: #ffffff;
+  lineColor: #888888;
+}
+
+CensusChartAxisRenderer
+{
+  lineColor: #888888;
+}
+
+CensusChart
+{
+  lineColor: #888888;
 }

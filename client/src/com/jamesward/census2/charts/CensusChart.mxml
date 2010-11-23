@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
-           xmlns:controls="com.jamesward.census2.controls.*"
            xmlns:charts="com.jamesward.census2.charts.*"
+           xmlns:degrafa="http://www.degrafa.com/2007"
            horizontalScrollPolicy="off"
            verticalScrollPolicy="off">
-
-  <mx:initialize><![CDATA[
-      import mx.events.PropertyChangeEvent;
-
-      Model.getInstance().results.addEventListener(CollectionEvent.COLLECTION_CHANGE, function(event:CollectionEvent):void {
-        maxDataValue = calcMaxDataValue();
-      });
-      Model.getInstance().addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, function(event:PropertyChangeEvent):void {
-        if ((event.property == "numRows") || (event.property == "enableGzip"))
-        {
-          maxDataValue = calcMaxDataValue();
-        }
-      });
-      maxDataValue = calcMaxDataValue();
-    ]]></mx:initialize>
 
   <mx:Script><![CDATA[
     import com.jamesward.census2.core.ResultVO;
@@ -45,14 +30,18 @@
     public var axisLabelFormatterFunction:Function;
 
 
+    [Bindable]
+    private var lineColor:Number;
+
     private function calcMaxDataValue():uint
     {
       var curMax:uint = 0;
 
       for each (var result:ResultVO in Model.getInstance().results)
       {
-        if ((result.gzip == Model.getInstance().enableGzip) && (result.numRows == Model.getInstance().numRows))
-        {
+        // use all of the results for calculating the max data value
+        //if ((result.gzip == Model.getInstance().enableGzip) && (result.numRows == Model.getInstance().numRows))
+        //{
           for each (var i:String in [ResultVO.AVERAGE, ResultVO.USER])
           {
             var tm:uint = 0;
@@ -71,37 +60,116 @@
               curMax = tm;
             }
           }
-        }
+        //}
       }
 
       return curMax;
     }
 
+    private function updateChartItems():void
+    {
+      maxDataValue = calcMaxDataValue();
+
+      for each (var c:Object in chartVBox.getChildren())
+      {
+        c.item = Model.getInstance().getResult(c.id, Model.getInstance().numRows, Model.getInstance().enableGzip);
+        c.maxDataValue = maxDataValue;
+      }
+    }
+
+    public override function styleChanged(styleProp:String):void
+    {
+      super.styleChanged(styleProp);
+
+      lineColor = getStyle("lineColor");
+    }
+
     ]]></mx:Script>
 
-  <mx:VBox height="100%" width="100%" horizontalScrollPolicy="off">
+  <mx:initialize><![CDATA[
+      import com.jamesward.census2.core.MessageBus;
 
-    <mx:HBox height="100%" width="100%" horizontalGap="0">
+      import com.jamesward.census2.events.CensusResultEvent;
+
+      import mx.events.PropertyChangeEvent;
+
+      Model.getInstance().results.addEventListener(CollectionEvent.COLLECTION_CHANGE, function(event:CollectionEvent):void {
+        updateChartItems();
+      });
+
+      MessageBus.addEventListener(CensusResultEvent.RESULT_RECEIVED, function(event:CensusResultEvent):void {
+        updateChartItems();
+      });
+
+      Model.getInstance().addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, function(event:PropertyChangeEvent):void {
+        if ((event.property == "numRows") || (event.property == "enableGzip"))
+        {
+          updateChartItems();
+        }
+      });
+
+      Model.getInstance().addEventListener("testsChanged", function(event:Event):void {
+        labelVBox.removeAllChildren();
+        chartVBox.removeAllChildren();
+
+        for each (var t:TestVO in Model.getInstance().tests)
+        {
+          // todo: this would be cleaners with an interface and a factory
+          var lc:Object;
+          var cc:Object;
+
+          if (Model.getInstance().showAverageResults)
+          {
+            lc = new CensusChartItemLabelWithAverage();
+            cc = new CensusChartItemRendererWithAverage();
+          }
+          else
+          {
+            lc = new CensusChartItemLabelNoAverage();
+            cc = new CensusChartItemRendererNoAverage();
+          }
+
+          lc.percentHeight = 100;
+          lc.percentWidth = 100;
+          lc.item = t;
+          labelVBox.addChild(lc as DisplayObject);
+
+          cc.id = t.id;
+          cc.percentHeight = 100;
+          cc.percentWidth = 100;
+          cc.averageColors = averageColors;
+          cc.userColors = userColors;
+          cc.dataFields = dataFields;
+          chartVBox.addChild(cc as DisplayObject);
+        }
+
+        updateChartItems();
+      });
+    ]]></mx:initialize>
+
+  <degrafa:SolidStroke id="s" color="{lineColor}"/>
+
+  <mx:Canvas height="100%" width="100%">
+
+    <mx:HBox id="chartBody" height="{this.height - 30}" width="100%" horizontalGap="0">
 
       <!-- Left Labels -->
-      <mx:VBox width="250" height="100%" verticalGap="5">
-        <mx:Repeater id="r1" dataProvider="{Model.getInstance().tests}">
-          <charts:CensusChartItemLabel height="100%" width="100%" item="{r1.currentItem as TestVO}" minHeight="70"/>
-        </mx:Repeater>
-      </mx:VBox>
-
+      <mx:VBox id="labelVBox" width="{Model.getInstance().showAverageResults ? 250 : 150}" height="100%" verticalGap="5"/>
+      
       <!-- Main Chart -->
-      <mx:VBox height="100%" width="100%" verticalGap="5" styleName="leftInnerContainer">
-        <mx:Repeater id="r2" dataProvider="{Model.getInstance().tests}">
-          <charts:CensusChartItemRenderer height="100%" width="100%"
-            item="{Model.getInstance().getResult(r2.currentItem.id, Model.getInstance().numRows, Model.getInstance().enableGzip)}"  averageColors="{averageColors}" userColors="{userColors}" dataFields="{dataFields}"
-            maxDataValue="{maxDataValue}" minHeight="70" />
-        </mx:Repeater>
-      </mx:VBox>
+      <mx:VBox id="chartVBox" height="100%" width="100%" verticalGap="5" styleName="leftInnerContainer"/>
+
     </mx:HBox>
 
     <!-- Horizontal Axis -->
-    <charts:CensusChartAxisRenderer maxDataValue="{maxDataValue}" axisLabelFormatterFunction="{axisLabelFormatterFunction}" width="100%" height="30" paddingLeft="250"/>
-  </mx:VBox>
+    <charts:CensusChartAxisRenderer maxDataValue="{maxDataValue}" axisLabelFormatterFunction="{axisLabelFormatterFunction}" height="35" left="{Model.getInstance().showAverageResults ? 250 : 150}" right="0" bottom="0"/>
+
+  </mx:Canvas>
+
+  <degrafa:Surface width="1" height="{this.height - 30}" x="{Model.getInstance().showAverageResults ? 250 : 150}">
+    <degrafa:GeometryGroup>
+      <degrafa:Line x="0" x1="0" y="0" y1="{this.height - 30}" stroke="{s}"/>
+    </degrafa:GeometryGroup>
+  </degrafa:Surface>
   
 </mx:Canvas>

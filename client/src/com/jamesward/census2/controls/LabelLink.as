@@ -21,7 +21,10 @@ package com.jamesward.census2.controls
       super();
       
       addEventListener(MouseEvent.CLICK, function(event:MouseEvent):void {
-        navigateToURL(new URLRequest(url));
+        if (url != null)
+        {
+          navigateToURL(new URLRequest(url));
+        }
       });
     }
       

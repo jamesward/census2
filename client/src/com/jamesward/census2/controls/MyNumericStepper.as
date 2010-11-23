@@ -1,6 +1,8 @@
 package com.jamesward.census2.controls
 {
-  import mx.controls.NumericStepper;
+import com.jamesward.census2.utils.TextFormatters;
+
+import mx.controls.NumericStepper;
   import mx.core.FlexVersion;
   import mx.core.IUITextField;
   import mx.core.mx_internal;
@@ -34,4 +36,3 @@ package com.jamesward.census2.controls
 
   }
 }
-

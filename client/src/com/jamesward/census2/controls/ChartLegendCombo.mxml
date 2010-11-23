@@ -17,188 +17,178 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 -->
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
-  click="handleArrowClick()"
-  horizontalScrollPolicy="off"
-  mouseChildren="false" useHandCursor="true" buttonMode="true"
-  >
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:charts="com.jamesward.census2.charts.*"
+           click="handleArrowClick()"
+           horizontalScrollPolicy="off"
+           mouseChildren="false" useHandCursor="true" buttonMode="true"
+        >
 
   <mx:Metadata>
-  [Event(name="change")]
+    [Event(name="change")]
   </mx:Metadata>
 
   <mx:Script>
   <![CDATA[
     import mx.events.ResizeEvent;
     import mx.events.FlexEvent;
-  import flash.events.MouseEvent;
 
-  import mx.charts.BarChart;
-  import mx.containers.VBox;
-  import mx.containers.Canvas;
-  import mx.effects.WipeDown;
-  import mx.effects.WipeUp;
-  import mx.effects.Tween;
-  import mx.events.EffectEvent;
-  import mx.events.FlexMouseEvent;
-  import mx.managers.PopUpManager;
-  import mx.controls.ButtonPhase;
-  
+    import flash.events.MouseEvent;
 
-  import mx.core.mx_internal;
-  
-  use namespace mx_internal;
+    import mx.charts.BarChart;
+    import mx.containers.VBox;
+    import mx.containers.Canvas;
+    import mx.effects.WipeDown;
+    import mx.effects.WipeUp;
+    import mx.effects.Tween;
+    import mx.events.EffectEvent;
+    import mx.events.FlexMouseEvent;
+    import mx.managers.PopUpManager;
+    import mx.controls.ButtonPhase;
 
-  [Bindable] public var selectedIndex:int = 0;
 
-  private var _popup:VBox;
-  private var _charts:Array;
-  private var _open:Boolean = false;
-  private var _opening:Boolean = false;
-  private var tween:Tween;
+    import mx.core.mx_internal;
 
-  public function set charts(_charts:Array):void
-  {
-    this._charts = _charts;
-    updateLegend();
-  }
+    use namespace mx_internal;
 
-  public function get charts():Array
-  {
-    return _charts;
-  }
+    [Bindable]
+    public var selectedIndex:int = 0;
 
-  private function handleArrowClick():void
-  {
-    if (_opening)
-    {
-      tween.endTween();
+    private var _popup:VBox;
+    private var _charts:Array;
+    private var _open:Boolean = false;
+    private var _opening:Boolean = false;
+    private var tween:Tween;
+
+    public function set charts(_charts:Array):void {
+      this._charts = _charts;
+      updateLegend();
     }
-    else if (_open)
-    {
-      closePopUp();
+
+    public function get charts():Array {
+      return _charts;
     }
-    else
-    {
-      _opening = true;
 
-      _popup = new VBox();
-      _popup.width = _popup.maxWidth = _popup.minWidth = _popup.measuredWidth = this.width + 2;
-      _popup.visible = false;
-      _popup.setStyle("backgroundColor", getStyle("backgroundColor"));
-      _popup.setStyle("borderStyle", "solid");
-      _popup.setStyle("borderColor", getStyle("borderColor"));
-      _popup.setStyle("markerWidth", 10);
-      _popup.setStyle("markerHeight", 10);
-      _popup.horizontalScrollPolicy = "off";
-      _popup.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE, closePopUp);
-      _popup.addEventListener(FlexMouseEvent.MOUSE_WHEEL_OUTSIDE, closePopUp);
-      _popup.addEventListener("creationComplete", popupCreated);
+    private function handleArrowClick():void {
+      
+      if (_opening) {
+        tween.endTween();
+      }
+      else if (_open) {
+        closePopUp();
+      }
+      else {
+        _opening = true;
 
-      for (var i:int = 0; i < charts.length; i++)
-      {
-        //if (i != selectedIndex)
-        //{
-          var l:Legend = new Legend();
+        _popup = new VBox();
+        _popup.width = _popup.maxWidth = _popup.minWidth = _popup.measuredWidth = this.width + 2;
+        _popup.visible = false;
+        _popup.setStyle("backgroundColor", getStyle("backgroundColor"));
+        _popup.setStyle("borderStyle", "solid");
+        _popup.setStyle("borderColor", getStyle("borderColor"));
+        _popup.setStyle("markerWidth", 10);
+        _popup.setStyle("markerHeight", 10);
+        _popup.horizontalScrollPolicy = "off";
+        _popup.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE, closePopUp);
+        _popup.addEventListener(FlexMouseEvent.MOUSE_WHEEL_OUTSIDE, closePopUp);
+        _popup.addEventListener("creationComplete", popupCreated);
+
+        for (var i:int = 0; i < charts.length; i++) {
+          //if (i != selectedIndex)
+          //{
+          var l:ChartLegendItem = new ChartLegendItem();
           l.useHandCursor = true;
           l.buttonMode = true;
           l.mouseChildren = false;
           l.percentWidth = 100;
-          l.dataProvider = charts[i].chart;
-          l.direction = "horizontal";
-          l.setStyle("horizontalGap", 10);
+          l.chart = charts[i];
+          //l.direction = "horizontal";
+          //l.setStyle("horizontalGap", 10);
           l.addEventListener(MouseEvent.CLICK, popupClick);
-          l.addEventListener(ResizeEvent.RESIZE, function(event:Event):void { _popup.width = event.currentTarget.width; });
-          l.addEventListener(MouseEvent.ROLL_OVER, function(event:MouseEvent):void { event.currentTarget.setStyle("backgroundColor", getStyle("rollOverColor")); });
-          l.addEventListener(MouseEvent.ROLL_OUT, function(event:MouseEvent):void { event.currentTarget.setStyle("backgroundColor", undefined); });
+          //l.addEventListener(ResizeEvent.RESIZE, function(event:Event):void {
+          //  _popup.width = event.currentTarget.width;
+          //});
+          l.addEventListener(MouseEvent.ROLL_OVER, function(event:MouseEvent):void {
+            event.currentTarget.setStyle("backgroundColor", getStyle("rollOverColor"));
+          });
+          l.addEventListener(MouseEvent.ROLL_OUT, function(event:MouseEvent):void {
+            event.currentTarget.setStyle("backgroundColor", undefined);
+          });
           _popup.addChild(l);
-        //}
+          //}
+        }
+
+        var p:Point = localToGlobal(new Point());
+        _popup.y = p.y + this.height;
+        _popup.x = p.x;
+        PopUpManager.addPopUp(_popup, this);
       }
-
-      var p:Point = localToGlobal(new Point());
-      _popup.y = p.y + this.height;
-      _popup.x = p.x;
-      PopUpManager.addPopUp(_popup, this);
     }
-  }
 
-  private function popupCreated(event:Event):void
-  {
-    tween = new Tween(this, _popup.height, 0, 350);
-  }
+    private function popupCreated(event:Event):void {
+      tween = new Tween(this, _popup.height, 0, 350);
+    }
 
-  private function popupClick(event:MouseEvent):void
-  {
-    for (var i:int = 0; i < charts.length; i++)
+    private function popupClick(event:MouseEvent):void
     {
-      if ((event.currentTarget as Legend).dataProvider == charts[i].chart)
+      for (var i:int = 0; i < charts.length; i++)
       {
-        selectedIndex = i;
-        break;
+        if (event.currentTarget.chart == charts[i])
+        {
+          selectedIndex = i;
+          break;
+        }
+      }
+      popupClosed();
+      updateLegend();
+      dispatchEvent(new Event("change"));
+    }
+
+    private function closePopUp(event:Event = null):void {
+      tween =
+              new Tween(this, 0, _popup.height, 350);
+    }
+
+    private function popupClosed():void {
+      if (
+              _popup != null) {
+        PopUpManager.removePopUp(_popup);
+        _popup = null;
+        _open = false;
+        _opening = false;
       }
     }
 
-    updateLegend();
-    popupClosed();
-    dispatchEvent(new Event("change"));
-  }
-
-  private function updateLegend():void
-  {
-    legend.dataProvider = charts[selectedIndex].chart;
-  }
-
-  private function closePopUp(event:Event=null):void
-  {
-    tween = new Tween(this, 0, _popup.height, 350);
-  }
-
-  private function popupClosed():void
-  {
-    if (_popup != null)
-    {
-      PopUpManager.removePopUp(_popup);
-      _popup = null;
-      _open = false;
-      _opening = false;
-    }
-  }
-
-  public function onTweenUpdate(value:Number):void
-  {
-    if (_popup != null)
-    {
-      _popup.scrollRect = new Rectangle(0, value, _popup.width, _popup.height);
-      if (!_popup.visible)
-      {
-        _popup.visible = true;
+    public function onTweenUpdate(value:Number):void {
+      if (_popup != null) {
+        _popup.scrollRect = new Rectangle(0, value, _popup.width, _popup.height);
+        if (!_popup.visible) {
+          _popup.visible = true;
+        }
       }
     }
-  }
 
-  public function onTweenEnd(value:Number):void
-  {
-    if (_popup)
-    {
-      if (_opening)
-      {
-        _popup.scrollRect = null;
-         _open = true;
-         _opening = false;
+    public function onTweenEnd(value:Number):void {
+      if (_popup) {
+        if (_opening) {
+          _popup.scrollRect = null;
+          _open = true;
+          _opening = false;
+        }
+        else {
+          popupClosed();
+        }
       }
-      else
-      {
-        popupClosed();
+      else {
+        _open = false;
+        _opening = false;
       }
     }
-    else
-    {
-      _open = false;
-      _opening = false;
-    }
-  }
 
-  ]]>
+    private function updateLegend():void
+    {
+      cli.chart = charts[selectedIndex];
+    }
+    ]]>
   </mx:Script>
   
   <mx:rollOver>
@@ -214,7 +204,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   <mx:Button id="b" width="100%" height="100%"/>
   
   <mx:HBox width="100%" horizontalGap="0" verticalAlign="middle" verticalCenter="0">
-    <mx:Legend id="legend" direction="horizontal" markerWidth="10" markerHeight="10" width="100%" height="100%" horizontalGap="10"/>
+
+    <charts:ChartLegendItem id="cli" width="100%" height="20"/>
 
     <mx:UIComponent id="arrow" width="20" height="20">
       <mx:creationComplete>

@@ -4,18 +4,25 @@
                 xmlns:controls="com.jamesward.census2.controls.*"
                 xmlns:charts="com.jamesward.census2.charts.*"
                 xmlns:local="*"
-                verticalScrollPolicy="off"
                 visible="false"
-                styleName="plain">
+                layout="vertical"
+                paddingTop="15"
+                paddingBottom="15"
+                paddingLeft="15"
+                paddingRight="15"
+                verticalScrollPolicy="off">
 
   <mx:Script>
     <![CDATA[
-    import com.jamesward.census2.charts.CensusChartItemRenderer;
+    import com.jamesward.census2.charts.CensusChartItemRendererWithAverage;
+    import com.jamesward.census2.core.MessageBus;
     import com.jamesward.census2.core.Model;
     import com.jamesward.census2.core.ResultVO;
     import com.jamesward.census2.core.TestVO;
+    import com.jamesward.census2.events.CensusResultEvent;
     import com.jamesward.census2.utils.TextFormatters;
 
+    import mx.collections.ArrayCollection;
     import mx.events.PropertyChangeEvent;
     import mx.events.StyleEvent;
     import mx.managers.CursorManager;
@@ -24,58 +31,61 @@
     import mx.rpc.events.FaultEvent;
     import mx.rpc.events.ResultEvent;
 
-    private function changeTheme(theme:String):void
-    {
+    private var incomingResult:ResultVO;
+
+    private function changeTheme(theme:String):void {
       currentTheme = theme;
       var eventDispatcher:IEventDispatcher = StyleManager.loadStyleDeclarations(currentTheme + ".swf");
-      eventDispatcher.addEventListener(StyleEvent.COMPLETE, function(event:StyleEvent):void
-      {
+      eventDispatcher.addEventListener(StyleEvent.COMPLETE, function(event:StyleEvent):void {
 
-        if (!visible)
-        {
+        if (!visible) {
           visible = true;
         }
 
-        if ((iframe.source == null) || (iframe.source.indexOf("index_results.html") == 0))
-        {
+        if ((iframe.source == null) || (iframe.source.indexOf("index_results.html") == 0)) {
           iframe.source = "index_results.html" + "?theme=" + currentTheme;
         }
       });
     }
 
-    private function updateResult(testId:String, resultType:String, resultValue:Number):void
-    {
+    private function updateResult(testId:String, resultType:String, resultValue:Number):void {
       var result:ResultVO = Model.getInstance().getResult(testId, numRows.value, enableGZip.selected);
 
+      incomingResult["user" + "_" + resultType] = resultValue;
+
       // dirty check
-      if (result["user" + "_" + resultType] != resultValue)
-      {
+      if (result["user" + "_" + resultType] != resultValue) {
         result["user" + "_" + resultType] = resultValue;
 
-        if ((!isNaN(result.user_requestTime)) && (!isNaN(result.user_parseTime)) && (!isNaN(result.user_renderTime)) && (!isNaN(result.user_contentLength)))
-        {
+        if ((!isNaN(incomingResult.user_requestTime)) && (!isNaN(incomingResult.user_parseTime))
+                && (!isNaN(incomingResult.user_renderTime)) && (!isNaN(incomingResult.user_contentLength))
+                && (!isNaN(incomingResult.user_memorySize))) {
           // assume we are done
           CursorManager.removeBusyCursor();
 
           Model.getInstance().selectedResult = result;
           Model.getInstance().selectedResultType = ResultVO.USER;
 
-          // refresh average results
+          trace('updateResult');
+          MessageBus.dispatchEvent(new CensusResultEvent(CensusResultEvent.RESULT_RECEIVED, result));
+
           fetchAverageResults();
         }
       }
     }
 
-    public function startTest(test:TestVO):void
-    {
+    public function startTest(test:TestVO):void {
+      incomingResult = new ResultVO(test.id, numRows.value, enableGZip.selected);
+
+      testOutputLabel.text = "Output for " + test.name + " (Rows: " + numRows.value + " | Gzip: " + enableGZip.selected + ")";
+
       cursorManager.removeAllCursors();
 
-      if (numRows.value > numRows.maximum)
-      {
+      if (numRows.value > numRows.maximum) {
         numRows.value = numRows.maximum;
       }
 
-      iframeBox.height = 300;
+      iframeBox.percentHeight = 100;
 
       iframe.source = test.url + "?clientId=" + channelConfig.subtopic +
               "&sendCensusResultURL=" + channelConfig.sendCensusResultURL +
@@ -85,47 +95,42 @@
       cursorManager.setBusyCursor();
     }
 
-    private function fetchAverageResults():void
-    {
+    private function fetchAverageResults():void {
       Model.getInstance().numRows = numRows.value;
       Model.getInstance().enableGzip = enableGZip.selected;
 
-      if ((channelConfig.remoteObject != null) && (Model.getInstance().tests.length > 0))
-      {
-        for each (var test:TestVO in Model.getInstance().tests)
-        {
-          var token:AsyncToken = channelConfig.remoteObject.getAverageResults(test.id, enableGZip.selected, numRows.value);
-          token.addResponder(new AsyncResponder(handleAverageResultsResult, handleAverageResultsFault, {testId: test.id, gzip: enableGZip.selected, numRows: numRows.value}));
+      if (Model.getInstance().showAverageResults) {
+
+        if ((channelConfig.remoteObject != null) && (Model.getInstance().tests.length > 0)) {
+          for each (var test:TestVO in Model.getInstance().tests) {
+            var token:AsyncToken = channelConfig.remoteObject.getAverageResults(test.id, enableGZip.selected, numRows.value);
+            token.addResponder(new AsyncResponder(handleAverageResultsResult, handleAverageResultsFault, {testId: test.id, gzip: enableGZip.selected, numRows: numRows.value}));
+          }
         }
       }
     }
 
-    private function handleAverageResultsResult(event:ResultEvent, token:Object):void
-    {
+    private function handleAverageResultsResult(event:ResultEvent, token:Object):void {
       var result:ResultVO = Model.getInstance().getResult(token.testId, token.numRows, token.gzip);
-      for (var resultType:String in event.result)
-      {
+      for (var resultType:String in event.result) {
         result["average" + "_" + resultType] = event.result[resultType];
       }
+
+      MessageBus.dispatchEvent(new CensusResultEvent(CensusResultEvent.RESULT_RECEIVED, result));
     }
 
-    private function handleAverageResultsFault(event:FaultEvent, token:Object):void
-    {
+    private function handleAverageResultsFault(event:FaultEvent, token:Object):void {
       //trace('fault');
     }
 
-    public function runTest(testId:String):void
-    {
+    public function runTest(testId:String):void {
       var test:TestVO = Model.getInstance().getTestById(testId);
       startTest(test);
     }
 
-    private function checkSelectedItem(event:PropertyChangeEvent):void
-    {
-      if ((event.property == "selectedResult") || (event.property == "selectedResultType"))
-      {
-        if ((Model.getInstance().selectedResult != null) && (Model.getInstance().selectedResultType != null))
-        {
+    private function checkSelectedItem(event:PropertyChangeEvent):void {
+      if ((event.property == "selectedResult") || (event.property == "selectedResultType")) {
+        if ((Model.getInstance().selectedResult != null) && (Model.getInstance().selectedResultType != null)) {
           cdp.open();
         }
       }
@@ -138,6 +143,25 @@
   </mx:Metadata>
   
   <mx:initialize>
+    <![CDATA[
+    if ((parameters['gzipDefault'] != undefined) && (parameters['gzipDefault'] == "false"))
+    {
+      Model.getInstance().gzipDefault = false;
+    }
+    else
+    {
+      Model.getInstance().gzipDefault = true;
+    }
+
+    if ((parameters['showAverageResults'] != undefined) && (parameters['showAverageResults'] == "false"))
+    {
+      Model.getInstance().showAverageResults = false;
+    }
+    else
+    {
+      Model.getInstance().showAverageResults = true;
+    }
+
     changeTheme("readable");
 
     srv.send();
@@ -149,14 +173,8 @@
     this.contextMenu.customItems.push(item);
 
     Model.getInstance().addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, checkSelectedItem);
+    ]]>
   </mx:initialize>
-
-  <mx:mouseDown>
-    if (!(event.target.document is CensusChartItemRenderer))
-    {
-      cdp.close();
-    }
-  </mx:mouseDown>
 
   <mx:String id="currentTheme"/>
 
@@ -170,95 +188,115 @@
 
   <mx:HTTPService id="srv" url="tests.xml">
     <mx:result>
+        trace('result');
+        var a:Array = new Array();
         for each (var test:Object in event.result.tests.test)
         {
-          Model.getInstance().tests.addItem(new TestVO(test.id, test.url, test.name, test.description));
+          a.push(new TestVO(test.id, test.url, test.name, test.description));
         }
+
+        Model.getInstance().tests = new ArrayCollection(a);
   
         fetchAverageResults();
     </mx:result>
   </mx:HTTPService>
 
-  <mx:HBox width="100%" height="100%" horizontalGap="0" styleName="innerBackground">
-    <mx:VBox width="100%" height="100%" horizontalAlign="left" verticalGap="0" horizontalScrollPolicy="off" paddingBottom="10" paddingLeft="15" paddingRight="15">
-      <mx:Spacer height="15"/>
-      <mx:HBox height="40" width="100%" verticalAlign="bottom">
-        <controls:LabelLink url="http://www.jamesward.com/ria-benchmark" height="25" width="100%" label="Census v2.0" textAlign="center" fontSize="18" fontWeight="bold" toolTip="Learn more about Census"/>
+      <mx:HBox width="100%" verticalAlign="bottom">
+        <controls:LabelLink url="http://www.jamesward.com/ria-benchmark" height="25" label="Census v2.0" textAlign="center" fontSize="18" fontWeight="bold" toolTip="Learn more about Census"/>
         <mx:Spacer width="100%"/>
         <mx:Label text="Data loading and rendering performance comparison for RIA technologies" fontWeight="bold" fontSize="14"/>
       </mx:HBox>
-      <mx:HRule width="100%"/>
-      <mx:Spacer height="10"/>
+
       <mx:VBox width="100%" styleName="leftInnerContainer" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5">
         
         <mx:HBox width="100%" verticalAlign="middle" horizontalAlign="left" horizontalGap="3" paddingLeft="10">
           <mx:Label text="Comparison Parameters:" fontWeight="bold"/>
           
           <mx:Label text="# Rows" paddingTop="2"/>
-          <controls:MyNumericStepper id="numRows" minimum="1000" maximum="100000" stepSize="1000" value="20000" useHandCursor="true" buttonMode="true" height="26" width="70" textIndent="0" textAlign="right" change="fetchAverageResults()"/>
+          <controls:MyNumericStepper id="numRows" minimum="1000" maximum="100000" stepSize="1000" value="20000" useHandCursor="true" buttonMode="true" height="26" width="80" textIndent="0" textAlign="right" change="fetchAverageResults()"/>
         
-          <mx:CheckBox id="enableGZip" label="Enable GZip" paddingLeft="10" labelPlacement="left" selected="true" useHandCursor="true" buttonMode="true" mouseChildren="false" change="fetchAverageResults()"/>
+          <mx:CheckBox id="enableGZip" label="Enable GZip" paddingLeft="10" labelPlacement="left" selected="{Model.getInstance().gzipDefault}" useHandCursor="true" buttonMode="true" mouseChildren="false" change="fetchAverageResults()"/>
         
           <mx:Spacer width="100%"/>
 
-          <mx:ComboBox id="clc" width="250" height="26" dataProvider="['Request | Parse | Render', 'Transfer Size', 'Client Memory Usage']">
-            <mx:change>
+          <controls:ChartLegendCombo id="clc" width="270" height="26" charts="{[recordsPerSecondChartView, transferSizeChartView, clientSideMemoryChartView]}">
+            <controls:change>
               moveEffect.yTo = (recordsPerSecondChartView.height * -1 * clc.selectedIndex);
               moveEffect.play();
-            </mx:change>
-          </mx:ComboBox>
-
-          <!--
-          <controls:ChartLegendCombo id="clc" width="250" height="26" charts="{[recordsPerSecondChartView, transferSizeChartView, clientSideMemoryChartView]}">
-            <controls:change>
-              chartsVBox.y = (recordsPerSecondChartView.height * -1 * clc.selectedIndex);
             </controls:change>
           </controls:ChartLegendCombo>
-          -->
           
         </mx:HBox>
       </mx:VBox>
-
-      <mx:Spacer height="10"/>
       
-      <mx:Canvas id="chartsCanvas" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+      <mx:Canvas id="chartsCanvas" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" minHeight="320">
         
         <mx:VBox id="chartsVBox" width="100%" height="{chartsCanvas.height * 3}" verticalGap="0">
           <charts:CensusChart id="recordsPerSecondChartView"
                                            width="100%" height="100%"
                                            averageColors="[0x467299, 0xf6c54c, 0xff3f20]"
-                                           userColors="[0x2a547a, 0xd8a62d, 0xc92719]"
+                                           userColors="[0x467299, 0xf6c54c, 0xff3f20]"
                                            dataFields="['requestTime', 'parseTime', 'renderTime']"
                                            axisLabelFormatterFunction="TextFormatters.timeFormat"
                                            />
           <charts:CensusChart id="transferSizeChartView"
                                        width="100%" height="100%"
                                        averageColors="[0x339966]"
-                                       userColors="[0x246d49]"
+                                       userColors="[0x339966]"
                                        dataFields="['contentLength']"
                                        axisLabelFormatterFunction="TextFormatters.byteFormat"
                                        />
           <charts:CensusChart id="clientSideMemoryChartView"
                               width="100%" height="100%"
                               averageColors="[0x990000]"
-                              userColors="[0x6d0000]"
+                              userColors="[0x990000]"
                               dataFields="['memorySize']"
                               axisLabelFormatterFunction="TextFormatters.byteFormat"
                               />
+          <mx:mouseDown>
+            <![CDATA[
+              import com.jamesward.census2.charts.CensusChartItemRendererNoAverage;
+              import com.jamesward.census2.charts.CensusChartItemRendererWithAverage;
+
+              if (event.target.document is CensusChart) {
+                if ((event.target.document as CensusChart).chartBody.verticalScrollBar != null) {
+                  if ((event.target.document as CensusChart).chartBody.verticalScrollBar.contains(event.target as DisplayObject)) {
+                    // do not close the cdp if the user is click on the scrollbar
+                    return;
+                  }
+                }
+              }
+
+              if (!(event.target.document is CensusChartItemRendererWithAverage) && !(event.target.document is CensusChartItemRendererNoAverage)) {
+                cdp.close();
+              }
+            ]]>
+          </mx:mouseDown>
+          <mx:resize>
+            if (recordsPerSecondChartView.chartBody.verticalScrollBar != null)
+            {
+              cdp.setStyle("right", recordsPerSecondChartView.chartBody.verticalScrollBar.width);
+            }
+            else
+            {
+              cdp.setStyle("right", 0);
+            }
+          </mx:resize>
         </mx:VBox>
 
         <!-- Selected Item Overlay -->
-        <controls:ChartDataPopUp id="cdp" top="0" right="0" bottom="36" visible="false"/>
+        <controls:ChartDataPopUp id="cdp" top="0" right="0" bottom="30" visible="false"/>
         
       </mx:Canvas>
 
-      <mx:Spacer height="20"/>
-
-      <mx:Box id="iframeBox" width="100%" height="0" styleName="leftInnerContainer" visible="{iframeBox.height != 0}">
+      <mx:VBox id="iframeBox" width="100%" height="0" maxHeight="400" styleName="leftInnerContainer" visible="{iframeBox.height != 0}" verticalGap="0" verticalScrollPolicy="off">
+        <mx:HBox width="100%" height="40" paddingLeft="5" paddingRight="5" verticalScrollPolicy="off" horizontalScrollPolicy="off" verticalAlign="middle">
+          <mx:Label id="testOutputLabel" fontWeight="bold"/>
+          <mx:Spacer width="100%"/>
+          <mx:Button width="30" height="30" icon="@Embed('assets/list-remove.png')" click="iframeBox.height = 40;" includeInLayout="{iframeBox.height != 40}" visible="{iframeBox.height != 40}"/>
+          <mx:Button width="30" height="30" icon="@Embed('assets/list-add.png')" click="iframeBox.percentHeight = 100;" includeInLayout="{iframeBox.height == 40}" visible="{iframeBox.height == 40}"/>
+        </mx:HBox>
         <local:IFrame id="iframe" width="100%" height="100%" visible="true" creationComplete="iframe.visible = true"/>
-      </mx:Box>
-
-    </mx:VBox>
-  </mx:HBox>
+      </mx:VBox>
 
 </mx:Application>

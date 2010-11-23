@@ -59,13 +59,13 @@
 		<url>http://localhost:8080/census2-tests/dojo_json.html</url>
 		<description>Dojo Grid via JSON</description>
 	</test>
+  <!--
 	<test>
 		<id>html5_datagrid</id>
 		<name>HTML5</name>
 		<url>http://localhost:8080/census2-tests/html5_datagrid.html</url>
 		<description>HTML5 DataGrid</description>
 	</test>
-	<!--
 	<test>
 		<id>flex_amf3_paged</id>
 		<name>Flex AMF3 Paged</name>

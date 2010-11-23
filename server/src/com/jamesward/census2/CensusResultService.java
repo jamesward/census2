@@ -32,8 +32,11 @@ public class CensusResultService
       {
         allResults.put(result.getResultType(), new ArrayList<Integer>());
       }
-      
-      allResults.get(result.getResultType()).add(result.getResultData());
+
+      if ((result.getResultData() != null) && (result.getResultData() != -1))
+      {
+        allResults.get(result.getResultType()).add(result.getResultData());
+      }
     }
     
     Hashtable<String, Integer> averageResults = new Hashtable<String, Integer>();
@@ -42,14 +45,22 @@ public class CensusResultService
       
     while (keys.hasNext())
     {
-      Integer total = 0;
+      long total = 0;
       String resultType = keys.next();
       ArrayList<Integer> r = allResults.get(resultType);
       for (int i = 0; i < r.size(); i++)
       {
         total += r.get(i);
       }
-      averageResults.put(resultType, total / r.size());
+
+      Integer averageValue = 0;
+
+      if (r.size() > 0)
+      {
+        averageValue = new Long(total / r.size()).intValue();
+      }
+
+      averageResults.put(resultType, averageValue);
     }
     
     return averageResults;

@@ -112,22 +112,27 @@ public class TextFormatters
 
   public static function getChartDetails(item:ResultVO, resultType:String):String
   {
-
     var s:String = "";
 
     if (resultType == ResultVO.AVERAGE)
     {
-      s += "<font size='18'><b>Average Results</b></font>";
+      s += "<font size='16'><b>Average Results</b></font>";
     }
     else if (resultType == ResultVO.USER)
     {
-      s += "<font size='18'><b>Your Results</b></font>";
+      s += "<font size='16'><b>Your Results</b></font>";
     }
 
-    s += "<br/><font size='18'><b>" + Model.getInstance().getTestById(item.testId).name + "</b></font>" +
-      "<br/><font size='16'><b>Rows: " + getRpsFormatter().format(item.numRows) + "</b></font>" +
-      "<br/><font size='16'><b>Gzip: " + item.gzip + "</b></font>";
-    
+    s += "<br/><font size='16'><b>" + Model.getInstance().getTestById(item.testId).name + "</b></font>" +
+      "<br/><font size='14'><b>" + getRpsFormatter().format(item.numRows) + " Rows";
+
+    if (item.gzip)
+    {
+      s += " w/ GZip";
+    }
+
+    s += "</b></font>";
+
     if (getTotalTime(item, resultType) > 0)
     {
       s += "" + //<br/><br/><font size='14'><b>" + getRpsFormatter().format((item.numRows / (getTotalTime(item, resultType)) * 1000)) + " rows/s</b></font>" +
@@ -143,13 +148,25 @@ public class TextFormatters
     {
       s += "<br/><br/>No data yet.";
     }
-    
     return s;
   }
   
   public static function getTweet(item:ResultVO):String
   {
     return "Just loaded and rendered " + Model.getInstance().getTestById(item.testId).name + " - " + getRpsFormatter().format(item.numRows) + " rows in " + timeFormat(getTotalTime(item, ResultVO.USER)) + "! http://jamesward.com/census";
+  }
+
+  public static function getResultShortLabel(field:String):String
+  {
+    switch (field)
+    {
+      case 'requestTime': return 'Request';
+      case 'parseTime': return 'Parse';
+      case 'renderTime': return 'Render';
+      case 'contentLength': return 'Transfer Size';
+      case 'memorySize': return 'Client-side Memory';
+    }
+    return "";
   }
   
 }

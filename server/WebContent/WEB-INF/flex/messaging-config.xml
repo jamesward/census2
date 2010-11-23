@@ -6,7 +6,7 @@
     </adapters>
 
     <default-channels>
-        <channel ref="my-streaming-amf"/>
+        <!--<channel ref="my-streaming-amf"/>-->
         <channel ref="my-polling-amf"/>
     </default-channels>
 
