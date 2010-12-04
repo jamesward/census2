@@ -28,72 +28,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="9952168f-84e4-482d-8747-4a5aa66c3224" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/events" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemLabelNoAverage.mxml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemRendererNoAverage.mxml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/ChartLegendItem.mxml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/ChartRectangle.mxml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/RunTestButton.mxml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/core/ChartLegendItemVO.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/events/CensusResultEvent.as" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/CensusDashboard.mxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/ChannelConfig.as" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/StyledAxisRenderer.as" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/WebContent/sexy.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/CensusDAO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/CensusService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/CensusServiceServlet.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/ConnectionManager.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/ICensusService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/client/CensusGWTService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/client/GenericGwtRpcService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/client" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/server/CensusGWTServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/server" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/shared/CensusEntryVO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/shared/GenericGwtRpcList.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2/shared" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward/census2" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com/jamesward" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/classes/com" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemLabel.mxml" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemLabelWithAverage.mxml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemRenderer.mxml" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemRendererWithAverage.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_amf3.swf" afterPath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_amf3.swf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_amf3_paged.swf" afterPath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_amf3_paged.swf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_soap_as.swf" afterPath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_soap_as.swf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_soap_e4x.swf" afterPath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_soap_e4x.swf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_xml_as.swf" afterPath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_xml_as.swf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_xml_e4x.swf" afterPath="$PROJECT_DIR$/../census2-tests/server/WebContent/flex_xml_e4x.swf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/client/flex/census2-tests-client-flex.iml" afterPath="$PROJECT_DIR$/../census2-tests/client/flex/census2-tests-client-flex.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/client/flex/src/flex_amf3.mxml" afterPath="$PROJECT_DIR$/../census2-tests/client/flex/src/flex_amf3.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/ajax_html.html" afterPath="$PROJECT_DIR$/../census2-tests/server/WebContent/ajax_html.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/dojo_json.html" afterPath="$PROJECT_DIR$/../census2-tests/server/WebContent/dojo_json.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/server/WebContent/main.css" afterPath="$PROJECT_DIR$/../census2-tests/server/WebContent/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../census2-tests/server/census2-tests-server.iml" afterPath="$PROJECT_DIR$/../census2-tests/server/census2-tests-server.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/census2_war.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/census2_war.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/projectCodeStyle.xml" afterPath="$PROJECT_DIR$/.idea/projectCodeStyle.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/census2-client.iml" afterPath="$PROJECT_DIR$/client/census2-client.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/census2.mxml" afterPath="$PROJECT_DIR$/client/src/census2.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChart.mxml" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChart.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartAxisRenderer.mxml" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartAxisRenderer.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/ChartDataPopUp.mxml" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/ChartDataPopUp.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/ChartLegendCombo.mxml" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/ChartLegendCombo.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/LabelLink.as" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/LabelLink.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/MyNumericStepper.as" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/controls/MyNumericStepper.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/core/Model.as" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/core/Model.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/com/jamesward/census2/utils/TextFormatters.as" afterPath="$PROJECT_DIR$/client/src/com/jamesward/census2/utils/TextFormatters.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/readable.css" afterPath="$PROJECT_DIR$/client/src/readable.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/sexy.css" afterPath="$PROJECT_DIR$/client/src/sexy.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/WEB-INF/flex/messaging-config.xml" afterPath="$PROJECT_DIR$/server/WebContent/WEB-INF/flex/messaging-config.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/WEB-INF/flex/services-config.xml" afterPath="$PROJECT_DIR$/server/WebContent/WEB-INF/flex/services-config.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/blazeds_config.xml" afterPath="$PROJECT_DIR$/server/WebContent/blazeds_config.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/index.html" afterPath="$PROJECT_DIR$/server/WebContent/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/WebContent/tests.xml" afterPath="$PROJECT_DIR$/server/WebContent/tests.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/census2-server.iml" afterPath="$PROJECT_DIR$/server/census2-server.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/src/com/jamesward/census2/CensusResultService.java" afterPath="$PROJECT_DIR$/server/src/com/jamesward/census2/CensusResultService.java" />
     </list>
     <ignored path="$USER_HOME$/.grails/" />
     <ignored path="$USER_HOME$/.griffon/" />
@@ -214,11 +150,86 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="README.txt" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.txt">
+      <file leaf-file-name="CensusServiceServlet.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../census2-tests/server/src/com/jamesward/census2/CensusServiceServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="0" selection-start="1407" selection-end="1407" vertical-scroll-proportion="0.86404836">
+            <state line="175" column="16" selection-start="5846" selection-end="5846" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="flex_amf3.mxml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../census2-tests/client/flex/src/flex_amf3.mxml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="96" column="48" selection-start="3458" selection-end="3458" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CensusService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../census2-tests/server/src/com/jamesward/census2/CensusService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="52" selection-start="1059" selection-end="1059" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="census2.mxml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client/src/census2.mxml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="146" column="0" selection-start="5489" selection-end="5489" vertical-scroll-proportion="0.9587217">
+              <folding>
+                <marker date="1289604596000" expanded="false" signature="597:1260" placeholder="..." />
+                <marker date="1289604596000" expanded="true" signature="1356:1839" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="1582:1831" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="1607:1644" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="1737:1823" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="1934:2903" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="2185:2897" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="2953:3628" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="3250:3300" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="3678:4345" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="3842:4339" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="3937:4331" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="4005:4321" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="4433:4772" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="4585:4667" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="4858:4889" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="4939:5034" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="5107:5360" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="5201:5354" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="5313:5346" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="5488:6399" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="5585:5639" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="5653:5706" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="5818:5879" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="5893:5953" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="6164:6248" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="6590:6726" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="6832:7152" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="6963:7052" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="8206:8227" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="8452:8473" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="8712:8850" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="9682:9707" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="10144:10169" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="10558:10583" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="10664:11494" placeholder="{...}" />
+                <marker date="1289604596000" expanded="false" signature="10686:10834" placeholder="..." />
+                <marker date="1289604596000" expanded="true" signature="10892:11287" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="10990:11271" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="11122:11253" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="11435:11481" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="11545:11846" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="11637:11750" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="11780:11835" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="12559:12581" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="12751:12781" placeholder="{...}" />
+                <marker date="1289604596000" expanded="true" signature="12976:12997" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -249,7 +260,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/client/src/com/jamesward/census2/events/ResultEvent.as" />
         <option value="$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemLabelNoAverage.mxml" />
         <option value="$PROJECT_DIR$/server/WebContent/WEB-INF/flex/services-config.xml" />
         <option value="$PROJECT_DIR$/client_common/src/com/jamesward/census2/ChannelConfig.as" />
@@ -265,6 +275,7 @@
         <option value="$PROJECT_DIR$/../census2-tests/server/WebContent/ajax_html.html" />
         <option value="$PROJECT_DIR$/../census2-tests/server/WebContent/main.css" />
         <option value="$PROJECT_DIR$/../census2-tests/server/WebContent/dojo_json.html" />
+        <option value="$PROJECT_DIR$/../census2-tests/server/src/com/jamesward/census2/CensusServiceServlet.java" />
       </list>
     </option>
   </component>
@@ -354,18 +365,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Favorites" />
       <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="census2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -380,6 +380,17 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="census2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -404,7 +415,7 @@
       <recent name="$PROJECT_DIR$/client/src/com/jamesward/census2/charts" />
     </key>
   </component>
-  <component name="RunManager" selected="JBoss Server.census2">
+  <component name="RunManager" selected="Flex.census2">
     <configuration default="false" name="census2" type="FlexRunConfigurationType" factoryName="Flex" temporary="true" browser_family="CHROME" debugger_sdk="Module SDK" html_or_swf_file_path="$PROJECT_DIR$/out/production/census2-client/_census2.swf" launcher_type="Browser" main_class_name="census2" module_name="census2-tests-client-flex" player_path="/usr/bin/flashplayer" run_mode="Url" run_trusted="false" url_to_launch="http://localhost:8080/census2/index.html">
       <RunnerSettings RunnerId="FlexDebugRunner" />
       <RunnerSettings RunnerId="FlexRunner" />
@@ -765,13 +776,13 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32814023" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814023" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297769" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973261" sideWeight="0.3443259" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.50048494" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22994652" sideWeight="0.6718598" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32941177" sideWeight="0.7711782" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22882181" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -812,38 +823,20 @@
     <MESSAGE value="almost ready for release" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="flex">
+          <url>file://$PROJECT_DIR$/client/src/census2.mxml</url>
+          <line>146</line>
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/server/WebContent/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="7" selection-start="820" selection-end="820" vertical-scroll-proportion="0.39528432" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/com/jamesward/census2/charts/BarItemRenderer.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartAxisRenderer.mxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="34" selection-start="1441" selection-end="1441" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemLabelWithAverage.mxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="12" selection-start="2067" selection-end="2067" vertical-scroll-proportion="0.98657715" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChartItemLabelNoAverage.mxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="12" selection-start="1095" selection-end="1095" vertical-scroll-proportion="0.62416106" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/com/jamesward/census2/charts/CensusChart.mxml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="174" column="12" selection-start="5155" selection-end="5155" vertical-scroll-proportion="0.8770492" />
@@ -871,35 +864,59 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../census2-tests/server/WebContent/ajax_json.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="162" column="4" selection-start="4364" selection-end="4426" vertical-scroll-proportion="-10.833333">
-          <folding />
-        </state>
+        <state line="162" column="4" selection-start="4364" selection-end="4426" vertical-scroll-proportion="-10.833333" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../census2-tests/server/WebContent/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="17" selection-start="124" selection-end="124" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="4" column="17" selection-start="124" selection-end="124" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../census2-tests/server/WebContent/dojo_json.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="150" column="16" selection-start="4718" selection-end="4718" vertical-scroll-proportion="0.7432432">
-          <folding />
-        </state>
+        <state line="150" column="16" selection-start="4718" selection-end="4718" vertical-scroll-proportion="0.7432432" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../census2-tests/server/WebContent/ajax_html.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="2" selection-start="2906" selection-end="2906" vertical-scroll-proportion="0.067567565">
+        <state line="110" column="2" selection-start="2906" selection-end="2906" vertical-scroll-proportion="0.067567565" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/com/jamesward/census2/SendCensusResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="5" selection-start="1835" selection-end="1835" vertical-scroll-proportion="0.054054055" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="20" selection-start="1406" selection-end="1406" vertical-scroll-proportion="0.6756757" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../census2-tests/server/src/com/jamesward/census2/CensusServiceServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="175" column="16" selection-start="5846" selection-end="5846" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../census2-tests/client/flex/src/flex_amf3.mxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="48" selection-start="3458" selection-end="3458" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../census2-tests/server/WebContent/WEB-INF/flex/remoting-config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="10" selection-start="528" selection-end="528" vertical-scroll-proportion="0.25525525">
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../census2-tests/server/src/com/jamesward/census2/CensusService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="52" selection-start="1059" selection-end="1059" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/census2.mxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="5" selection-start="2903" selection-end="2903" vertical-scroll-proportion="1.1784288">
+        <state line="146" column="0" selection-start="5489" selection-end="5489" vertical-scroll-proportion="0.9587217">
           <folding>
             <marker date="1289604596000" expanded="false" signature="597:1260" placeholder="..." />
             <marker date="1289604596000" expanded="true" signature="1356:1839" placeholder="{...}" />
@@ -921,17 +938,34 @@
             <marker date="1289604596000" expanded="true" signature="5107:5360" placeholder="{...}" />
             <marker date="1289604596000" expanded="true" signature="5201:5354" placeholder="{...}" />
             <marker date="1289604596000" expanded="true" signature="5313:5346" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="5488:6399" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="5585:5639" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="5653:5706" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="5818:5879" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="5893:5953" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="6164:6248" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="6590:6726" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="6832:7152" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="6963:7052" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="8206:8227" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="8452:8473" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="8712:8850" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="9682:9707" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="10144:10169" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="10558:10583" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="10664:11494" placeholder="{...}" />
+            <marker date="1289604596000" expanded="false" signature="10686:10834" placeholder="..." />
+            <marker date="1289604596000" expanded="true" signature="10892:11287" placeholder="{...}" />
             <marker date="1289604596000" expanded="true" signature="10990:11271" placeholder="{...}" />
             <marker date="1289604596000" expanded="true" signature="11122:11253" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="11435:11481" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="11545:11846" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="11637:11750" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="11780:11835" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="12559:12581" placeholder="{...}" />
+            <marker date="1289604596000" expanded="true" signature="12751:12781" placeholder="{...}" />
             <marker date="1289604596000" expanded="true" signature="12976:12997" placeholder="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="0" selection-start="1407" selection-end="1407" vertical-scroll-proportion="0.86404836">
-          <folding />
         </state>
       </provider>
     </entry>
