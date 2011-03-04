@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:census2="com.jamesward.census2.*" styleName="plain">
+  
+  <mx:Script>
+    import mx.rpc.AsyncToken;
+    import mx.rpc.AsyncResponder;
+    import mx.controls.Alert;
+    
+    import mx.rpc.events.ResultEvent;
+    import mx.rpc.events.FaultEvent;
+    
+    private function refreshData():void
+    {
+      var token:AsyncToken = channelConfig.remoteObject.getAllResults();
+      token.addResponder(new AsyncResponder(function(resultEvent:ResultEvent, o:Object):void {
+        dg.dataProvider = resultEvent.result;
+      }, function(faultEvent:FaultEvent, o:Object):void {
+        Alert.show(faultEvent.fault.message, "Error");
+      }));
+    }
+  </mx:Script>
+  
+  <census2:ChannelConfig id="channelConfig" setup="refreshData()"/>
+  
+  <mx:DataGrid id="dg" width="100%" height="100%">
+    <mx:columns>
+      <mx:DataGridColumn dataField="createDate"/>
+      <mx:DataGridColumn dataField="testId"/>
+      <mx:DataGridColumn dataField="ipAddress"/>
+      <mx:DataGridColumn dataField="gzip"/>
+      <mx:DataGridColumn dataField="numRows"/>
+      <mx:DataGridColumn dataField="contentLength"/>
+      <mx:DataGridColumn dataField="memorySize"/>
+      <mx:DataGridColumn dataField="totalServerTime"/>
+      <mx:DataGridColumn dataField="requestTime"/>
+      <mx:DataGridColumn dataField="parseTime"/>
+      <mx:DataGridColumn dataField="renderTime"/>
+    </mx:columns>
+  </mx:DataGrid>
+  
+  <mx:Button label="delete selected" enabled="{dg.selectedItem != null}">
+    <mx:click>
+      var token:AsyncToken = channelConfig.remoteObject.deleteResult(dg.selectedItem.ipAddress, dg.selectedItem.testId, dg.selectedItem.gzip, dg.selectedItem.numRows);
+      token.addResponder(new AsyncResponder(function(resultEvent:ResultEvent, o:Object):void {
+        refreshData();
+      }, function(faultEvent:FaultEvent, o:Object):void {
+        Alert.show(faultEvent.fault.message, "Error");
+      }));
+    </mx:click>
+  </mx:Button>
+  
+</mx:Application>
