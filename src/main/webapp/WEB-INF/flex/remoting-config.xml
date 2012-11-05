@@ -15,4 +15,10 @@
         </properties>
     </destination>
 
+    <destination id="census">
+        <properties>
+            <source>com.jamesward.census2.CensusService</source>
+        </properties>
+    </destination>
+
 </service>

@@ -7,6 +7,8 @@ public class Webapp {
 
     public static void main(String[] args) throws Exception {
 
+        CensusResultDAO.init();
+        
         String webappDirLocation = "src/main/webapp/";
         Tomcat tomcat = new Tomcat();
 

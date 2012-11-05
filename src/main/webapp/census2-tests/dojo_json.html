@@ -1,0 +1,160 @@
+<!--
+Copyright (C) 2007 James Ward
+http://www.jamesward.org
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+-->
+<html>
+<head>
+<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" href="dijit/themes/dijit.css" type="text/css">
+<link rel="stylesheet" href="dojox/grid/resources/tundraGrid.css" type="text/css">
+<script type="text/javascript" src="dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="querystring.js"></script>
+<script type="text/javascript">
+
+var qs = new Querystring();
+
+var testId = "dojo_json";
+
+var numRows = qs.get("numRows");
+var gzip = qs.get("enableGZip", false);
+if (gzip == "false")
+{
+	  gzip = false;
+}
+
+var store;
+
+var model;
+
+var startLoadTime;
+var endLoadTime;
+
+var startParseTime;
+var endParseTime;
+
+var startRenderTime;
+var endRenderTime;
+
+dojo.require("dojo.parser");
+dojo.require("dojo.cookie");
+dojo.require("dijit.dijit");
+dojo.require("dojox.grid.DataGrid");
+dojo.require("dojo.data.ItemFileReadStore");
+dojo.addOnLoad(function()
+{
+	  startLoadTime = new Date();
+
+    var content = {
+			command: "getJSON",
+			testId: testId,
+			rows: numRows,
+			timestamp: startLoadTime.getTime(),
+			sendCensusResultURL: qs.get("sendCensusResultURL"),
+			clientId: qs.get("clientId")
+		};
+
+    if (gzip)
+    {
+      content["gzip"] = true;
+    }
+
+	  dojo.xhrGet(
+		{
+                handleAs: "text",
+                url: "servlet/CensusServiceServlet",
+                content: content,
+                load: function(data, ioArgs)
+                {
+                        try
+                        {
+                        	endLoadTime = new Date();
+
+                        	startParseTime = new Date();
+                        	var jsonData = dojo.fromJson(data);
+
+                        	var dObj = {
+                                identifier: "id",
+                                label: "age",
+                                items: jsonData.items
+                        	};
+
+                          ifrs._jsonData = dObj;
+                        	ifrs._forceLoad();
+
+                          endParseTime = new Date();
+
+                        	startRenderTime = new Date();
+                        	dGrid.setStore(ifrs, { age: '*' });
+                        	endRenderTime = new Date();
+
+                        	sendResult("memorySize", -1);
+                            
+                					sendResult("requestTime", endLoadTime.getTime() - startLoadTime.getTime());
+
+                					sendResult("parseTime", endParseTime.getTime() - startParseTime.getTime());
+                			
+                					sendResult("renderTime", endRenderTime.getTime() - startRenderTime.getTime());
+                        }
+                        catch(e)
+                        {
+                            console.error(e);
+                        }
+                }
+			});
+});
+  
+function sendResult(resultType, resultData)
+{
+	var r = "<iframe src='" + qs.get("sendCensusResultURL") +
+	  "?clientId=" + qs.get("clientId") + "&testId=" + testId + "&resultType=" + resultType + "&resultData=" + resultData +
+	  "&gzip=" + gzip + "&numRows=" + numRows + 
+	  "'></iframe>";
+		
+	document.getElementById(resultType + "Results").innerHTML = r;
+ }
+</script>
+<style type="text/css">
+@import "dojox/grid/resources/Grid.css";
+@import "dojox/grid/resources/tundraGrid.css";
+@import "dojo/resources/dojo.css";
+@import "dijit/themes/tundra/tundra.css";
+</style>
+</head>
+<body class="tundra">
+<div jsId="ifrs" dojoType="dojo.data.ItemFileReadStore"></div>
+<table jsId="dGrid" dojoType="dojox.grid.DataGrid"
+        style="width: 100%; height: 100%">
+        <thead>
+                <tr>
+                        <th width="100%">id</th>
+                        <th width="100%">age</th>
+                        <th width="100%">classOfWorker</th>
+                        <th width="100%">education</th>
+                        <th width="100%">maritalStatus</th>
+                        <th width="100%">race</th>
+                        <th width="100%">sex</th>
+                </tr>
+        </thead>
+</table>
+<div style="float: none; display: none; width: 100%; height: 10px">
+      <div id="memorySizeResults"></div>
+      <div id="requestTimeResults"></div>
+      <div id="parseTimeResults"></div>
+      <div id="renderTimeResults"></div>
+</div>
+</body>
+</html>

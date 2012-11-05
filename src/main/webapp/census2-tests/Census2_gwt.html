@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="querystring.js"></script>
+    <script>
+    var startRequestTime;
+    var endRequestTime;
+
+    var startParseTime;
+    var endParseTime;
+
+    var qs = new Querystring();
+
+    var testId = "smartgwt_rpc";
+
+    var numRows = qs.get("numRows");
+    var gzip = qs.get("enableGZip", false);
+    if (gzip == "false")
+    {
+        gzip = false;
+    }
+    
+    function __gwtStatsEvent(evt)
+    {
+      if ((evt.subSystem == "rpc") && (evt.type == "requestSent"))
+      {
+    	  startRequestTime = evt.millis;
+      }
+      else if ((evt.subSystem == "rpc") && (evt.type == "responseReceived"))
+      {
+    	  endRequestTime = evt.millis;
+    	  startParseTime = evt.millis;
+      }
+      else if ((evt.subSystem == "rpc") && (evt.type == "responseDeserialized"))
+      {
+        endParseTime = evt.millis;
+
+        sendResult("memorySize", -1);
+        
+        sendResult("requestTime", endRequestTime - startRequestTime);
+
+        sendResult("parseTime", endParseTime - startParseTime);
+      }
+      
+      return true;
+    }
+
+    function sendResult(resultType, resultData)
+    {
+      var r = "<iframe src='" + qs.get("sendCensusResultURL") +
+        "?clientId=" + qs.get("clientId") + "&testId=" + testId + "&resultType=" + resultType + "&resultData=" + resultData +
+        "&gzip=" + gzip + "&numRows=" + numRows + 
+        "'></iframe>";
+        
+      document.getElementById(resultType + "Results").innerHTML = r;
+     }
+    </script>
+    <script type="text/javascript" language="javascript" src="census2_gwt/census2_gwt.nocache.js"></script>
+  </head>
+  <body>
+    <div style="float: none; display: none; width: 100%; height: 10px">
+		  <div id="memorySizeResults"></div>
+			<div id="requestTimeResults"></div>
+			<div id="parseTimeResults"></div>
+		</div>
+  </body>
+</html>

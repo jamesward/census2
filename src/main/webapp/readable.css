@@ -1,0 +1,253 @@
+/*
+Copyright (C) 2007 James Ward
+http://www.jamesward.org
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
+global
+{
+  themeColor: #d6d6d6;
+  color: #444444;
+}
+
+Application
+{
+  backgroundColor: #ffffff;
+  backgroundGradientAlphas: 1.0, 1.0;
+  backgroundGradientColors: #ffffff, #ffffff;
+}
+
+.headerLabel
+{
+  fontWeight: bold;
+  fontSize: 12;
+  color: #444444;
+}
+
+.innerBackground
+{
+  backgroundColor: #e5e5e5;
+  borderThickness: 1;
+  borderColor: #d4d4d4;
+  borderStyle: solid;
+}
+
+.leftInnerContainer
+{
+  background-color: #eaeaea;
+  borderColor: #dadada;
+  borderThickness: 1;
+  borderStyle: solid;
+}
+
+.leftInnerContainerNoTopBorder
+{
+  backgroundColor: #eaeaea;
+  borderColor: #dadada;
+  borderThickness: 1;
+  borderStyle: solid;
+  borderSides: left,right,bottom;
+}
+
+.listItem
+{
+  color: #333333;
+}
+
+LabelLink
+{
+  linkColor: #444444;
+  linkHoverColor: #333333;
+}
+
+HRule
+{
+  strokeColor: #cecece;
+  strokeWidth: 1;
+}
+
+Button
+{
+  fontSize: 10;
+  fontWeight: bold;
+  textRollOverColor: #222222;
+  textSelectedColor: #222222;
+  disabledColor: #d7d7d7;
+  skin: ClassReference("com.jamesward.census2.skins.ButtonSkin");
+  upBorderColor: #dadada;
+  upInnerBorderGradientColors: #ebebeb, #f4f4f4;
+  upBackgroundGradientColors: #c6c6c6, #ececec;
+  overBorderColor: #dadada;
+  overInnerBorderGradientColors: #ebebeb, #f4f4f4;
+  overBackgroundGradientColors: #e9e9e9;
+  disabledBorderColor: #dadada;
+  disabledInnerBorderGradientColors: #ebebeb, #f4f4f4;
+  disabledBackgroundGradientColors: #d6d6d6, #fcfcfc;
+}
+
+CheckBox
+{
+  checkColor: #444444;
+  selectedCheckColor: #222222;
+  disabledCheckColor: #d7d7d7;
+  borderColor: #dadada;
+  innerBorderGradientColors: #ebebeb, #f4f4f4;
+  upBackgroundGradientColors: #c6c6c6, #ececec;
+  overBackgroundGradientColors: #e9e9e9;
+  downBackgroundGradientColors: #e9e9e9;
+  disabledBackgroundGradientColors: #c6c6c6, #ececec;
+  textRollOverColor: #444444;
+  textSelectedColor: #444444;
+  icon: ClassReference("com.jamesward.census2.skins.CheckBoxIcon");
+  leading: -1;
+}
+
+ScrollBar
+{
+  trackColors: #ececec, #efefef;
+  borderColor: #eeeeee;
+  backgroundColor: #eeeeee;
+  fillColors: #d6d6d6, #ececec;
+  fillAlphas: 1,1;
+  themeColor: #d6d6d6;
+  skin: ClassReference("com.jamesward.census2.skins.ScrollArrowSkin");
+}
+
+Alert
+{
+  backgroundColor: #c6c6c6;
+  borderColor: #c6c6c6;
+}
+
+.alertButtonStyle
+{
+  color: #444444;
+  textRollOverColor: #222222;
+  textSelectedColor: #222222;
+}
+
+TitleWindow
+{
+  backgroundColor: #c6c6c6;
+  borderColor: #c6c6c6;
+}
+
+ToolTip
+{
+  backgroundColor: #c6c6c6;
+}
+
+DataTip
+{
+  color: #444444;
+  paddingLeft: 4;
+  paddingRight: 4;
+  paddingBottom: 4;
+  backgroundColor: #c6c6c6;
+  fontSize: 12;
+}
+
+NumericStepper
+{
+  cornerRadius: 3;
+  backgroundColor: #eaeaea;
+  borderColor: #eeeeee;
+  disabledColor: #d7d7d7;
+  textRollOverColor: #222222;
+  textSelectedColor: #222222;
+  focusAlpha: 0;
+  focusThickness: 0;
+  borderThickness: 2;
+  borderColor: #dadada;
+  innerBorderColor: #f5f5f5;
+  backgroundGradientColors: #ebebeb, #f3f3f3;
+  upArrowBorderColor: #efefef;
+  upArrowUpHighlightColor: #c6c6c6;
+  upArrowPixelColor: #e6e6e6;
+  upArrowUpFillGradientColors: #d6d6d6, #dedede;
+  upArrowNotUpFillGradientColors: #eaeaea, #eeeeee;
+  downArrowBorderColor: #f5f5f5;
+  downArrowUpHighlightColor: #d0d0d0; 
+  downArrowUpFillGradientColors: #e3e3e3, #ececec;
+  downArrowDownHighlightColor: #e1e1e1; 
+  downArrowDownFillGradientColors: #eaeaea, #eeeeee;
+  downArrowSkin: ClassReference("com.jamesward.census2.skins.NumericStepperDownSkin");
+  upArrowSkin: ClassReference("com.jamesward.census2.skins.NumericStepperUpSkin");
+  borderSkin: ClassReference("com.jamesward.census2.skins.NumericStepperBorderSkin");
+}
+
+LegendItem
+{
+  fontWeight: bold;
+  fontSize: 10;
+}
+
+LinkBar
+{
+  color: #484848;
+  fontWeight: bold;
+  fontSize: 12;
+  separatorWidth: 0;
+  rollOverColor: #1a1a1a;
+  selectionColor: #1a1a1a;
+  textRollOverColor: #444444;
+  textSelectedColor: #444444;
+}
+
+LinkButton
+{
+  disabledColor: #444444;
+}
+
+List
+{
+  rollOverColor: #c9c9c9;
+  selectionColor: #c9c9c9;
+  textRollOverColor: #444444;
+  textSelectedColor: #444444;
+  themeColor: #d6d6d6;
+}
+
+TextInput
+{
+  cornerRadius: 3;
+  borderStyle: solid;
+}
+
+StyledAxisRenderer
+{
+  showLine: false;
+  tickStrokeColor: #d4d4d4;
+  tickStrokeWeight: 1;
+}
+
+ChartBackgroundFill
+{
+  borderFillColor: #d4d4d4;
+  fillColor: #eaeaea;
+}
+
+ChartLegendCombo
+{
+  backgroundColor: #eaeaea;
+  borderColor: #d4d4d4;
+  rollOverColor: #c9c9c9;
+}
+
+ChartDataPopUp
+{
+  backgroundColor: #e1e1e1;
+  borderColor: #d4d4d4;
+}

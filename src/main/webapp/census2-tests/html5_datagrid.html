@@ -1,0 +1,55 @@
+<html>
+<head>
+<link rel="stylesheet" href="main.css" type="text/css">
+<script type="text/javascript" src="querystring.js"></script>
+<script>
+var qs = new Querystring();
+
+var testId = "html5_datagrid";
+
+var numRows = qs.get("numRows");
+var gzip = qs.get("enableGZip", false);
+if (gzip == "false")
+{
+  gzip = false;
+}
+
+function loadData()
+{
+	  sendResult("memorySize", -1);
+
+	  sendResult("requestTime", -1);
+
+	  sendResult("parseTime", -1);
+
+	  sendResult("renderTime", -1);
+	  
+	  sendResult("contentLength", -1);
+}
+
+function sendResult(resultType, resultData)
+{
+	  var r = "<iframe src='" + qs.get("sendCensusResultURL") +
+	   "?clientId=" + qs.get("clientId") + "&testId=" + testId + "&resultType=" + resultType + "&resultData=" + resultData +
+	   "&gzip=" + gzip + "&numRows=" + numRows + 
+	   "'></iframe>";
+
+	  document.getElementById(resultType + "Results").innerHTML = r;
+}
+</script>
+</head>
+<body onload="loadData()">
+<center>
+<h1 style="padding-top: 50px;">Sorry.  This benchmark is not available.</h1>
+<h2><a href="http://html5.org/tools/web-apps-tracker?from=3554&to=3555" target="_blank">DataGrid was removed from the HTML5 Spec on August 7, 2009</a></h2>
+<h2>Check out the Dojo and GWT benchmarks to see HTML and JavaScript based DataGrid-like controls.</h2>
+</center>
+<div style="float: none; display: none; width: 100%; height: 10px">
+      <div id="memorySizeResults"></div>
+      <div id="requestTimeResults"></div>
+      <div id="parseTimeResults"></div>
+      <div id="renderTimeResults"></div>
+      <div id="contentLengthResults"></div>
+</div>
+</body>
+</html>

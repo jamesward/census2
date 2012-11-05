@@ -5,8 +5,6 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import flex.messaging.FlexContext;
-
 public class CensusResultService
 {
 
@@ -21,13 +19,11 @@ public class CensusResultService
         searchCensusResult.setGzip(gzip);
 
         // find like searchCensusResult
-
         
-        Iterator<CensusResult> results = null;
+        List<CensusResult> results = CensusResultDAO.findSimilar(searchCensusResult);
 
-        while (results.hasNext())
+        for (CensusResult result : results)
         {
-            CensusResult result = (CensusResult)results.next();
             if (allResults.get(result.getResultType()) == null)
             {
                 allResults.put(result.getResultType(), new ArrayList<Integer>());
@@ -71,16 +67,14 @@ public class CensusResultService
     public List<Hashtable<String, Object>> getAllResults()
     {
         ArrayList<Hashtable<String, Object>> allResults = new ArrayList<Hashtable<String, Object>>();
-
-        Iterator<CensusResult> allCensusResults = null;
+        
+        List<CensusResult> allCensusResults = CensusResultDAO.findAll();
 
         Hashtable<CensusResult, List<CensusResult>> groupedResults = new Hashtable<CensusResult, List<CensusResult>>();
 
         // group the rows together into items that have a common ip, testId, gzip, and numRows
-        while (allCensusResults.hasNext())
+        for (CensusResult result : allCensusResults)
         {
-            CensusResult result = (CensusResult)allCensusResults.next();
-
             CensusResult key = new CensusResult();
             key.setIpAddress(result.getIpAddress());
             key.setTestId(result.getTestId());
@@ -95,7 +89,6 @@ public class CensusResultService
             }
 
             r.add(result);
-
         }
 
 
@@ -132,33 +125,15 @@ public class CensusResultService
 
     public List<CensusResult> getAllRawResults()
     {
-        ArrayList<CensusResult> allRawResults = new ArrayList<CensusResult>();
-
-        Iterator<CensusResult> allCensusResults = null;
-
-        while (allCensusResults.hasNext())
-        {
-            CensusResult result = (CensusResult)allCensusResults.next();
-
-            allRawResults.add(result);
-        }
+        List<CensusResult> allRawResults = CensusResultDAO.findAll();
 
         return allRawResults;
     }
 
     public void deleteResult(String ipAddress, String testId, Boolean gzip, Integer numRows)
     {
-        
-        CensusResult searchCensusResult = new CensusResult();
-        searchCensusResult.setTestId(testId);
-        searchCensusResult.setNumRows(numRows);
-        searchCensusResult.setGzip(gzip);
-        
-        Iterable<CensusResult> results = null;
-        for (CensusResult r : results)
-        {
-            // todo: do delete
-        }
+        CensusResult searchCensusResult = new CensusResult(ipAddress, testId, null, null, gzip, numRows);
+        CensusResultDAO.deleteSimilar(searchCensusResult);
     }
 
 }

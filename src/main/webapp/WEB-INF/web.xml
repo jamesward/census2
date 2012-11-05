@@ -27,9 +27,32 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>Census Service Servlet</servlet-name>
+        <display-name>Census Service Servlet</display-name>
+        <servlet-class>com.jamesward.census2.CensusServiceServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>CensusSOAPService</servlet-name>
+        <servlet-class>com.jamesward.census2.CensusService</servlet-class>
+    </servlet>
+    
+
     <servlet-mapping>
         <servlet-name>MessageBrokerServlet</servlet-name>
         <url-pattern>/messagebroker/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Census Service Servlet</servlet-name>
+        <url-pattern>/census2-tests/servlet/CensusServiceServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CensusSOAPService</servlet-name>
+        <url-pattern>/census2-tests/services/CensusSOAPService</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

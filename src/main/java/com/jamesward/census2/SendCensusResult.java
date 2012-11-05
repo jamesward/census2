@@ -64,22 +64,10 @@ public class SendCensusResult extends HttpServlet
             CensusResult newCensusResult = new CensusResult(ipAddress, testId, resultType, resultData, gzip, numRows);
 
             // check for dups - only allow one entry per IP per testId per resultType
-            CensusResult searchCensusResult = new CensusResult();
-            searchCensusResult.setIpAddress(newCensusResult.getIpAddress());
-            searchCensusResult.setTestId(newCensusResult.getTestId());
-            searchCensusResult.setResultType(newCensusResult.getResultType());
-            searchCensusResult.setGzip(gzip);
-            searchCensusResult.setNumRows(numRows);
+            CensusResult searchCensusResult = new CensusResult(ipAddress, testId, resultType, null, gzip, numRows);
     
-            Iterator<CensusResult> result = null;
-
-            while (result.hasNext())
-            {
-                // todo: delete
-                //db4oServer.delete(result.next());
-            }
-            
-            // todo: add new one
+            CensusResultDAO.deleteSimilar(searchCensusResult);
+            CensusResultDAO.add(newCensusResult);
 
             // send result to client
             Hashtable<String, Object> body = new Hashtable<String, Object>();
