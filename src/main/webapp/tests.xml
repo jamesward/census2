@@ -1,76 +1,78 @@
 <tests>
-	<test>
-		<id>flex_amf3</id>
-		<name>Flex AMF3</name>
-		<url>/census2-tests/flex_amf3.html</url>
-		<description>Flex AMF3 Remoting</description>
-	</test>
-	<test>
-		<id>flex_xml_as</id>
-		<name>Flex XML AS</name>
-		<url>/census2-tests/flex_xml_as.html</url>
-		<description>Flex XML to AS Objects</description>
-	</test>
-	<test>
-		<id>flex_xml_e4x</id>
-		<name>Flex XML E4X</name>
-		<url>/census2-tests/flex_xml_e4x.html</url>
-		<description>Flex XML to E4X</description>
-	</test>
-	<test>
-		<id>flex_soap_as</id>
-		<name>Flex SOAP AS</name>
-		<url>/census2-tests/flex_soap_as.html</url>
-		<description>Flex SOAP to AS Objects</description>
-	</test>
-	<test>
-		<id>flex_soap_e4x</id>
-		<name>Flex SOAP E4X</name>
-		<url>/census2-tests/flex_soap_e4x.html</url>
-		<description>Flex SOAP to E4X</description>
-	</test>
-	<test>
-		<id>ajax_html</id>
-		<name>Ajax HTML</name>
-		<url>/census2-tests/ajax_html.html</url>
-		<description>HTML Table via Plain Ajax</description>
-	</test>
-	<test>
-		<id>ajax_json</id>
-		<name>Ajax JSON</name>
-		<url>/census2-tests/ajax_json.html</url>
-		<description>HTML Table via Ajax JSON</description>
-	</test>
-	<test>
-		<id>silverlight_xml</id>
-		<name>Silverlight XML</name>
-		<url>/census2-tests/silverlight_xml.html</url>
-		<description>Silverlight via XML</description>
-	</test>
-	<test>
-		<id>smartgwt_rpc</id>
-		<name>Smart GWT RPC</name>
-		<url>/census2-tests/Census2_gwt.html</url>
-		<description>Smart GWT via RPC</description>
-	</test>
-	<test>
-		<id>dojo_json</id>
-		<name>Dojo JSON</name>
-		<url>/census2-tests/dojo_json.html</url>
-		<description>Dojo Grid via JSON</description>
-	</test>
-  <!--
-	<test>
-		<id>html5_datagrid</id>
-		<name>HTML5</name>
-		<url>/census2-tests/html5_datagrid.html</url>
-		<description>HTML5 DataGrid</description>
-	</test>
-	<test>
-		<id>flex_amf3_paged</id>
-		<name>Flex AMF3 Paged</name>
-		<url>/census2-tests/flex_amf3.html</url>
-		<description>Flex AMF3 w/ Paging</description>
-	</test>
-	-->
+    <test>
+        <id>flex_amf3</id>
+        <name>Flex AMF3</name>
+        <url>/census2-tests/flex_amf3.html</url>
+        <description>Flex AMF3 Remoting</description>
+    </test>
+    <test>
+        <id>flex_xml_as</id>
+        <name>Flex XML AS</name>
+        <url>/census2-tests/flex_xml_as.html</url>
+        <description>Flex XML to AS Objects</description>
+    </test>
+    <test>
+        <id>flex_xml_e4x</id>
+        <name>Flex XML E4X</name>
+        <url>/census2-tests/flex_xml_e4x.html</url>
+        <description>Flex XML to E4X</description>
+    </test>
+    <test>
+        <id>flex_soap_as</id>
+        <name>Flex SOAP AS</name>
+        <url>/census2-tests/flex_soap_as.html</url>
+        <description>Flex SOAP to AS Objects</description>
+    </test>
+    <test>
+        <id>flex_soap_e4x</id>
+        <name>Flex SOAP E4X</name>
+        <url>/census2-tests/flex_soap_e4x.html</url>
+        <description>Flex SOAP to E4X</description>
+    </test>
+    <test>
+        <id>ajax_html</id>
+        <name>Ajax HTML</name>
+        <url>/census2-tests/ajax_html.html</url>
+        <description>HTML Table via Plain Ajax</description>
+    </test>
+    <test>
+        <id>ajax_json</id>
+        <name>Ajax JSON</name>
+        <url>/census2-tests/ajax_json.html</url>
+        <description>HTML Table via Ajax JSON</description>
+    </test>
+    <test>
+        <id>silverlight_xml</id>
+        <name>Silverlight XML</name>
+        <url>/census2-tests/silverlight_xml.html</url>
+        <description>Silverlight via XML</description>
+    </test>
+    <!--
+    <test>
+        <id>smartgwt_rpc</id>
+        <name>Smart GWT RPC</name>
+        <url>/census2-tests/Census2_gwt.html</url>
+        <description>Smart GWT via RPC</description>
+    </test>
+    -->
+    <test>
+        <id>dojo_json</id>
+        <name>Dojo JSON</name>
+        <url>/census2-tests/dojo_json.html</url>
+        <description>Dojo Grid via JSON</description>
+    </test>
+    <!--
+      <test>
+          <id>html5_datagrid</id>
+          <name>HTML5</name>
+          <url>/census2-tests/html5_datagrid.html</url>
+          <description>HTML5 DataGrid</description>
+      </test>
+      <test>
+          <id>flex_amf3_paged</id>
+          <name>Flex AMF3 Paged</name>
+          <url>/census2-tests/flex_amf3.html</url>
+          <description>Flex AMF3 w/ Paging</description>
+      </test>
+      -->
 </tests>
