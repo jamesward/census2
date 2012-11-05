@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="message-service" class="flex.messaging.services.MessageService">
+
+    <adapters>
+        <adapter-definition id="actionscript" class="flex.messaging.services.messaging.adapters.ActionScriptAdapter" default="true" />
+    </adapters>
+
+    <default-channels>
+        <channel ref="my-streaming-amf"/>
+        <channel ref="my-polling-amf"/>
+    </default-channels>
+
+    <destination id="CensusResultsDestination">
+        <properties>
+            <server>
+                <allow-subtopics>true</allow-subtopics>
+                <subtopic-separator>.</subtopic-separator>
+                <disallow-wildcard-subtopics>false</disallow-wildcard-subtopics>
+            </server>
+        </properties>
+    </destination>
+
+</service>

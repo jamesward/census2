@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services-config>
+
+    <services>
+        <service-include file-path="remoting-config.xml"/>
+        <service-include file-path="messaging-config.xml"/>
+    </services>
+
+    <security>
+    </security>
+
+    <channels>
+        <channel-definition id="my-amf" class="mx.messaging.channels.AMFChannel">
+            <endpoint url="http://{server.name}:{server.port}/{context.root}/messagebroker/amf" class="flex.messaging.endpoints.AMFEndpoint"/>
+            <properties>
+                <polling-enabled>false</polling-enabled>
+            </properties>
+        </channel-definition>
+
+        <channel-definition id="my-polling-amf" class="mx.messaging.channels.AMFChannel">
+            <endpoint url="http://{server.name}:{server.port}/{context.root}/messagebroker/pollingamf" class="flex.messaging.endpoints.AMFEndpoint"/>
+            <properties>
+                <wait-interval-millis>5000</wait-interval-millis>
+                <!--<client-wait-interval-millis>5000</client-wait-interval-millis>-->
+                <max-waiting-poll-requests>100</max-waiting-poll-requests>
+            </properties>
+        </channel-definition>
+        <channel-definition id="my-streaming-amf" class="mx.messaging.channels.StreamingAMFChannel">
+            <endpoint url="http://{server.name}:{server.port}/{context.root}/messagebroker/streamingamf" class="flex.messaging.endpoints.StreamingAMFEndpoint"/>
+        </channel-definition>
+    </channels>
+
+    <logging>
+        <target class="flex.messaging.log.ConsoleTarget" level="Error">
+            <properties>
+                <prefix>[BlazeDS] </prefix>
+                <includeDate>false</includeDate>
+                <includeTime>false</includeTime>
+                <includeLevel>false</includeLevel>
+                <includeCategory>false</includeCategory>
+            </properties>
+            <filters>
+                <pattern>Endpoint.*</pattern>
+                <pattern>Service.*</pattern>
+                <pattern>Configuration</pattern>
+            </filters>
+        </target>
+    </logging>
+
+    <system>
+        <redeploy>
+            <enabled>false</enabled>
+        </redeploy>
+    </system>
+
+</services-config>

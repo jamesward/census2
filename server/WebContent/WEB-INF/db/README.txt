@@ -1,1 +1,0 @@
-This directory must be here for the db4o database file.
