@@ -1,0 +1,3 @@
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
+    <endpoint name="myService" implementation="com.jamesward.census2.CensusService" url-pattern="/census2-tests/services/CensusSOAPService"/>
+</endpoints>

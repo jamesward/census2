@@ -17,7 +17,7 @@ public class CensusValve extends ValveBase implements Valve
     public void invoke(Request request, Response response) throws IOException, ServletException
     {
         // early exit if not a request for data
-        if (!request.getServletPath().endsWith("CensusServiceServlet"))
+        if (!request.getServletPath().endsWith("CensusServiceServlet") && !request.getServletPath().endsWith("CensusSOAPService"))
         {
             getNext().invoke(request, response);
             return;
@@ -36,7 +36,7 @@ public class CensusValve extends ValveBase implements Valve
         }
 
         // make sure the response doesn't get gzipped if this is a test that is not supposed to be gzipped
-        if (!gzip && request.getServletPath().endsWith("CensusServiceServlet"))
+        if (!gzip && (request.getServletPath().endsWith("CensusServiceServlet") || request.getServletPath().endsWith("CensusSOAPService")))
         {
             request.getCoyoteRequest().getMimeHeaders().removeHeader("accept-encoding");
         }
