@@ -19,13 +19,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package com.jamesward.census2;
 
+import com.jamesward.census2.shared.CensusEntryVO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import com.jamesward.census2.shared.CensusEntryVO;
 
 public class CensusDAO
 {

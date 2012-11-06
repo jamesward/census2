@@ -79,6 +79,11 @@
             <artifactId>hsqldb</artifactId>
             <version>1.8.0.10</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.2</version>
+        </dependency>
     </dependencies>
     
     <build>

@@ -1,7 +1,9 @@
 package com.jamesward.census2;
 
-import java.io.File;
+import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
+
+import java.io.File;
 
 public class Webapp {
 
@@ -10,6 +12,7 @@ public class Webapp {
         CensusResultDAO.init();
         
         String webappDirLocation = "src/main/webapp/";
+
         Tomcat tomcat = new Tomcat();
 
         String webPort = System.getenv("PORT");
@@ -19,8 +22,12 @@ public class Webapp {
 
         tomcat.setPort(Integer.valueOf(webPort));
 
-        tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
+        Context context = tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
+        
+        context.getPipeline().addValve(new CensusValve());
 
+        tomcat.getConnector().setProperty("compression", "force");
+        
         tomcat.start();
         tomcat.getServer().await();
     }

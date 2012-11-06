@@ -18,173 +18,134 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 -->
 <html>
 <head>
-<link rel="stylesheet" href="main.css" type="text/css">
-<script type="text/javascript" src="json.js"></script>
-<script type="text/javascript" src="querystring.js"></script>
-<script type="text/javascript">
-<!--
-  var isIE = false;
+    <link rel="stylesheet" href="main.css" type="text/css">
+    <script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="querystring.js"></script>
+    <script type="text/javascript">
+        var qs = new Querystring();
 
-  var qs = new Querystring();
+        var testId = "ajax_json";
 
-  var testId = "ajax_json";
-  
-  var numRows = qs.get("numRows");
-  var gzip = qs.get("enableGZip", false);
-  if (gzip == "false")
-  {
-      gzip = false;
-  }
+        var numRows = qs.get("numRows");
+        var gzip = qs.get("enableGZip", false);
+        if (gzip == "false")
+        {
+            gzip = false;
+        }
 
-  var req;
-  var selectedIndex;
-  var selectedRow;
-  
-  var startLoadTime;
-  var endLoadTime;
+        var req;
+        var selectedIndex;
+        var selectedRow;
 
-  var startParseTime;
-  var endParseTime;
+        var startLoadTime;
+        var endLoadTime;
 
-  var startRenderTime;
-  var endRenderTime;
+        var startParseTime;
+        var endParseTime;
 
-  function clearList()
-  {
-    var t = document.getElementById("grid");
-    if (t.firstChild != null)
-    {
-      t.removeChild(t.firstChild);
-    }
-  }
+        var startRenderTime;
+        var endRenderTime;
 
-  function loadData()
-  {
-    document.getElementById("grid").innerHTML = "";
-    
-    startLoadTime = new Date();
+        function clearList()
+        {
+            var t = document.getElementById("grid");
+            if (t.firstChild != null)
+            {
+                t.removeChild(t.firstChild);
+            }
+        }
 
-    var url = "servlet/CensusServiceServlet?command=getJSON&testId=" + testId + "&rows=" + numRows + "&timestamp=" + startLoadTime.getTime() +
-      "&sendCensusResultURL=" + qs.get("sendCensusResultURL") + "&clientId=" + qs.get("clientId");
+        function loadData()
+        {
+            document.getElementById("grid").innerHTML = "";
 
-    if (gzip)
-    {
-      url += "&gzip=true";
-    }
-    
-    clearList();
+            startLoadTime = new Date();
 
-    if (window.XMLHttpRequest)
-    {
-      req = new XMLHttpRequest();
-      req.onreadystatechange = processReqChange;
-      //req.overrideMimeType("text/xml");
-      req.open("GET", url, true);
-      req.send(null);
-    }
-    else if (window.ActiveXObject)
-    {
-      isIE = true;
-      req = new ActiveXObject("Microsoft.XMLHTTP");
-      if (req)
-      {
-        req.onreadystatechange = processReqChange;
-        req.open("GET", url, true);
-        req.send();
-      }
-    }
+            var url = "servlet/CensusServiceServlet?command=getJSON&testId=" + testId + "&rows=" + numRows + "&timestamp=" + startLoadTime.getTime() +
+                    "&sendCensusResultURL=" + qs.get("sendCensusResultURL") + "&clientId=" + qs.get("clientId");
 
-  }
+            if (gzip)
+            {
+                url += "&gzip=true";
+            }
 
-  function processReqChange()
-  {
-    if (req.readyState == 4)
-    {
-      if (req.status == 200)
-      {
-        displayData();
-      }
-      else
-      {
-        alert("There was a problem retrieving the JSON data:\n" + req.statusText);
-      }
-    }
-  }
+            clearList();
 
-  function displayData()
-  {
-      endLoadTime = new Date();
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "text",
+                success:  function(data) {
+                    endLoadTime = new Date();
+                    startParseTime = new Date();
+                    
+                    var data = JSON.parse(data);
 
-      startParseTime = new Date();
+                    endParseTime = new Date();
 
-      console.log(req.responseText);
-      var data = req.responseText.parseJSON();
+                    startRenderTime = new Date();
 
-      endParseTime = new Date();
+                    var tHtml = "<table id='myTable' width='100%' cellpadding='4' cellspacing='0'>";
+                    for (var i = 0; i < data.items.length; i++)
+                    {
+                        tHtml += "<tr onclick='listClick(this)' onmouseover='listMouseOver(this)' onmouseout='listMouseOut(this)'>";
+                        tHtml += "<td>" + data.items[i].id + "</td>";
+                        tHtml += "<td>" + data.items[i].age + "</td>";
+                        tHtml += "<td>" + data.items[i].education + "</td>";
+                        tHtml += "<td>" + data.items[i].classOfWorker + "</td>";
+                        tHtml += "<td>" + data.items[i].maritalStatus + "</td>";
+                        tHtml += "<td>" + data.items[i].race + "</td>";
+                        tHtml += "<td>" + data.items[i].sex + "</td>";
+                        tHtml += "</tr>";
+                    }
+                    tHtml += "</table>";
 
-      startRenderTime = new Date();
+                    var g = document.getElementById('grid');
+                    g.innerHTML = tHtml;
 
-      var tHtml = "<table id='myTable' width='100%' cellpadding='4' cellspacing='0'>";
-      for (var i = 0; i < data.items.length; i++)
-      {
-        tHtml += "<tr onclick='listClick(this)' onmouseover='listMouseOver(this)' onmouseout='listMouseOut(this)'>";
-        tHtml += "<td>" + data.items[i].id + "</td>";
-        tHtml += "<td>" + data.items[i].age + "</td>";
-        tHtml += "<td>" + data.items[i].education + "</td>";
-        tHtml += "<td>" + data.items[i].classOfWorker + "</td>";
-        tHtml += "<td>" + data.items[i].maritalStatus + "</td>";
-        tHtml += "<td>" + data.items[i].race + "</td>";
-        tHtml += "<td>" + data.items[i].sex + "</td>";
-        tHtml += "</tr>";
-      }
-      tHtml += "</table>";
-      
-      var g = document.getElementById('grid');
-      g.innerHTML = tHtml;
+                    endRenderTime = new Date();
 
-      endRenderTime = new Date();
-      
 
-      sendResult("memorySize", -1);
-      
-			sendResult("requestTime", endLoadTime.getTime() - startLoadTime.getTime());
+                    sendResult("memorySize", -1);
 
-			sendResult("parseTime", endParseTime.getTime() - startParseTime.getTime());
-			
-			sendResult("renderTime", endRenderTime.getTime() - startRenderTime.getTime());
-  }
-  
-	function sendResult(resultType, resultData)
-	{
-		var r = "<iframe src='" + qs.get("sendCensusResultURL") +
-		  "?clientId=" + qs.get("clientId") + "&testId=" + testId + "&resultType=" + resultType + "&resultData=" + resultData +
-		  "&gzip=" + gzip + "&numRows=" + numRows + 
-		  "'></iframe>";
+                    sendResult("requestTime", endLoadTime.getTime() - startLoadTime.getTime());
 
-	  document.getElementById(resultType + "Results").innerHTML = r;
-  }
+                    sendResult("parseTime", endParseTime.getTime() - startParseTime.getTime());
 
-  function listMouseOver(row)
-  {
-    row.style.backgroundColor= "#c9c9c9";
-  }
+                    sendResult("renderTime", endRenderTime.getTime() - startRenderTime.getTime());
+                }
+            })
+        }
 
-  function listMouseOut(row)
-  {
-    row.style.backgroundColor= "#eaeaea";
-  }
+        function sendResult(resultType, resultData)
+        {
+            var r = "<iframe src='" + qs.get("sendCensusResultURL") +
+                    "?clientId=" + qs.get("clientId") + "&testId=" + testId + "&resultType=" + resultType + "&resultData=" + resultData +
+                    "&gzip=" + gzip + "&numRows=" + numRows +
+                    "'></iframe>";
 
--->
-</script>
+            document.getElementById(resultType + "Results").innerHTML = r;
+        }
+
+        function listMouseOver(row)
+        {
+            row.style.backgroundColor= "#c9c9c9";
+        }
+
+        function listMouseOut(row)
+        {
+            row.style.backgroundColor= "#eaeaea";
+        }
+    </script>
 </head>
 <body onload="loadData()">
 <div id="grid" style="overflow: auto">
 </div>
 <div style="float: none; display: none; width: 100%; height: 10px">
-      <div id="memorySizeResults"></div>
-      <div id="requestTimeResults"></div>
-      <div id="parseTimeResults"></div>
-      <div id="renderTimeResults"></div>
+    <div id="memorySizeResults"></div>
+    <div id="requestTimeResults"></div>
+    <div id="parseTimeResults"></div>
+    <div id="renderTimeResults"></div>
 </div>
 </body>
 </html>

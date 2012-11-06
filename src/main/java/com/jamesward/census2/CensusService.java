@@ -19,13 +19,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package com.jamesward.census2;
 
-import java.sql.SQLException;
+import com.jamesward.census2.shared.CensusEntryVO;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-
-import com.jamesward.census2.shared.CensusEntryVO;
+import java.sql.SQLException;
 
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.RPC)

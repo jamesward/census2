@@ -19,8 +19,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package com.jamesward.census2;
 
-import java.io.IOException;
-import java.sql.Connection;
+import com.jamesward.census2.shared.CensusEntryVO;
+import flex.messaging.io.MessageIOConstants;
+import flex.messaging.io.SerializationContext;
+import flex.messaging.io.amf.ActionMessage;
+import flex.messaging.io.amf.AmfMessageSerializer;
+import flex.messaging.io.amf.AmfTrace;
+import flex.messaging.io.amf.MessageBody;
+import net.sf.json.JSONArray;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -28,16 +34,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.jamesward.census2.shared.CensusEntryVO;
-
-import net.sf.json.JSONArray;
-import flex.messaging.io.MessageIOConstants;
-import flex.messaging.io.SerializationContext;
-import flex.messaging.io.amf.ActionMessage;
-import flex.messaging.io.amf.AmfMessageSerializer;
-import flex.messaging.io.amf.AmfTrace;
-import flex.messaging.io.amf.MessageBody;
+import java.io.IOException;
+import java.sql.Connection;
 
 public class CensusServiceServlet extends HttpServlet
 {

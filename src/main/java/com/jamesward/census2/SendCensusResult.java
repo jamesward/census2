@@ -1,18 +1,17 @@
 package com.jamesward.census2;
 
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Iterator;
+import flex.messaging.MessageBroker;
+import flex.messaging.messages.AsyncMessage;
+import flex.messaging.util.UUIDUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Hashtable;
 
-import flex.messaging.MessageBroker;
-import flex.messaging.messages.AsyncMessage;
-import flex.messaging.util.UUIDUtils;
 
 public class SendCensusResult extends HttpServlet
 {
@@ -60,40 +59,9 @@ public class SendCensusResult extends HttpServlet
         }
         else
         {
-            // save the results to DB
             CensusResult newCensusResult = new CensusResult(ipAddress, testId, resultType, resultData, gzip, numRows);
 
-            // check for dups - only allow one entry per IP per testId per resultType
-            CensusResult searchCensusResult = new CensusResult(ipAddress, testId, resultType, null, gzip, numRows);
-    
-            CensusResultDAO.deleteSimilar(searchCensusResult);
-            CensusResultDAO.add(newCensusResult);
-
-            // send result to client
-            Hashtable<String, Object> body = new Hashtable<String, Object>();
-            body.put("testId", testId);
-            body.put("resultType", resultType);
-            body.put("resultData", resultData);
-
-            AsyncMessage msg = new AsyncMessage();
-
-            msg.setClientId(UUIDUtils.createUUID(false));
-
-            msg.setMessageId(UUIDUtils.createUUID(false));
-
-            msg.setHeader(AsyncMessage.SUBTOPIC_HEADER_NAME, clientId);
-
-            msg.setDestination("CensusResultsDestination");
-            msg.setTimestamp(System.currentTimeMillis());
-            msg.setBody(body);
-
-            //System.out.println("getting the message broker");
-
-            MessageBroker mb = MessageBroker.getMessageBroker(null);
-
-            //System.out.println("got the message broker, sending message");
-
-            mb.routeMessageToService(msg, null);
+            sendResult(newCensusResult, clientId);
 
             //System.out.println("message sent");
 
@@ -104,4 +72,41 @@ public class SendCensusResult extends HttpServlet
             out.close();
         }
     }
+    
+    public static void sendResult(CensusResult censusResult, String clientId) {
+        // save the results to DB
+
+        // check for dups - only allow one entry per IP per testId per resultType
+        CensusResult searchCensusResult = new CensusResult(censusResult.getIpAddress(), censusResult.getTestId(), censusResult.getResultType(), null, censusResult.getGzip(), censusResult.getNumRows());
+
+        CensusResultDAO.deleteSimilar(searchCensusResult);
+        CensusResultDAO.add(censusResult);
+        
+        // send result to client
+        Hashtable<String, Object> body = new Hashtable<String, Object>();
+        body.put("testId", censusResult.getTestId());
+        body.put("resultType", censusResult.getResultType());
+        body.put("resultData", censusResult.getResultData());
+
+        AsyncMessage msg = new AsyncMessage();
+
+        msg.setClientId(UUIDUtils.createUUID(false));
+
+        msg.setMessageId(UUIDUtils.createUUID(false));
+
+        msg.setHeader(AsyncMessage.SUBTOPIC_HEADER_NAME, clientId);
+
+        msg.setDestination("CensusResultsDestination");
+        msg.setTimestamp(System.currentTimeMillis());
+        msg.setBody(body);
+
+        //System.out.println("getting the message broker");
+
+        MessageBroker mb = MessageBroker.getMessageBroker(null);
+
+        //System.out.println("got the message broker, sending message");
+
+        mb.routeMessageToService(msg, null);
+    }
+
 }

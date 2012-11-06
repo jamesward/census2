@@ -5,6 +5,7 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoURI;
 import net.vz.mongodb.jackson.DBCursor;
 import net.vz.mongodb.jackson.JacksonDBCollection;
+import net.vz.mongodb.jackson.WriteResult;
 
 import java.net.UnknownHostException;
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.List;
 public class CensusResultDAO {
 
     private CensusResultDAO() {
-        
     }
     
     private static DB db = null;
@@ -49,14 +49,12 @@ public class CensusResultDAO {
     }
 
     public static void deleteSimilar(CensusResult searchCensusResult) {
+        searchCensusResult.setCreateDate(null); // null out date since that should not be included in the search
         collection().remove(searchCensusResult);
-        //DBCursor<CensusResult> results = collection().find(searchCensusResult);
-        //while (results.hasNext()) {
-        //    results.next()
-        //}
     }
     
     public static List<CensusResult> findSimilar(CensusResult searchCensusResult) {
+        searchCensusResult.setCreateDate(null); // null out date since that should not be included in the search
         return collection().find(searchCensusResult).toArray();
     }
 

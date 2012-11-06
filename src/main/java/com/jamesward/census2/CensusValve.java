@@ -1,25 +1,28 @@
 package com.jamesward.census2;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 import org.apache.catalina.Valve;
-import org.apache.catalina.valves.ValveBase;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
-import org.apache.coyote.OutputBuffer;
+import org.apache.catalina.valves.ValveBase;
 import org.apache.coyote.http11.InternalAprOutputBuffer;
 import org.apache.coyote.http11.InternalOutputBuffer;
 import org.apache.coyote.http11.OutputFilter;
 import org.apache.coyote.http11.filters.GzipOutputFilter;
 
+import javax.servlet.ServletException;
+import java.io.IOException;
+
 public class CensusValve extends ValveBase implements Valve
 {
     public void invoke(Request request, Response response) throws IOException, ServletException
     {
-        /*
-
+        // early exit if not a request for data
+        if (!request.getServletPath().endsWith("CensusServiceServlet"))
+        {
+            getNext().invoke(request, response);
+            return;
+        }
+        
         long contentLength = 0;
 
         String sendCensusResultURL = request.getParameter("sendCensusResultURL");
@@ -32,7 +35,8 @@ public class CensusValve extends ValveBase implements Valve
             gzip = true;
         }
 
-        if ( !gzip || (request.getParameter("resultType") != null) || (!request.getContextPath().equals("/census2-tests")) )
+        // make sure the response doesn't get gzipped if this is a test that is not supposed to be gzipped
+        if (!gzip && request.getServletPath().endsWith("CensusServiceServlet"))
         {
             request.getCoyoteRequest().getMimeHeaders().removeHeader("accept-encoding");
         }
@@ -84,19 +88,22 @@ public class CensusValve extends ValveBase implements Valve
                             contentLength = ((GzipOutputFilter)filters[i]).getBytesWritten();
                             if (contentLength == 0)
                             {
-                                contentLength = response.getContentCountLong();
+                                contentLength = response.getContentLength();
+                                //contentLength = response.getContentCountLong();
                             }
                         }
                         catch (Exception e)
                         {
-                            contentLength = response.getContentCountLong();
+                            contentLength = response.getContentLength();
+                            //contentLength = response.getContentCountLong();
                         }
                     }
                 }
             }
             else
             {
-                contentLength = response.getContentCountLong();
+                contentLength = response.getContentWritten();
+                //contentLength = response.getContentCountLong();
             }
 
             long execTime = System.currentTimeMillis() - startTime;
@@ -104,9 +111,8 @@ public class CensusValve extends ValveBase implements Valve
             try
             {
                 Integer numRows = Integer.parseInt(request.getParameter("rows"));
-
-                SendCensusResult.sendResult(sendCensusResultURL, clientId, testId, "totalServerTime", execTime, gzip, numRows, ipAddress);
-                SendCensusResult.sendResult(sendCensusResultURL, clientId, testId, "contentLength", contentLength, gzip, numRows, ipAddress);
+                SendCensusResult.sendResult(new CensusResult(ipAddress, testId, "totalServerTime", (int) execTime, gzip, numRows), clientId);
+                SendCensusResult.sendResult(new CensusResult(ipAddress, testId, "contentLength", (int) contentLength, gzip, numRows),clientId);
             }
             catch (Exception e)
             {
@@ -115,7 +121,6 @@ public class CensusValve extends ValveBase implements Valve
             }
 
         }
-        */
 
     }
 }
