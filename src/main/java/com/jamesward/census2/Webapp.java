@@ -22,7 +22,7 @@ public class Webapp {
 
         tomcat.setPort(Integer.valueOf(webPort));
 
-        Context context = tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
+        Context context = tomcat.addWebapp("", new File(webappDirLocation).getAbsolutePath());
         
         context.getPipeline().addValve(new CensusValve());
 
