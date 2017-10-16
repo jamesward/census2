@@ -10,43 +10,42 @@
 
     <repositories>
         <repository>
-            <id>spring-external</id>
-            <name>Spring External Repository</name>
-            <url>https://src.springsource.org/svn/spring-flex/tags/spring-flex-1.5.0.RELEASE/local-repo/</url>
+            <id>spring-libs-milestone</id>
+            <name>Spring Libs Milestone</name>
+            <url>https://repo.spring.io/libs-milestone</url>
         </repository>
     </repositories>
-
 
     <dependencies>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>7.0.67</version>
+            <version>7.0.82</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-logging-juli</artifactId>
-            <version>7.0.67</version>
+            <version>7.0.82</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
-            <version>7.0.67</version>
+            <version>7.0.82</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jasper</artifactId>
-            <version>7.0.67</version>
+            <version>7.0.82</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jasper-el</artifactId>
-            <version>7.0.67</version>
+            <version>7.0.82</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jsp-api</artifactId>
-            <version>7.0.67</version>
+            <version>7.0.82</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
